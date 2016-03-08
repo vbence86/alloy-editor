@@ -6,51 +6,14 @@
      *
      * @class ButtonImage
      */
-    var ButtonImage = React.createClass({
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default image
-             */
-            key: 'image'
-        },
-
+    class ButtonImage extends React.Component {
         /**
          * Lifecycle. Renders the UI of the button.
          *
          * @method render
          * @return {Object} The content which should be rendered.
          */
-        render: function() {
+        render() {
             var inputSyle = {display: 'none'};
 
             return (
@@ -62,7 +25,7 @@
                     <input accept="image/*" onChange={this._onInputChange} ref="fileInput" style={inputSyle} type="file"/>
                 </div>
             );
-        },
+        }
 
         /**
          * Simulates click on the input element. This will open browser's native file open dialog.
@@ -70,9 +33,9 @@
          * @method handleClick
          * @param {SyntheticEvent} event The received click event on the button.
          */
-        handleClick: function(event) {
+        handleClick(event) {
             ReactDOM.findDOMNode(this.refs.fileInput).click();
-        },
+        }
 
         /**
          * On input change, reads the chosen file and creates an img element with src the image data as Data URI.
@@ -84,7 +47,7 @@
          * @protected
          * @method _onInputChange
          */
-        _onInputChange: function() {
+        _onInputChange() {
             var inputEl = ReactDOM.findDOMNode(this.refs.fileInput);
 
             // On IE11 the function might be called with an empty array of
@@ -124,7 +87,44 @@
          * @event imageAdd
          * @param {CKEDITOR.dom.element} el The created image with src as Data URI.
          */
-    });
+    }
+
+    // Allows validating props being passed to the component.
+    ButtonImage.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonImage.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default image
+         */
+        key: 'image'
+    };
 
     AlloyEditor.Buttons[ButtonImage.key] = AlloyEditor.ButtonImage = ButtonImage;
 }());

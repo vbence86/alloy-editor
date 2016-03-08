@@ -7,7 +7,7 @@
      *
      * @class WidgetArrowBox
      */
-    var WidgetArrowBox = {
+    let WidgetArrowBox = (superclass) => class extends superclass {
         /**
          * Returns the list of arrow box classes associated to the current element's state. It relies
          * on the getInteractionPoint method to calculate the selection direction.
@@ -15,7 +15,7 @@
          * @method getArrowBoxClasses
          * @return {String} A string with the arrow box CSS classes.
          */
-        getArrowBoxClasses: function() {
+        getArrowBoxClasses() {
             var arrowBoxClasses = 'ae-arrow-box';
 
             if (AlloyEditor.Lang.isFunction(this.getInteractionPoint) && this.getInteractionPoint()) {

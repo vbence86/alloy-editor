@@ -1,6 +1,16 @@
 (function () {
     'use strict';
 
+    class MixinBuilder {
+        constructor(superclass) {
+            this.superclass = superclass;
+        }
+
+        with(...mixins) {
+            return mixins.reduce((c, mixin) => mixin(c), this.superclass);
+        }
+    }
+
     var OOP = {
         /**
          * Sets the prototype, constructor and superclass properties to support an inheritance strategy
@@ -41,7 +51,9 @@
             }
 
             return receiver;
-        }
+        },
+
+        mix: (superclass) => new MixinBuilder(superclass)
     };
 
     AlloyEditor.OOP = OOP;

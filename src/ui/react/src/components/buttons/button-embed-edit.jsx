@@ -10,29 +10,7 @@
      *
      * @class ButtonEmbedEdit
      */
-    var ButtonEmbedEdit = React.createClass({
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default embedEdit
-             */
-            key: 'embedEdit'
-        },
-
+    class ButtonEmbedEdit extends React.Component {
         /**
          * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
          *
@@ -41,7 +19,7 @@
          *
          * @method componentDidMount
          */
-        componentDidMount: function () {
+        componentDidMount () {
             if (this.props.renderExclusive || this.props.manualSelection) {
                 // We need to wait for the next rendering cycle before focusing to avoid undesired
                 // scrolls on the page
@@ -51,7 +29,7 @@
                     setTimeout(this._focusLinkInput, 0);
                 }
             }
-        },
+        }
 
         /**
          * Lifecycle. Invoked when a component is receiving new props.
@@ -59,9 +37,9 @@
          *
          * @method componentWillReceiveProps
          */
-        componentWillReceiveProps: function(nextProps) {
+        componentWillReceiveProps(nextProps) {
             this.replaceState(this.getInitialState());
-        },
+        }
 
         /**
          * Lifecycle. Invoked once before the component is mounted.
@@ -69,7 +47,7 @@
          *
          * @method getInitialState
          */
-        getInitialState: function() {
+        getInitialState() {
             var editor = this.props.editor.get('nativeEditor');
             var embed;
 
@@ -100,7 +78,7 @@
                 },
                 linkHref: href
             };
-        },
+        }
 
         /**
          * Lifecycle. Renders the UI of the button.
@@ -108,7 +86,7 @@
          * @method render
          * @return {Object} The content which should be rendered.
          */
-        render: function() {
+        render() {
             var clearLinkStyle = {
                 opacity: this.state.linkHref ? 1 : 0
             };
@@ -124,7 +102,7 @@
                     </button>
                 </div>
             );
-        },
+        }
 
         /**
          * Clears the link input. This only changes the component internal state, but does not
@@ -134,11 +112,11 @@
          * @protected
          * @method _clearLink
          */
-        _clearLink: function() {
+        _clearLink() {
             this.setState({
                 linkHref: ''
             });
-        },
+        }
 
         /**
          * Triggers the embedUrl command to transform the link into an embed media object
@@ -146,7 +124,7 @@
          * @protected
          * @method _embedLink
          */
-        _embedLink: function() {
+        _embedLink() {
             var nativeEditor = this.props.editor.get('nativeEditor');
 
             nativeEditor.execCommand('embedUrl', {
@@ -156,7 +134,7 @@
             // We need to cancelExclusive with the bound parameters in case the button is used
             // inside another in exclusive mode (such is the case of the link button)
             this.props.cancelExclusive();
-        },
+        }
 
         /**
          * Focuses the user cursor on the widget's input.
@@ -164,9 +142,9 @@
          * @protected
          * @method _focusLinkInput
          */
-        _focusLinkInput: function() {
+        _focusLinkInput() {
             ReactDOM.findDOMNode(this.refs.linkInput).focus();
-        },
+        }
 
         /**
          * Monitors key interaction inside the input element to respond to the keys:
@@ -177,7 +155,7 @@
          * @method _handleKeyDown
          * @param {SyntheticEvent} event The keyboard event.
          */
-        _handleKeyDown: function(event) {
+        _handleKeyDown(event) {
             if (event.keyCode === KEY_ENTER || event.keyCode === KEY_ESC) {
                 event.preventDefault();
             }
@@ -193,7 +171,7 @@
 
                 editor.fire('actionPerformed', this);
             }
-        },
+        }
 
         /**
          * Updates the component state when the link input changes on user interaction.
@@ -202,11 +180,11 @@
          * @method _handleLinkHrefChange
          * @param {SyntheticEvent} event The change event.
          */
-        _handleLinkHrefChange: function(event) {
+        _handleLinkHrefChange(event) {
             this.setState({
                 linkHref: event.target.value
             });
-        },
+        }
 
         /**
          * Verifies that the current link state is valid so the user can save the link. A valid state
@@ -216,7 +194,7 @@
          * @protected
          * @return {Boolean} True if the state is valid, false otherwise
          */
-        _isValidState: function() {
+        _isValidState() {
             var validState =
                 this.state.linkHref && (
                     this.state.linkHref !== this.state.initialLink.href
@@ -224,7 +202,29 @@
 
             return validState;
         }
-    });
+    }
+
+    // Allows validating props being passed to the component.
+    ButtonEmbedEdit.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonEmbedEdit.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default embedEdit
+         */
+        key: 'embedEdit'
+    };
 
     AlloyEditor.Buttons[ButtonEmbedEdit.key] = AlloyEditor.ButtonEmbedEdit = ButtonEmbedEdit;
 }());

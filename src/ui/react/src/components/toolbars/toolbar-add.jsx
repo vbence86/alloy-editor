@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var mix = AlloyEditor.OOP.mix;
+
     /**
      * The ToolbarAdd class provides functionality for adding content to the editor.
      *
@@ -13,80 +15,14 @@
      *
      * @class ToolbarAdd
      */
-    var ToolbarAdd = React.createClass({
-        mixins: [AlloyEditor.WidgetDropdown, AlloyEditor.WidgetExclusive, AlloyEditor.WidgetFocusManager, AlloyEditor.ToolbarButtons, AlloyEditor.WidgetPosition, AlloyEditor.WidgetArrowBox],
-
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The toolbar configuration.
-             *
-             * @property {Object} config
-             */
-            config: React.PropTypes.object,
-
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The payload from "editorInteraction" event
-             *
-             * @property {Object} editorEvent
-             */
-            editorEvent: React.PropTypes.object,
-
-            /**
-             * The gutter to be applied to the widget when rendered in exclusive mode
-             *
-             * @property {Object} gutterExclusive
-             */
-            gutterExclusive: React.PropTypes.object,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * Provides a callback which should be executed when a dismiss key is pressed over a toolbar to return the focus to the editor.
-             *
-             * @property {Function} onDismiss
-             */
-            onDismiss: React.PropTypes.func,
-
-            /**
-             * The data, returned from {{#crossLink "CKEDITOR.plugins.selectionregion/getSelectionData:method"}}{{/crossLink}}
-             *
-             * @property {Object} selectionData
-             */
-            selectionData: React.PropTypes.object
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default add
-             */
-            key: 'add'
-        },
-
+    class ToolbarAdd extends mix(React.Component).with(AlloyEditor.WidgetDropdown, AlloyEditor.WidgetExclusive, AlloyEditor.WidgetFocusManager, AlloyEditor.ToolbarButtons, AlloyEditor.WidgetPosition, AlloyEditor.WidgetArrowBox) {
         /**
          * Lifecycle. Returns the default values of the properties used in the widget.
          *
          * @method getDefaultProps
          * @return {Object} The default properties.
          */
-        getDefaultProps: function() {
+        getDefaultProps() {
             return {
                 circular: true,
                 descendants: '.ae-button',
@@ -100,7 +36,7 @@
                     prev: [37, 38]
                 }
             };
-        },
+        }
 
         /**
          * Lifecycle. Invoked once, only on the client (not on the server),
@@ -108,9 +44,9 @@
          *
          * @method componentDidMount
          */
-        componentDidMount: function () {
+        componentDidMount () {
             this._updatePosition();
-        },
+        }
 
         /**
          * Lifecycle. Invoked immediately after the component's updates are flushed to the DOM.
@@ -120,7 +56,7 @@
          * @param {Object} prevProps The previous state of the component's properties.
          * @param {Object} prevState Component's previous state.
          */
-        componentDidUpdate: function (prevProps, prevState) {
+        componentDidUpdate (prevProps, prevState) {
             this._updatePosition();
 
             // In case of exclusive rendering, focus the first descendant (button)
@@ -128,7 +64,7 @@
             if (this.props.renderExclusive) {
                 this.focus();
             }
-        },
+        }
 
         /**
          * Lifecycle. Renders the buttons for adding content or hides the toolbar
@@ -137,7 +73,7 @@
          * @method render
          * @return {Object|null} The content which should be rendered.
          */
-        render: function() {
+        render() {
             // Some operations such as `requestExclusive` may force editor to blur which will
             // invalidate the `props.editorEvent` stored value, without causing a `props` change.
             // For example, if the editor is empty, `ae_placeholder` plugin will remove
@@ -162,7 +98,7 @@
                     </div>
                 </div>
             );
-        },
+        }
 
         /**
          * Returns a list of buttons that will eventually render to HTML.
@@ -171,7 +107,7 @@
          * @method _getButtons
          * @return {Object} The buttons which have to be rendered.
          */
-        _getButtons: function() {
+        _getButtons() {
             var buttons;
 
             if (this.props.renderExclusive) {
@@ -187,7 +123,7 @@
             }
 
             return buttons;
-        },
+        }
 
         /**
          * Returns the class name of the toolbar in case of both exclusive and normal mode.
@@ -196,7 +132,7 @@
          * @method _getToolbarClassName
          * @return {String} The class name which have to be applied to the DOM element.
          */
-        _getToolbarClassName: function() {
+        _getToolbarClassName() {
             var cssClass = 'ae-toolbar-add';
 
             if (this.props.renderExclusive) {
@@ -204,7 +140,7 @@
             }
 
             return cssClass;
-        },
+        }
 
         /**
          * Calculates and sets the position of the toolbar in exclusive or normal mode.
@@ -212,7 +148,7 @@
          * @protected
          * @method _updatePosition
          */
-        _updatePosition: function() {
+        _updatePosition() {
             var region;
 
             // If component is not mounted, there is nothing to do
@@ -245,7 +181,71 @@
                 }
             }
         }
-    });
+    }
+
+    // Allows validating props being passed to the component.
+    ToolbarAdd.propTypes = {
+        /**
+         * The toolbar configuration.
+         *
+         * @property {Object} config
+         */
+        config: React.PropTypes.object,
+
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The payload from "editorInteraction" event
+         *
+         * @property {Object} editorEvent
+         */
+        editorEvent: React.PropTypes.object,
+
+        /**
+         * The gutter to be applied to the widget when rendered in exclusive mode
+         *
+         * @property {Object} gutterExclusive
+         */
+        gutterExclusive: React.PropTypes.object,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * Provides a callback which should be executed when a dismiss key is pressed over a toolbar to return the focus to the editor.
+         *
+         * @property {Function} onDismiss
+         */
+        onDismiss: React.PropTypes.func,
+
+        /**
+         * The data, returned from {{#crossLink "CKEDITOR.plugins.selectionregion/getSelectionData:method"}}{{/crossLink}}
+         *
+         * @property {Object} selectionData
+         */
+        selectionData: React.PropTypes.object
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ToolbarAdd.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default add
+         */
+        key: 'add'
+    };
 
     AlloyEditor.Toolbars[ToolbarAdd.key] = AlloyEditor.ToolbarAdd = ToolbarAdd;
 }());

@@ -9,20 +9,20 @@
      *
      * @class WidgetExclusive
      */
-    var WidgetExclusive = {
+    let WidgetExclusive = (superclass) => class extends superclass {
         /**
          * Cancels the exclusive state of an widget.
          *
          * @method cancelExclusive
          * @param {Object} itemExclusive The widget which exclusive state should be canceled.
          */
-        cancelExclusive: function(itemExclusive) {
+        cancelExclusive(itemExclusive) {
             if (this.state.itemExclusive === itemExclusive) {
                 this.setState({
                     itemExclusive: null
                 });
             }
-        },
+        }
 
         /**
          * Lifecycle. Invoked when a component is receiving new props.
@@ -32,14 +32,14 @@
          * @method componentWillReceiveProps
          * @param {Object} nextProps Object containing the current set of properties.
          */
-        componentWillReceiveProps: function(nextProps) {
+        componentWillReceiveProps(nextProps) {
             // Receiving properties means that the component is being re-rendered.
             // Re-rendering is triggered by editorInteraction, so we have to
             // reset the exclusive state and render the UI according to the new selection.
             this.setState({
                 itemExclusive: null
             });
-        },
+        }
 
         /**
          * Filters the items and returns only those with exclusive state.
@@ -48,7 +48,7 @@
          * @param {Array} items The widgets to be filtered.
          * @return {Array|Object} The item with executive state.
          */
-        filterExclusive: function(items) {
+        filterExclusive(items) {
             return items.filter(function(item) {
                 if (this.state.itemExclusive) {
                     if (this.state.itemExclusive === item.key) {
@@ -58,7 +58,7 @@
                     return item;
                 }
             }.bind(this));
-        },
+        }
 
         /**
          * Merges the provided object with three more properties:
@@ -72,13 +72,13 @@
          * @param {Object} itemKey They key of an React Widget which should be rendered exclusively.
          * @return {Object} The merged object.
          */
-        mergeExclusiveProps: function(obj, itemKey) {
+        mergeExclusiveProps(obj, itemKey) {
             return CKEDITOR.tools.merge(obj, {
                 cancelExclusive: this.cancelExclusive.bind(this, itemKey),
                 renderExclusive: (this.state.itemExclusive === itemKey),
                 requestExclusive: this.requestExclusive.bind(this, itemKey)
             });
-        },
+        }
 
         /**
          * Requests and sets exclusive state of an widget.
@@ -86,7 +86,7 @@
          * @method requestExclusive
          * @param {Object} itemExclusive The widget which requests exclusive state.
          */
-        requestExclusive: function(itemExclusive) {
+        requestExclusive(itemExclusive) {
             this.setState({
                 itemExclusive: itemExclusive
             });

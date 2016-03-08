@@ -11,7 +11,7 @@
      *
      * @class ButtonStateClasses
      */
-    var ButtonStateClasses = {
+    let ButtonStateClasses = (superclass) => class extends superclass {
         /**
          * Returns the list of state classes associated to the current element's state, according
          * to the results of the isActive and isDisabled methods.
@@ -19,7 +19,7 @@
          * @method getStateClasses
          * @return {String} A string with the state CSS classes.
          */
-        getStateClasses: function() {
+        getStateClasses() {
             var stateClasses = '';
 
             // Check for active state

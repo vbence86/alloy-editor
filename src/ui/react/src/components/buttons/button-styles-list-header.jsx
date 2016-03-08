@@ -6,14 +6,14 @@
      *
      * @class ButtonsStylesListHeader
      */
-    var ButtonsStylesListHeader = React.createClass({
+    class ButtonsStylesListHeader extends React.Component {
         /**
          * Lifecycle. Renders the UI of the button.
          *
          * @method render
          * @return {Object} The content which should be rendered.
          */
-        render: function() {
+        render() {
             if (this.props.styles && this.props.styles.length) {
                 return (
                     <span className="ae-list-header">{this.props.name}</span>
@@ -22,7 +22,7 @@
                 return null;
             }
         }
-    });
+    }
 
     AlloyEditor.ButtonsStylesListHeader = ButtonsStylesListHeader;
 }());

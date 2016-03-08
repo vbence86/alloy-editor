@@ -4,66 +4,15 @@
     var KEY_ENTER = 13;
     var KEY_ESC = 27;
 
+    var mix = AlloyEditor.OOP.mix;
+
     /**
      * The ButtonLinkEdit class provides functionality for creating and editing a link in a document.
      * Provides UI for creating, editing and removing a link.
      *
      * @class ButtonLinkEdit
      */
-    var ButtonLinkEdit = React.createClass({
-        mixins: [AlloyEditor.WidgetDropdown],
-
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * List of the allowed values for the target attribute.
-             *
-             * @property {Array} allowedTargets
-             */
-            allowedTargets: React.PropTypes.arrayOf(React.PropTypes.object),
-
-            /**
-             * Indicate if we add http:// protocol to link or not
-             *
-             * @property {Boolean} appendProtocol
-             */
-             appendProtocol: React.PropTypes.bool,
-
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * Default value of the link target attribute.
-             *
-             * @property {String} defaultLinkTarget
-             */
-            defaultLinkTarget: React.PropTypes.string,
-
-            /**
-             * Indicates whether the link target selector should appear.
-             *
-             * @property {Boolean} showTargetSelector
-             */
-            showTargetSelector: React.PropTypes.bool
-
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default linkEdit
-             */
-            key: 'linkEdit'
-        },
-
+    class ButtonLinkEdit extends mix(React.Component).with(AlloyEditor.WidgetDropdown) {
         /**
          * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
          *
@@ -72,7 +21,7 @@
          *
          * @method componentDidMount
          */
-        componentDidMount: function () {
+        componentDidMount() {
             if (this.props.renderExclusive || this.props.manualSelection) {
                 // We need to wait for the next rendering cycle before focusing to avoid undesired
                 // scrolls on the page
@@ -82,7 +31,7 @@
                     setTimeout(this._focusLinkInput, 0);
                 }
             }
-        },
+        }
 
         /**
          * Lifecycle. Invoked when a component is receiving new props.
@@ -90,9 +39,9 @@
          *
          * @method componentWillReceiveProps
          */
-        componentWillReceiveProps: function(nextProps) {
+        componentWillReceiveProps(nextProps) {
             this.replaceState(this.getInitialState());
-        },
+        }
 
         /**
          * Lifecycle. Returns the default values of the properties used in the widget.
@@ -100,13 +49,13 @@
          * @method getDefaultProps
          * @return {Object} The default properties.
          */
-        getDefaultProps: function() {
+        getDefaultProps() {
             return {
                 defaultLinkTarget: '',
                 showTargetSelector: true,
                 appendProtocol: true
             };
-        },
+        }
 
         /**
          * Lifecycle. Invoked once before the component is mounted.
@@ -114,7 +63,7 @@
          *
          * @method getInitialState
          */
-        getInitialState: function() {
+        getInitialState() {
             var link = new CKEDITOR.Link(this.props.editor.get('nativeEditor')).getFromSelection();
             var href = link ? link.getAttribute('href') : '';
             var target = link ? link.getAttribute('target') : this.props.defaultLinkTarget;
@@ -128,7 +77,7 @@
                 linkHref: href,
                 linkTarget: target
             };
-        },
+        }
 
         /**
          * Lifecycle. Renders the UI of the button.
@@ -136,7 +85,7 @@
          * @method render
          * @return {Object} The content which should be rendered.
          */
-        render: function() {
+        render() {
             var clearLinkStyle = {
                 opacity: this.state.linkHref ? 1 : 0
             };
@@ -172,7 +121,7 @@
                     </button>
                 </div>
             );
-        },
+        }
 
         /**
          * Clears the link input. This only changes the component internal state, but does not
@@ -182,11 +131,11 @@
          * @protected
          * @method _clearLink
          */
-        _clearLink: function() {
+        _clearLink() {
             this.setState({
                 linkHref: ''
             });
-        },
+        }
 
         /**
          * Focuses the user cursor on the widget's input.
@@ -194,9 +143,9 @@
          * @protected
          * @method _focusLinkInput
          */
-        _focusLinkInput: function() {
+        _focusLinkInput() {
             ReactDOM.findDOMNode(this.refs.linkInput).focus();
-        },
+        }
 
         /**
          * Returns an array of allowed target items. Each item consists of two properties:
@@ -207,7 +156,7 @@
          * @protected
          * @return {Array<object>} An array of objects containing the allowed items.
          */
-        _getAllowedTargetItems: function() {
+        _getAllowedTargetItems() {
             return this.props.allowedLinkTargets || [{
                 label: AlloyEditor.Strings.linkTargetSelf,
                 value: '_self'
@@ -221,7 +170,7 @@
                 label: AlloyEditor.Strings.linkTargetTop,
                 value: '_top'
             }];
-        },
+        }
 
         /**
          * Monitors key interaction inside the input element to respond to the keys:
@@ -232,7 +181,7 @@
          * @method _handleKeyDown
          * @param {SyntheticEvent} event The keyboard event.
          */
-        _handleKeyDown: function(event) {
+        _handleKeyDown(event) {
             if (event.keyCode === KEY_ENTER || event.keyCode === KEY_ESC) {
                 event.preventDefault();
             }
@@ -246,7 +195,7 @@
 
                 this.props.editor.get('nativeEditor').fire('actionPerformed', this);
             }
-        },
+        }
 
         /**
          * Updates the component state when the link input changes on user interaction.
@@ -255,11 +204,11 @@
          * @method _handleLinkHrefChange
          * @param {SyntheticEvent} event The change event.
          */
-        _handleLinkHrefChange: function(event) {
+        _handleLinkHrefChange(event) {
             this.setState({
                 linkHref: event.target.value
             });
-        },
+        }
 
         /**
          * Updates the component state when the link target changes on user interaction.
@@ -268,12 +217,12 @@
          * @method _handleLinkTargetChange
          * @param {SyntheticEvent} event The click event.
          */
-        _handleLinkTargetChange: function(event) {
+        _handleLinkTargetChange(event) {
             this.setState({
                 itemDropdown: null,
                 linkTarget: event.target.getAttribute('data-value')
             });
-        },
+        }
 
         /**
          * Removes the link in the editor element.
@@ -281,7 +230,7 @@
          * @protected
          * @method _removeLink
          */
-        _removeLink: function() {
+        _removeLink() {
             var editor = this.props.editor.get('nativeEditor');
             var linkUtils = new CKEDITOR.Link(editor);
             var selection = editor.getSelection();
@@ -296,7 +245,7 @@
             this.props.cancelExclusive();
 
             editor.fire('actionPerformed', this);
-        },
+        }
 
         /**
          * Updates the link in the editor element. If the element didn't exist previously, it will
@@ -305,7 +254,7 @@
          * @protected
          * @method _updateLink
          */
-        _updateLink: function() {
+        _updateLink() {
             var editor = this.props.editor.get('nativeEditor');
             var linkUtils = new CKEDITOR.Link(editor, {appendProtocol: this.props.appendProtocol});
             var linkAttrs = {
@@ -328,7 +277,7 @@
             // We need to cancelExclusive with the bound parameters in case the button is used
             // inside another in exclusive mode (such is the case of the link button)
             this.props.cancelExclusive();
-        },
+        }
 
         /**
          * Verifies that the current link state is valid so the user can save the link. A valid state
@@ -339,7 +288,7 @@
          * @method _isValidState
          * @return {Boolean} [description]
          */
-        _isValidState: function() {
+        _isValidState() {
             var validState =
                 this.state.linkHref && (
                     this.state.linkHref !== this.state.initialLink.href ||
@@ -348,7 +297,58 @@
 
             return validState;
         }
-    });
+    }
+
+    // Allows validating props being passed to the component.
+    ButtonLinkEdit.propTypes = {
+        /**
+         * List of the allowed values for the target attribute.
+         *
+         * @property {Array} allowedTargets
+         */
+        allowedTargets: React.PropTypes.arrayOf(React.PropTypes.object),
+
+        /**
+         * Indicate if we add http:// protocol to link or not
+         *
+         * @property {Boolean} appendProtocol
+         */
+         appendProtocol: React.PropTypes.bool,
+
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * Default value of the link target attribute.
+         *
+         * @property {String} defaultLinkTarget
+         */
+        defaultLinkTarget: React.PropTypes.string,
+
+        /**
+         * Indicates whether the link target selector should appear.
+         *
+         * @property {Boolean} showTargetSelector
+         */
+        showTargetSelector: React.PropTypes.bool
+
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonLinkEdit.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default linkEdit
+         */
+        key: 'linkEdit'
+    };
 
     AlloyEditor.Buttons[ButtonLinkEdit.key] = AlloyEditor.ButtonLinkEdit = ButtonLinkEdit;
 }());

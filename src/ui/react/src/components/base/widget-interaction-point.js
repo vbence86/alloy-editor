@@ -6,17 +6,7 @@
      *
      * @class WidgetInteractionPoint
      */
-    var WidgetInteractionPoint = {
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The provided editor event.
-             *
-             * @property {SyntheticEvent} editorEvent
-             */
-            editorEvent: React.PropTypes.object
-        },
-
+    let WidgetInteractionPoint = (superclass) => class extends superclass {
         /**
          * Returns the position, in page coordinates, according to which a widget should appear.
          * Depending on the direction of the selection, the wdiget may appear above of or on bottom of the selection.
@@ -33,7 +23,7 @@
          * direction, x, y, where x and y are in page coordinates and direction can be one of these:
          * CKEDITOR.SELECTION_BOTTOM_TO_TOP or CKEDITOR.SELECTION_TOP_TO_BOTTOM
          */
-        getInteractionPoint: function() {
+        getInteractionPoint() {
             var eventPayload = this.props.editorEvent ? this.props.editorEvent.data : null;
 
             if (!eventPayload) {
@@ -84,7 +74,7 @@
                 x: x,
                 y: y
             };
-        },
+        }
 
         /**
          * Returns the position of the Widget.
@@ -96,7 +86,7 @@
          * @param {Object} eventX The X coordinate received from the native event (mouseup).
          * @return {Number} The calculated X point in page coordinates.
          */
-        _getXPoint: function(selectionData, eventX) {
+        _getXPoint(selectionData, eventX) {
             var region = selectionData.region;
 
             var left = region.startRect ? region.startRect.left : region.left;
@@ -119,6 +109,16 @@
 
             return x;
         }
+    };
+
+    // Allows validating props being passed to the component.
+    WidgetInteractionPoint.propTypes = {
+        /**
+         * The provided editor event.
+         *
+         * @property {SyntheticEvent} editorEvent
+         */
+        editorEvent: React.PropTypes.object
     };
 
     AlloyEditor.WidgetInteractionPoint = WidgetInteractionPoint;

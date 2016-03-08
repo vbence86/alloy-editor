@@ -7,14 +7,14 @@
      *
      * @class ButtonCommandActive
      */
-    var ButtonCommandActive = {
+    let ButtonCommandActive = (superclass) => class extends superclass {
         /**
          * Checks if the command is active in the current selection.
          *
          * @method isActive
          * @return {Boolean} True if the command is active, false otherwise.
          */
-        isActive: function() {
+        isActive() {
             var editor = this.props.editor.get('nativeEditor');
 
             var command = editor.getCommand(this.props.command);

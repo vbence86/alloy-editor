@@ -41,6 +41,7 @@
     "karma-sauce-launcher": "^0.3.0",
     "karma-sinon": "^1.0.4",
     "lodash": "^3.10.0",
+    "mixwith": "^0.1.0",
     "mkdirp": "^0.5.1",
     "mocha": "^2.2.5",
     "require-dir": "^0.3.0",

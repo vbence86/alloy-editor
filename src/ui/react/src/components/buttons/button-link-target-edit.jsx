@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var mix = AlloyEditor.OOP.mix;
+
     /**
      * The ButtonLinkTargetEdit class provides functionality for changing the target of a link
      * in the document.
@@ -9,53 +11,13 @@
      *
      * @class ButtonLinkTargetEdit
      */
-    var ButtonLinkTargetEdit = React.createClass({
-        mixins: [AlloyEditor.WidgetFocusManager],
-
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * List of the allowed items for the target attribute. Every allowed target is an object
-             * with a `label` attribute that will be shown in the dropdown and a `value` attribute
-             * that will get set as the link target attribute.
-             *
-             * @property {Array<object>} allowedTargets
-             */
-            allowedTargets: React.PropTypes.arrayOf(React.PropTypes.object),
-
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * Label of the current target value.
-             *
-             * @property {String} selectedTarget
-             */
-            selectedTarget: React.PropTypes.string.isRequired
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default linkTargetEdit
-             */
-            key: 'linkTargetEdit'
-        },
-
+     class ButtonLinkTargetEdit extends mix(React.Component).with(AlloyEditor.WidgetFocusManager) {
         /**
          * Lifecycle. Returns the default values of the properties used in the widget.
          *
          * @method getDefaultProps
          */
-        getDefaultProps: function() {
+        getDefaultProps() {
             return {
                 circular: false,
                 descendants: '.ae-toolbar-element',
@@ -67,7 +29,7 @@
                     prev: [38]
                 }
             };
-        },
+        }
 
         /**
          * Lifecycle. Renders the UI of the button.
@@ -75,7 +37,7 @@
          * @method render
          * @return {Object} The content which should be rendered.
          */
-        render: function() {
+        render() {
             var allowedTargetsList;
 
             if (this.props.expanded) {
@@ -93,7 +55,7 @@
                     {allowedTargetsList}
                 </div>
             );
-        },
+        }
 
         /**
          * Lifecycle. Invoked before rendering when new props or state are being received.
@@ -103,9 +65,9 @@
          * @return {Boolean} Returns false when the transition to the new props and state will not
          * require a component update.
          */
-        shouldComponentUpdate: function(nextProps, nextState) {
+        shouldComponentUpdate(nextProps, nextState) {
             return nextProps.expanded !== this.props.expanded || nextProps.selectedTarget !== this.props.selectedTarget;
-        },
+        }
 
         /**
          * Creates the dropdown list of allowed link targets.
@@ -115,13 +77,13 @@
          *
          * @return {Object} The allowed targets dropdown.
          */
-        _getAllowedTargetsList: function() {
+        _getAllowedTargetsList() {
             return(
                 <AlloyEditor.ButtonDropdown>
                     {this._getAllowedTargetsListItems()}
                 </AlloyEditor.ButtonDropdown>
             );
-        },
+        }
 
         /**
          * Creates the allowed link target items.
@@ -131,7 +93,7 @@
          *
          * @return {Array} The allowed target items.
          */
-        _getAllowedTargetsListItems: function() {
+        _getAllowedTargetsListItems() {
             var handleLinkTargetChange = this.props.handleLinkTargetChange;
 
             var items = this.props.allowedTargets.map(function(item) {
@@ -144,7 +106,45 @@
 
             return items;
         }
-    });
+    }
+
+    // Allows validating props being passed to the component.
+    ButtonLinkTargetEdit.propTypes = {
+        /**
+         * List of the allowed items for the target attribute. Every allowed target is an object
+         * with a `label` attribute that will be shown in the dropdown and a `value` attribute
+         * that will get set as the link target attribute.
+         *
+         * @property {Array<object>} allowedTargets
+         */
+        allowedTargets: React.PropTypes.arrayOf(React.PropTypes.object),
+
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * Label of the current target value.
+         *
+         * @property {String} selectedTarget
+         */
+        selectedTarget: React.PropTypes.string.isRequired
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonLinkTargetEdit.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default linkTargetEdit
+         */
+        key: 'linkTargetEdit'
+    };
 
     AlloyEditor.Buttons[ButtonLinkTargetEdit.key] = AlloyEditor.ButtonLinkTargetEdit = ButtonLinkTargetEdit;
 }());

@@ -12,13 +12,13 @@
      *
      * @class ButtonActionStyle
      */
-    var ButtonActionStyle = {
+    let ButtonActionStyle = (superclass) => class extends superclass {
         /**
          * Removes or applies the component style to the current selection.
          *
          * @method applyStyle
          */
-        applyStyle: function() {
+        applyStyle() {
             if (AlloyEditor.Lang.isFunction(this.isActive) && AlloyEditor.Lang.isFunction(this.getStyle)) {
                 var editor = this.props.editor.get('nativeEditor');
 

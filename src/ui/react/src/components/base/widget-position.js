@@ -1,6 +1,8 @@
 (function() {
     'use strict';
 
+    var mix = AlloyEditor.OOP.mix;
+
     /**
      * Calculates the position where an Widget should be displayed based on the point
      * where user interacted with the editor.
@@ -9,38 +11,14 @@
      *
      * @class WidgetPosition
      */
-    var WidgetPosition = {
-        mixins: [AlloyEditor.WidgetInteractionPoint],
-
+    class WidgetPosition extends mix(React.Component).with(AlloyEditor.WidgetInteractionPoint) {
         // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * Should the widget to be restricted to the viewport, or not.
-             *
-             * @property {Boolean} constrainToViewport
-             * @default true
-             */
-            constrainToViewport: React.PropTypes.bool,
-
-            /**
-             * The gutter (vertical and horizontal) between the interaction point and where the widget
-             * should be rendered.
-             *
-             * @property {Object} gutter
-             * @default {
-             *     left: 0,
-             *     top: 10
-             * }
-             */
-            gutter: React.PropTypes.object
-        },
-
         /**
          * Lifecycle. Returns the default values of the properties used in the widget.
          *
          * @method getDefaultProps
          */
-        getDefaultProps: function() {
+        getDefaultProps() {
             return {
                 gutter: {
                     left: 0,
@@ -48,18 +26,18 @@
                 },
                 constrainToViewport: true
             };
-        },
+        }
 
         /**
          * Cancels an scheduled animation frame.
          *
          * @method cancelAnimation
          */
-        cancelAnimation: function() {
+        cancelAnimation() {
             if (window.cancelAnimationFrame) {
                 window.cancelAnimationFrame(this._animationFrameId);
             }
-        },
+        }
 
         /**
          * Returns an object which contains the position of the element in page coordinates,
@@ -76,7 +54,7 @@
          * @return {Object} An object with `x` and `y` properties, which represent the constrained position of the
          * element.
          */
-        getConstrainedPosition: function(attrs, viewPaneSize) {
+        getConstrainedPosition(attrs, viewPaneSize) {
             viewPaneSize = viewPaneSize || new CKEDITOR.dom.window(window).getViewPaneSize();
 
             var x = attrs.left;
@@ -94,7 +72,7 @@
                 x: x,
                 y: y
             };
-        },
+        }
 
         /**
          * Returns the position of the Widget taking in consideration the
@@ -108,7 +86,7 @@
          * CKEDITOR.SELECTION_BOTTOM_TO_TOP or CKEDITOR.SELECTION_TOP_TO_BOTTOM
          * @return {Array} An Array with left and top offsets in page coordinates.
          */
-        getWidgetXYPoint: function(left, top, direction) {
+        getWidgetXYPoint(left, top, direction) {
             var domNode = ReactDOM.findDOMNode(this);
 
             var gutter = this.props.gutter;
@@ -138,7 +116,7 @@
             }
 
             return [left, top];
-        },
+        }
 
         /**
          * Returns true if the widget is visible, false otherwise
@@ -146,7 +124,7 @@
          * @method isVisible
          * @return {Boolean} True if the widget is visible, false otherwise
          */
-        isVisible: function() {
+        isVisible() {
             var domNode = ReactDOM.findDOMNode(this);
 
             if (domNode) {
@@ -156,7 +134,7 @@
             }
 
             return false;
-        },
+        }
 
         /**
          * Moves a widget from a starting point to a destination point.
@@ -165,7 +143,7 @@
          * @param  {Object} startPoint The starting point for the movement.
          * @param  {Object} endPoint The destination point for the movement.
          */
-        moveToPoint: function(startPoint, endPoint) {
+        moveToPoint(startPoint, endPoint) {
             var domElement = new CKEDITOR.dom.element(ReactDOM.findDOMNode(this));
 
             domElement.setStyles({
@@ -185,14 +163,14 @@
                     opacity: 1
                 });
             });
-        },
+        }
 
         /**
          * Shows the widget with the default animation transition.
          *
          * @method show
          */
-        show: function() {
+        show() {
             var domNode = ReactDOM.findDOMNode(this);
 
             if (!this.isVisible() && domNode) {
@@ -230,14 +208,14 @@
                     this.moveToPoint([initialX, initialY], [finalX, finalY]);
                 }
             }
-        },
+        }
 
         /**
          * Updates the widget position based on the current interaction point.
          *
          * @method updatePosition
          */
-        updatePosition: function() {
+        updatePosition() {
             var interactionPoint = this.getInteractionPoint();
 
             var domNode = ReactDOM.findDOMNode(this);
@@ -250,7 +228,7 @@
                     top: xy[1] + 'px'
                 });
             }
-        },
+        }
 
         /**
          * Requests an animation frame, if possible, to simulate an animation.
@@ -259,13 +237,35 @@
          * @method _animate
          * @param {Function} callback The function to be executed on the scheduled frame.
          */
-        _animate: function(callback) {
+        _animate(callback) {
             if (window.requestAnimationFrame) {
                 this._animationFrameId = window.requestAnimationFrame(callback);
             } else {
                 callback();
             }
         }
+    };
+
+    WidgetPosition.propTypes = {
+        /**
+         * Should the widget to be restricted to the viewport, or not.
+         *
+         * @property {Boolean} constrainToViewport
+         * @default true
+         */
+        constrainToViewport: React.PropTypes.bool,
+
+        /**
+         * The gutter (vertical and horizontal) between the interaction point and where the widget
+         * should be rendered.
+         *
+         * @property {Object} gutter
+         * @default {
+         *     left: 0,
+         *     top: 10
+         * }
+         */
+        gutter: React.PropTypes.object
     };
 
     AlloyEditor.WidgetPosition = WidgetPosition;

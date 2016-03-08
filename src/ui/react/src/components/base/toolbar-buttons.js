@@ -7,7 +7,7 @@
      *
      * @class ToolbarButtons
      */
-    var ToolbarButtons = {
+    let ToolbarButtons = (superclass) => class extends superclass {
         /**
          * Analyzes the current selection and the buttons exclusive mode value to figure out which
          * buttons should be present in a given state.
@@ -17,7 +17,7 @@
          * @param {Object} additionalProps Additional props that should be passed down to the buttons.
          * @return {Array} An Array which contains the buttons that should be rendered.
          */
-        getToolbarButtons: function(buttons, additionalProps) {
+        getToolbarButtons(buttons, additionalProps) {
             var buttonProps = {};
 
             var toolbarButtons = this.filterExclusive(

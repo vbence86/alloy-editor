@@ -15,53 +15,15 @@
      *
      * @class WidgetFocusManager
      */
-    var WidgetFocusManager = {
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * Callback method to be invoked when the focus manager is to be dismissed. This happens
-             * in the following scenarios if a dismiss callback has been specified:
-             * - A dismiss key has been pressed
-             * - In a non-circular focus manager, when:
-             *     - The active descendant is the first one and a prev key has been pressed.
-             *     - The active descendant is the last one and a next key has been pressed.
-             *
-             * @property {Function} onDismiss
-             */
-            onDismiss: React.PropTypes.func,
-
-            /**
-             * Indicates if focus should be set to the first/last descendant when the limits are reached.
-             *
-             * @property {boolean} circular
-             */
-            circular: React.PropTypes.bool.isRequired,
-
-            /**
-             * String representing the CSS selector used to define the elements that should be handled.
-             *
-             * @property {String} descendants
-             */
-            descendants: React.PropTypes.string.isRequired,
-
-            /**
-             * Object representing the keys used to navigate between descendants. The format for the prop is:
-             * `{dismiss: value, dismissNext: value, dismissPrev: value, next: value, prev: value}` where
-             * value can be both a number or an array of numbers with the allowed keyCodes.
-             *
-             * @property {Object} keys
-             */
-            keys: React.PropTypes.object.isRequired
-        },
-
+    let WidgetFocusManager = (superclass) => class extends superclass {
         /**
          * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
          *
          * @method componentDidMount
          */
-        componentDidMount: function() {
+        componentDidMount() {
             this._refresh();
-        },
+        }
 
         /**
          * Lifecycle. Invoked immediately after the component's updates are flushed to the DOM.
@@ -69,9 +31,9 @@
          *
          * @method componentDidUpdate
          */
-        componentDidUpdate: function() {
+        componentDidUpdate() {
             this._refresh();
-        },
+        }
 
         /**
          * Focuses the current active descendant.
@@ -81,7 +43,7 @@
          *
          * @method focus
          */
-        focus: function(event) {
+        focus(event) {
             if (!event || this._isValidTarget(event.target)) {
                 if (this._descendants) {
                     this._descendants[this._activeDescendant].focus();
@@ -92,7 +54,7 @@
                     }
                 }
             }
-        },
+        }
 
         /**
          * Handles the key events on a DOM node to execute the appropriate navigation when needed.
@@ -100,7 +62,7 @@
          * @param {Object} event The Keyboard event that was detected on the widget DOM node.
          * @method handleKey
          */
-        handleKey: function(event) {
+        handleKey(event) {
             if (this._isValidTarget(event.target) && this._descendants) {
                 var action = this._getFocusAction(event);
 
@@ -117,7 +79,7 @@
                     }
                 }
             }
-        },
+        }
 
         /**
          * Moves the focus among descendants in the especified direction.
@@ -125,11 +87,11 @@
          * @method moveFocus
          * @param {number} direction The direction (1 or -1) of the focus movement among descendants.
          */
-        moveFocus: function(direction) {
+        moveFocus(direction) {
             direction = AlloyEditor.Lang.isNumber(direction) ? direction : 0;
 
             this._moveFocus(direction);
-        },
+        }
 
         /**
          * Returns the action, if any, that a keyboard event in the current focus manager state
@@ -140,7 +102,7 @@
          * @param {object} event The Keyboard event.
          * @return {Object} An action object with type and direction properties.
          */
-        _getFocusAction: function(event) {
+        _getFocusAction(event) {
             var action = {
                 type: ACTION_NONE
             };
@@ -162,7 +124,7 @@
             }
 
             return action;
-        },
+        }
 
         /**
          * Returns the dismiss action, if any, the focus manager should execute to yield the focus. This
@@ -178,7 +140,7 @@
          * @param {Number} focusMoveDirection The focus movement direction (if any).
          * @return {Object} A dismiss action with dismiss and direction properties.
          */
-        _getFocusDismissAction: function(event, focusMoveDirection) {
+        _getFocusDismissAction(event, focusMoveDirection) {
             var dismissAction = {
                 direction: focusMoveDirection,
                 dismiss: false
@@ -206,7 +168,7 @@
             }
 
             return dismissAction;
-        },
+        }
 
         /**
          * Returns the direction, if any, in which the focus should be moved. In presence of the
@@ -217,7 +179,7 @@
          * @param {Object} event The Keyboard event.
          * @return {Number} The computed direction of the expected focus movement.
          */
-        _getFocusMoveDirection: function(event) {
+        _getFocusMoveDirection(event) {
             var direction = DIRECTION_NONE;
 
             if (this._isValidKey(event.keyCode, this.props.keys.next)) {
@@ -232,7 +194,7 @@
             }
 
             return direction;
-        },
+        }
 
         /**
          * Indicates if a given keyCode is valid for the given set of keys.
@@ -244,9 +206,9 @@
          * @method _isValidKey
          * @return {Boolean} A boolean value indicating if the key is valid.
          */
-        _isValidKey: function(keyCode, keys) {
+        _isValidKey(keyCode, keys) {
             return AlloyEditor.Lang.isArray(keys) ? (keys.indexOf(keyCode) !== -1) : (keyCode === keys);
-        },
+        }
 
         /**
          * Indicates if a given element is valid for focus management. User input elements such as
@@ -257,11 +219,11 @@
          * @param {DOMNode} element A DOM element.
          * @return {Boolean} A boolean value indicating if the element is valid.
          */
-        _isValidTarget: function(element) {
+        _isValidTarget(element) {
             var tagName = element.tagName.toLowerCase();
 
             return (tagName !== 'input' && tagName !== 'select' && tagName !== 'textarea');
-        },
+        }
 
         /**
          * Moves the focus among descendants in the especified direction.
@@ -270,7 +232,7 @@
          * @method _moveFocus
          * @param {number} direction The direction (1 or -1) of the focus movement among descendants.
          */
-        _moveFocus: function(direction) {
+        _moveFocus(direction) {
             var numDescendants = this._descendants.length;
 
             var descendant = this._descendants[this._activeDescendant];
@@ -291,7 +253,7 @@
 
             descendant.setAttribute('tabIndex', 0);
             descendant.focus();
-        },
+        }
 
         /**
          * Refreshes the descendants list by executing the CSS selector again and resets the descendants tabIndex.
@@ -299,7 +261,7 @@
          * @protected
          * @method _refresh
          */
-        _refresh: function() {
+        _refresh() {
             var domNode = ReactDOM.findDOMNode(this);
 
             if (domNode) {
@@ -337,6 +299,44 @@
                 }.bind(this));
             }
         }
+    };
+
+    // Allows validating props being passed to the component.
+    WidgetFocusManager.propTypes = {
+        /**
+         * Callback method to be invoked when the focus manager is to be dismissed. This happens
+         * in the following scenarios if a dismiss callback has been specified:
+         * - A dismiss key has been pressed
+         * - In a non-circular focus manager, when:
+         *     - The active descendant is the first one and a prev key has been pressed.
+         *     - The active descendant is the last one and a next key has been pressed.
+         *
+         * @property {Function} onDismiss
+         */
+        onDismiss: React.PropTypes.func,
+
+        /**
+         * Indicates if focus should be set to the first/last descendant when the limits are reached.
+         *
+         * @property {boolean} circular
+         */
+        circular: React.PropTypes.bool.isRequired,
+
+        /**
+         * String representing the CSS selector used to define the elements that should be handled.
+         *
+         * @property {String} descendants
+         */
+        descendants: React.PropTypes.string.isRequired,
+
+        /**
+         * Object representing the keys used to navigate between descendants. The format for the prop is:
+         * `{dismiss: value, dismissNext: value, dismissPrev: value, next: value, prev: value}` where
+         * value can be both a number or an array of numbers with the allowed keyCodes.
+         *
+         * @property {Object} keys
+         */
+        keys: React.PropTypes.object.isRequired
     };
 
     AlloyEditor.WidgetFocusManager = WidgetFocusManager;

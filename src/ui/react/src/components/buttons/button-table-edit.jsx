@@ -10,43 +10,13 @@
      *
      * @class ButtonTableEdit
      */
-    var ButtonTableEdit = React.createClass({
-        // Allows validating props being passed to the component.
-        propTypes: {
-
-            /**
-             * Method to notify the button abandons the exclusive rendering mode.
-             *
-             * @property {Function} cancelExclusive
-             */
-            cancelExclusive: React.PropTypes.func.isRequired,
-
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default tableEdit
-             */
-            key: 'tableEdit'
-        },
-
+    class ButtonTableEdit extends React.Component {
         /**
          * Lifecycle. Returns the default values of the properties used in the widget.
          *
          * @method getDefaultProps
          */
-        getDefaultProps: function () {
+        getDefaultProps() {
             return {
                 tableAttributes: {
                     border: 1,
@@ -55,7 +25,7 @@
                     style: 'width: 100%'
                 }
             };
-        },
+        }
 
         /**
          * Lifecycle. Invoked once, only on the client (not on the server),
@@ -65,21 +35,21 @@
          *
          * @method componentDidMount
          */
-        componentDidMount: function () {
+        componentDidMount() {
             ReactDOM.findDOMNode(this.refs.rows).focus();
-        },
+        }
 
         /**
          * Lifecycle. Invoked once before the component is mounted.
          *
          * @method getInitialState
          */
-        getInitialState: function() {
+        getInitialState() {
             return {
                 cols: 3,
                 rows: 3
             };
-        },
+        }
 
         /**
          * Creates a table.
@@ -87,7 +57,7 @@
          * @protected
          * @method _createTable
          */
-        _createTable: function() {
+        _createTable() {
             var editor = this.props.editor.get('nativeEditor');
             var tableUtils = new CKEDITOR.Table(editor);
 
@@ -100,7 +70,7 @@
             this.props.cancelExclusive();
 
             editor.fire('actionPerformed', this);
-        },
+        }
 
         /**
          * Handles a change in input value. Sets the provided value from the user back to the input.
@@ -110,12 +80,12 @@
          * @param {String} inputName The name of the input which value should be updated.
          * @param {SyntheticEvent} event The provided event.
          */
-        _handleChange: function(inputName, event) {
+        _handleChange(inputName, event) {
             var state = {};
             state[inputName] = event.target.value;
 
             this.setState(state);
-        },
+        }
 
         /**
          * Monitors key interaction inside the input element to respond to the keys:
@@ -126,7 +96,7 @@
          * @method _handleKeyDown
          * @param {SyntheticEvent} event The keyboard event.
          */
-        _handleKeyDown: function(event) {
+        _handleKeyDown(event) {
             if (event.keyCode === KEY_ENTER || event.keyCode === KEY_ESC) {
                 event.preventDefault();
             }
@@ -136,7 +106,7 @@
             } else if (event.keyCode === KEY_ESC) {
                 this.props.cancelExclusive();
             }
-        },
+        }
 
         /**
          * Lifecycle. Renders the UI of the button.
@@ -144,7 +114,7 @@
          * @method render
          * @return {Object} The content which should be rendered.
          */
-        render: function() {
+        render() {
             var time = Date.now();
             var rowsId = time + 'rows';
             var colsId = time + 'cols';
@@ -167,7 +137,37 @@
                 </div>
             );
         }
-    });
+    }
+
+    // Allows validating props being passed to the component.
+    ButtonTableEdit.propTypes = {
+
+        /**
+         * Method to notify the button abandons the exclusive rendering mode.
+         *
+         * @property {Function} cancelExclusive
+         */
+        cancelExclusive: React.PropTypes.func.isRequired,
+
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonTableEdit.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default tableEdit
+         */
+        key: 'tableEdit'
+    };
 
     AlloyEditor.Buttons[ButtonTableEdit.key] = AlloyEditor.ButtonTableEdit = ButtonTableEdit;
 }());

@@ -6,24 +6,7 @@
      *
      * @class ButtonCommand
      */
-    var ButtonCommand = {
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The command that should be executed.
-             *
-             * @property {String} command
-             */
-            command: React.PropTypes.string.isRequired,
-
-            /**
-             * Indicates that the command may cause the editor to have a different.
-             *
-             * @property {boolean} modifiesSelection
-             */
-            modifiesSelection: React.PropTypes.bool
-        },
-
+    let ButtonCommand = (superclass) => class extends superclass {
         /**
          * Executes a CKEditor command and fires `actionPerformed` event.
          *
@@ -31,7 +14,7 @@
          *
          * @method execCommand
          */
-        execCommand: function(data) {
+        execCommand(data) {
             var editor = this.props.editor.get('nativeEditor');
 
             editor.execCommand(this.props.command, data);
@@ -42,6 +25,22 @@
 
             editor.fire('actionPerformed', this);
         }
+    };
+
+    ButtonCommand.propTypes = {
+        /**
+         * The command that should be executed.
+         *
+         * @property {String} command
+         */
+        command: React.PropTypes.string.isRequired,
+
+        /**
+         * Indicates that the command may cause the editor to have a different.
+         *
+         * @property {boolean} modifiesSelection
+         */
+        modifiesSelection: React.PropTypes.bool
     };
 
     AlloyEditor.ButtonCommand = ButtonCommand;

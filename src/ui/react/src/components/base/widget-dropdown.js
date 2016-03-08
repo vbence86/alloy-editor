@@ -6,31 +6,31 @@
      *
      * @class WidgetDropdown
      */
-    var WidgetDropdown = {
+    let WidgetDropdown = (superclass) => class extends superclass {
         /**
          * Lifecycle. Invoked when a component is receiving new props.
          * This method is not called for the initial render.
          *
          * @method componentWillReceiveProps
          */
-        componentWillReceiveProps: function(nextProps) {
+        componentWillReceiveProps(nextProps) {
             this.setState({
                 dropdownTrigger: null,
                 itemDropdown: null
             });
-        },
+        }
 
         /**
          * Lifecycle. Invoked once before the component is mounted.
          *
          * @method getInitialState
          */
-        getInitialState: function() {
+        getInitialState() {
             return {
                 dropdownTrigger: null,
                 itemDropdown: null
             };
-        },
+        }
 
         /**
          * Merges the provided object with two more properties:
@@ -43,13 +43,13 @@
          * @param {Object} itemKey They key of an React Widget which contains the dropdown.
          * @return {Object} The merged object.
          */
-        mergeDropdownProps: function(obj, itemKey) {
+        mergeDropdownProps(obj, itemKey) {
             return CKEDITOR.tools.merge(obj, {
                 expanded: this.state.itemDropdown === itemKey ? true : false,
                 tabIndex: this.state.dropdownTrigger === itemKey ? 0 : -1,
                 toggleDropdown: this.toggleDropdown.bind(this, itemKey)
             });
-        },
+        }
 
         /**
          * Sets the active dropdown of the widget or discards the toggled item from the state.
@@ -58,7 +58,7 @@
          * @param {Object} itemDropdown The widget which requests to toggle its dropdown.
          * @param {Number} toggleDirection User movement direction when toggled via keyboard.
          */
-        toggleDropdown: function(itemDropdown, toggleDirection) {
+        toggleDropdown(itemDropdown, toggleDirection) {
             this.setState({
                 dropdownTrigger: itemDropdown,
                 itemDropdown: itemDropdown !== this.state.itemDropdown ? itemDropdown : null

@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var mix = AlloyEditor.OOP.mix;
+
     /**
      * The ButtonCommandsList class provides functionality for showing a list of commands that can be
      * executed to the current selection..
@@ -9,45 +11,7 @@
      *
      * @class ButtonCommandsList
      */
-    var ButtonCommandsList = React.createClass({
-        mixins: [AlloyEditor.WidgetFocusManager],
-
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * List of the commands the button is able to handle.
-             *
-             * @property {Array} commands
-             */
-            commands: React.PropTypes.arrayOf(React.PropTypes.object),
-
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * List id to be used for accessibility purposes such as aria-owns.
-             *
-             * @property {String} listId
-             */
-            listId: React.PropTypes.string
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default buttonCommandsList
-             */
-            key: 'buttonCommandsList'
-        },
-
+    class ButtonCommandsList extends mix(React.Component).with(AlloyEditor.WidgetFocusManager) {
         /**
          * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
          *
@@ -55,9 +19,9 @@
          *
          * @method componentDidMount
          */
-        componentDidMount: function () {
+        componentDidMount() {
             ReactDOM.findDOMNode(this).focus();
-        },
+        }
 
         /**
          * Lifecycle. Returns the default values of the properties used in the widget.
@@ -65,7 +29,7 @@
          * @method getDefaultProps
          * @return {Object} The default properties.
          */
-        getDefaultProps: function() {
+        getDefaultProps() {
             return {
                 circular: false,
                 descendants: '.ae-toolbar-element',
@@ -77,7 +41,7 @@
                     prev: [38]
                 }
             };
-        },
+        }
 
         /**
          * Lifecycle. Renders the UI of the list.
@@ -85,7 +49,7 @@
          * @method render
          * @return {Object} The content which should be rendered.
          */
-        render: function() {
+        render() {
             return (
                 <div className="ae-dropdown ae-arrow-box ae-arrow-box-top-left" onFocus={this.focus} onKeyDown={this.handleKey} tabIndex="0">
                     <ul className="ae-listbox" id={this.props.listId} role="listbox">
@@ -93,7 +57,7 @@
                     </ul>
                 </div>
             );
-        },
+        }
 
         /**
          * Renders instances of ButtonCommandListItem with the description of the row action that will be executed.
@@ -102,7 +66,7 @@
          * @method _renderActions
          * @return {Array} Rendered instances of ButtonCommandListItem class
          */
-        _renderActions: function(commands) {
+        _renderActions(commands) {
             var editor = this.props.editor;
             var items;
 
@@ -118,7 +82,43 @@
 
             return items;
         }
-    });
+    }
+
+    // Allows validating props being passed to the component.
+    ButtonCommandsList.propTypes = {
+        /**
+         * List of the commands the button is able to handle.
+         *
+         * @property {Array} commands
+         */
+        commands: React.PropTypes.arrayOf(React.PropTypes.object),
+
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * List id to be used for accessibility purposes such as aria-owns.
+         *
+         * @property {String} listId
+         */
+        listId: React.PropTypes.string
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonCommandsList.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default buttonCommandsList
+         */
+        key: 'buttonCommandsList'
+    };
 
     AlloyEditor.ButtonCommandsList = ButtonCommandsList;
 }());

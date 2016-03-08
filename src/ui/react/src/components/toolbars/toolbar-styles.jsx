@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var mix = AlloyEditor.OOP.mix;
+
     /**
      * The ToolbarStyles class hosts the buttons for styling a text selection.
      *
@@ -13,75 +15,16 @@
      *
      * @class ToolbarStyles
      */
-    var ToolbarStyles = React.createClass({
-        mixins: [AlloyEditor.WidgetDropdown, AlloyEditor.WidgetExclusive, AlloyEditor.WidgetFocusManager, AlloyEditor.ToolbarButtons, AlloyEditor.WidgetPosition, AlloyEditor.WidgetArrowBox],
-
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The toolbar configuration.
-             *
-             * @property {Object} config
-             */
-            config: React.PropTypes.object,
-
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The payload from "editorInteraction" event
-             *
-             * @property {Object} editorEvent
-             */
-            editorEvent: React.PropTypes.object,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * Provides a callback which should be executed when a dismiss key is pressed over a toolbar to return the focus to the editor.
-             *
-             * @property {Function} onDismiss
-             */
-            onDismiss: React.PropTypes.func,
-
-            /**
-             * The data, returned from {{#crossLink "CKEDITOR.plugins.ae_selectionregion/getSelectionData:method"}}{{/crossLink}}
-             *
-             * @property {Object} selectionData
-             */
-            selectionData: React.PropTypes.object
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default styles
-             */
-            key: 'styles'
-        },
-
+    class ToolbarStyles extends mix(React.Component).with(AlloyEditor.WidgetDropdown, AlloyEditor.WidgetExclusive, AlloyEditor.WidgetFocusManager, AlloyEditor.ToolbarButtons, AlloyEditor.WidgetPosition, AlloyEditor.WidgetArrowBox) {
         /**
          * Lifecycle. Invoked once, only on the client (not on the server),
          * immediately after the initial rendering occurs.
          *
          * @method componentDidMount
          */
-        componentDidMount: function () {
+        componentDidMount() {
             this._updatePosition();
-        },
+        }
 
         /**
          * Lifecycle. Invoked immediately after the component's updates are flushed to the DOM.
@@ -91,9 +34,9 @@
          * @param {Object} prevProps The previous state of the component's properties.
          * @param {Object} prevState Component's previous state.
          */
-        componentDidUpdate: function (prevProps, prevState) {
+        componentDidUpdate(prevProps, prevState) {
             this._updatePosition();
-        },
+        }
 
         /**
          * Lifecycle. Returns the default values of the properties used in the widget.
@@ -101,7 +44,7 @@
          * @method getDefaultProps
          * @return {Object} The default properties.
          */
-        getDefaultProps: function() {
+        getDefaultProps() {
             return {
                 circular: true,
                 descendants: '.ae-button, .ae-toolbar-element',
@@ -111,7 +54,7 @@
                     prev: [37, 38]
                 }
             };
-        },
+        }
 
         /**
          * Lifecycle. Renders the buttons for adding content or hides the toolbar
@@ -120,7 +63,7 @@
          * @method render
          * @return {Object|null} The content which should be rendered.
          */
-        render: function() {
+        render() {
             var currentSelection = this._getCurrentSelection();
 
             if (currentSelection) {
@@ -153,7 +96,7 @@
             }
 
             return null;
-        },
+        }
 
         /**
          * Retrieve a function from String. It converts a fully qualified string into the mapped function.
@@ -164,7 +107,7 @@
          * desired one (e.g. 'AlloyEditor.SelectionTest.image').
          * @return {Function} The mapped function.
          */
-        _getSelectionFunction: function(selectionFn) {
+        _getSelectionFunction(selectionFn) {
             var Lang = AlloyEditor.Lang;
             var selectionFunction;
 
@@ -187,7 +130,7 @@
             }
 
             return selectionFunction;
-        },
+        }
 
         /**
          * Analyzes the current editor selection and returns the selection configuration that matches.
@@ -196,7 +139,7 @@
          * @protected
          * @return {Object} The matched selection configuration.
          */
-        _getCurrentSelection: function() {
+        _getCurrentSelection() {
             var eventPayload = this.props.editorEvent ? this.props.editorEvent.data : null;
             var selection;
 
@@ -221,7 +164,7 @@
             }
 
             return selection;
-        },
+        }
 
         /**
          * Calculates and sets the position of the toolbar.
@@ -229,7 +172,7 @@
          * @protected
          * @method _updatePosition
          */
-        _updatePosition: function() {
+        _updatePosition() {
             // If component is not mounted, there is nothing to do
             if (!ReactDOM.findDOMNode(this)) {
                 return;
@@ -257,7 +200,64 @@
                 this.show();
             }
         }
-    });
+    }
+
+    // Allows validating props being passed to the component.
+    ToolbarStyles.propTypes = {
+        /**
+         * The toolbar configuration.
+         *
+         * @property {Object} config
+         */
+        config: React.PropTypes.object,
+
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The payload from "editorInteraction" event
+         *
+         * @property {Object} editorEvent
+         */
+        editorEvent: React.PropTypes.object,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * Provides a callback which should be executed when a dismiss key is pressed over a toolbar to return the focus to the editor.
+         *
+         * @property {Function} onDismiss
+         */
+        onDismiss: React.PropTypes.func,
+
+        /**
+         * The data, returned from {{#crossLink "CKEDITOR.plugins.ae_selectionregion/getSelectionData:method"}}{{/crossLink}}
+         *
+         * @property {Object} selectionData
+         */
+        selectionData: React.PropTypes.object
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ToolbarStyles.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default styles
+         */
+        key: 'styles'
+    };
 
     AlloyEditor.Toolbars[ToolbarStyles.key] = AlloyEditor.ToolbarStyles = ToolbarStyles;
 }());

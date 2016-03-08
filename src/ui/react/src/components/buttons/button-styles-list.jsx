@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var mix = AlloyEditor.OOP.mix;
+
     /**
      * The ButtonStylesList class provides functionality for showing a list of styles that can be
      * applied to the current selection..
@@ -9,21 +11,7 @@
      *
      * @class ButtonStylesList
      */
-    var ButtonStylesList = React.createClass({
-        mixins: [AlloyEditor.WidgetFocusManager],
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default buttonStylesList
-             */
-            key: 'buttonStylesList'
-        },
-
+    class ButtonStylesList extends mix(React.Component).with(AlloyEditor.WidgetFocusManager) {
         /**
          * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
          *
@@ -31,16 +19,16 @@
          *
          * @method componentDidMount
          */
-        componentDidMount: function () {
+        componentDidMount() {
             ReactDOM.findDOMNode(this).focus();
-        },
+        }
 
         /**
          * Lifecycle. Invoked once, both on the client and server, immediately before the initial rendering occurs.
          *
          * @method componentWillMount
          */
-        componentWillMount: function () {
+        componentWillMount() {
             var blockStyles = [];
             var inlineStyles = [];
             var objectStyles = [];
@@ -60,7 +48,7 @@
             this._blockStyles = blockStyles;
             this._inlineStyles = inlineStyles;
             this._objectStyles = objectStyles;
-        },
+        }
 
         /**
          * Lifecycle. Returns the default values of the properties used in the widget.
@@ -68,7 +56,7 @@
          * @method getDefaultProps
          * @return {Object} The default properties.
          */
-        getDefaultProps: function() {
+        getDefaultProps() {
             return {
                 circular: false,
                 descendants: '.ae-toolbar-element',
@@ -81,7 +69,7 @@
                 },
                 showRemoveStylesItem: true
             };
-        },
+        }
 
         /**
          * Lifecycle. Renders the UI of the list.
@@ -89,7 +77,7 @@
          * @method render
          * @return {Object} The content which should be rendered.
          */
-        render: function() {
+        render() {
             var removeStylesItem;
 
             if (this.props.showRemoveStylesItem) {
@@ -112,7 +100,7 @@
                     </ul>
                 </div>
             );
-        },
+        }
 
         /**
          * Renders instances of ButtonStylesListItem with the preview of the correspondent block, inline or object styles.
@@ -122,7 +110,7 @@
          * @param {Array} styles List of styles for which preview should be rendered.
          * @return {Array} Rendered instances of ButtonStylesListItem class
          */
-        _renderStylesItems: function(styles) {
+        _renderStylesItems(styles) {
             var editor = this.props.editor;
             var items;
 
@@ -138,7 +126,19 @@
 
             return items;
         }
-    });
+    }
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonStylesList.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default buttonStylesList
+         */
+        key: 'buttonStylesList'
+    };
 
     AlloyEditor.ButtonStylesList = ButtonStylesList;
 }());

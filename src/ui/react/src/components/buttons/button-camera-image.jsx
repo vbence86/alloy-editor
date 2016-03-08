@@ -6,29 +6,17 @@
      *
      * @class ButtonCameraImage
      */
-    var ButtonCameraImage = React.createClass({
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default cameraImage
-             */
-            key: 'cameraImage'
-        },
-
+    class ButtonCameraImage extends React.Component {
         /**
          * Lifecycle. Returns the default values of the properties used in the widget.
          *
          * @method getDefaultProps
          */
-        getDefaultProps: function () {
+        getDefaultProps() {
             return {
                 videoWidth: 320
             };
-        },
+        }
 
         /**
          * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
@@ -37,16 +25,16 @@
          *
          * @method componentDidMount
          */
-        componentDidMount: function () {
+        componentDidMount() {
             ReactDOM.findDOMNode(this.refs.buttonTakePhoto).focus();
-        },
+        }
 
         /**
          * Lifecycle. Invoked immediately before a component is unmounted from the DOM.
          *
          * @method componentWillUnmount
          */
-        componentWillUnmount: function() {
+        componentWillUnmount() {
             if (this._stream) {
                 if (this._stream.stop) {
                     this._stream.stop();
@@ -57,7 +45,7 @@
                 }
                 this._stream = null;
             }
-        },
+        }
 
         /**
          * Lifecycle. Renders the UI of the button.
@@ -65,7 +53,7 @@
          * @method render
          * @return {Object} The content which should be rendered.
          */
-        render: function() {
+        render() {
             var getUserMedia = navigator.getUserMedia ||
                 navigator.webkitGetUserMedia ||
                 navigator.mozGetUserMedia ||
@@ -83,14 +71,14 @@
                     <canvas className="ae-camera-canvas" ref="canvasContainer"></canvas>
                 </div>
             );
-        },
+        }
 
         /**
          * Takes photo from the video stream and inserts in into editor's content.
          *
          * @method takePhoto
          */
-        takePhoto: function() {
+        takePhoto() {
             var videoEl = ReactDOM.findDOMNode(this.refs.videoContainer);
             var canvasEl = ReactDOM.findDOMNode(this.refs.canvasContainer);
 
@@ -119,7 +107,7 @@
 
                 editor.fire('imageCameraAdd', el);
             }
-        },
+        }
 
         /**
          * Displays error message in case of video stream capturing failure.
@@ -128,9 +116,9 @@
          * @method _handleStreamError
          * @param {Event} error The fired event in case of error.
          */
-        _handleStreamError: function(error) {
+        _handleStreamError(error) {
             window.alert('An error occurred! ' + error);
-        },
+        }
 
         /**
          * Starts streaming video in the video element and sets width/height to the video
@@ -139,7 +127,7 @@
          * @method _handleStreamSuccess
          * @param {Object} stream The video stream
          */
-        _handleStreamSuccess: function(stream) {
+        _handleStreamSuccess(stream) {
             var videoEl = ReactDOM.findDOMNode(this.refs.videoContainer);
             var canvasEl = ReactDOM.findDOMNode(this.refs.canvasContainer);
 
@@ -177,7 +165,19 @@
          * @event imageCameraAdd
          * @param {CKEDITOR.dom.element} el The created img element in editor.
          */
-    });
+    }
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonCameraImage.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default cameraImage
+         */
+        key: 'cameraImage'
+    };
 
     AlloyEditor.ButtonCameraImage = ButtonCameraImage;
 }());

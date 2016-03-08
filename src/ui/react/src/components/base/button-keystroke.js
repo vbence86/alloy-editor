@@ -7,26 +7,13 @@
      *
      * @class ButtonKeystroke
      */
-    var ButtonKeystroke = {
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The keystroke definition. An object with the following properties:
-             * - fn: The function to be executed
-             * - keys: The keystroke definition, as expected by http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setKeystroke
-             * - name: The name for the CKEditor command that will be created. If empty,
-             * a random name will be created on the fly
-             * @property {Object} keystroke
-             */
-            keystroke: React.PropTypes.object.isRequired
-        },
-
+    let ButtonKeystroke = (superclass) => class extends superclass {
         /**
          * Lifecycle. Invoked once, both on the client and server, immediately before the initial rendering occurs.
          *
          * @method componentWillMount
          */
-        componentWillMount: function() {
+        componentWillMount() {
             var nativeEditor = this.props.editor.get('nativeEditor');
             var keystroke = this.props.keystroke;
 
@@ -54,16 +41,29 @@
             this._defaultKeystrokeCommand = nativeEditor.keystrokeHandler.keystrokes[keystroke.keys];
 
             nativeEditor.setKeystroke(keystroke.keys, commandName);
-        },
+        }
 
         /**
          * Lifecycle. Invoked immediately before a component is unmounted from the DOM.
          *
          * @method componentWillUnmount
          */
-        componentWillUnmount: function() {
+        componentWillUnmount() {
             this.props.editor.get('nativeEditor').setKeystroke(this.props.keystroke.keys, this._defaultKeystrokeCommand);
         }
+    };
+
+    // Allows validating props being passed to the component.
+    ButtonKeystroke.propTypes = {
+        /**
+         * The keystroke definition. An object with the following properties:
+         * - fn: The function to be executed
+         * - keys: The keystroke definition, as expected by http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setKeystroke
+         * - name: The name for the CKEditor command that will be created. If empty,
+         * a random name will be created on the fly
+         * @property {Object} keystroke
+         */
+        keystroke: React.PropTypes.object.isRequired
     };
 
     AlloyEditor.ButtonKeystroke = ButtonKeystroke;

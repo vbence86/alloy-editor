@@ -7,34 +7,24 @@
      *
      * @class ButtonStyle
      */
-    var ButtonStyle = {
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The style the button should handle as described by http://docs.ckeditor.com/#!/api/CKEDITOR.style
-             *
-             * @property {Object} style
-             */
-            style: React.PropTypes.object
-        },
-
+    let ButtonStyle = (superclass) => class extends superclass {
         /**
          * Lifecycle. Invoked once, both on the client and server, immediately before the initial rendering occurs.
          *
          * @method componentWillMount
          */
-        componentWillMount: function() {
+        componentWillMount() {
             this._style = new CKEDITOR.style(this.props.style);
-        },
+        }
 
         /**
          * Lifecycle. Invoked immediately before a component is unmounted from the DOM.
          *
          * @method componentWillUnmount
          */
-        componentWillUnmount: function() {
+        componentWillUnmount() {
             this._style = null;
-        },
+        }
 
         /**
          * Returns instance of CKEDITOR.style which represents the current button style.
@@ -42,9 +32,9 @@
          * @method getStyle
          * @return {CKEDITOR.style} The current style representation.
          */
-        getStyle: function() {
+        getStyle() {
             return this._style;
-        },
+        }
 
         /**
          * Checks if style is active in the current selection.
@@ -52,7 +42,7 @@
          * @method isActive
          * @return {Boolean} True if style is active, false otherwise.
          */
-        isActive: function() {
+        isActive() {
             var result;
 
             var editor = this.props.editor.get('nativeEditor');
@@ -63,6 +53,16 @@
 
             return result;
         }
+    };
+
+    // Allows validating props being passed to the component.
+    ButtonStyle.propTypes = {
+        /**
+         * The style the button should handle as described by http://docs.ckeditor.com/#!/api/CKEDITOR.style
+         *
+         * @property {Object} style
+         */
+        style: React.PropTypes.object
     };
 
     AlloyEditor.ButtonStyle = ButtonStyle;

@@ -4828,8 +4828,35 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 (function () {
     'use strict';
+
+    var MixinBuilder = function () {
+        function MixinBuilder(superclass) {
+            _classCallCheck(this, MixinBuilder);
+
+            this.superclass = superclass;
+        }
+
+        _createClass(MixinBuilder, [{
+            key: 'with',
+            value: function _with() {
+                for (var _len = arguments.length, mixins = Array(_len), _key = 0; _key < _len; _key++) {
+                    mixins[_key] = arguments[_key];
+                }
+
+                return mixins.reduce(function (c, mixin) {
+                    return mixin(c);
+                }, this.superclass);
+            }
+        }]);
+
+        return MixinBuilder;
+    }();
 
     var OOP = {
         /**
@@ -4872,6 +4899,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
 
             return receiver;
+        },
+
+        mix: function mix(superclass) {
+            return new MixinBuilder(superclass);
         }
     };
 
@@ -5741,6 +5772,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
 
@@ -5756,34 +5795,58 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonActionStyle
      */
 
-    var ButtonActionStyle = {
-        /**
-         * Removes or applies the component style to the current selection.
-         *
-         * @method applyStyle
-         */
-        applyStyle: function applyStyle() {
-            if (AlloyEditor.Lang.isFunction(this.isActive) && AlloyEditor.Lang.isFunction(this.getStyle)) {
-                var editor = this.props.editor.get('nativeEditor');
+    var ButtonActionStyle = function ButtonActionStyle(superclass) {
+        return function (_superclass) {
+            _inherits(_class, _superclass);
 
-                editor.getSelection().lock();
+            function _class() {
+                _classCallCheck(this, _class);
 
-                if (this.isActive()) {
-                    editor.removeStyle(this.getStyle());
-                } else {
-                    editor.applyStyle(this.getStyle());
-                }
-
-                editor.getSelection().unlock();
-
-                editor.fire('actionPerformed', this);
+                return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
             }
-        }
+
+            _createClass(_class, [{
+                key: 'applyStyle',
+
+                /**
+                 * Removes or applies the component style to the current selection.
+                 *
+                 * @method applyStyle
+                 */
+                value: function applyStyle() {
+                    if (AlloyEditor.Lang.isFunction(this.isActive) && AlloyEditor.Lang.isFunction(this.getStyle)) {
+                        var editor = this.props.editor.get('nativeEditor');
+
+                        editor.getSelection().lock();
+
+                        if (this.isActive()) {
+                            editor.removeStyle(this.getStyle());
+                        } else {
+                            editor.applyStyle(this.getStyle());
+                        }
+
+                        editor.getSelection().unlock();
+
+                        editor.fire('actionPerformed', this);
+                    }
+                }
+            }]);
+
+            return _class;
+        }(superclass);
     };
 
     AlloyEditor.ButtonActionStyle = ButtonActionStyle;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -5795,25 +5858,49 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonCommandActive
      */
 
-    var ButtonCommandActive = {
-        /**
-         * Checks if the command is active in the current selection.
-         *
-         * @method isActive
-         * @return {Boolean} True if the command is active, false otherwise.
-         */
-        isActive: function isActive() {
-            var editor = this.props.editor.get('nativeEditor');
+    var ButtonCommandActive = function ButtonCommandActive(superclass) {
+        return function (_superclass) {
+            _inherits(_class, _superclass);
 
-            var command = editor.getCommand(this.props.command);
+            function _class() {
+                _classCallCheck(this, _class);
 
-            return command ? command.state === CKEDITOR.TRISTATE_ON : false;
-        }
+                return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
+            }
+
+            _createClass(_class, [{
+                key: 'isActive',
+
+                /**
+                 * Checks if the command is active in the current selection.
+                 *
+                 * @method isActive
+                 * @return {Boolean} True if the command is active, false otherwise.
+                 */
+                value: function isActive() {
+                    var editor = this.props.editor.get('nativeEditor');
+
+                    var command = editor.getCommand(this.props.command);
+
+                    return command ? command.state === CKEDITOR.TRISTATE_ON : false;
+                }
+            }]);
+
+            return _class;
+        }(superclass);
     };
 
     AlloyEditor.ButtonCommandActive = ButtonCommandActive;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -5824,47 +5911,70 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonCommand
      */
 
-    var ButtonCommand = {
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The command that should be executed.
-             *
-             * @property {String} command
-             */
-            command: React.PropTypes.string.isRequired,
+    var ButtonCommand = function ButtonCommand(superclass) {
+        return function (_superclass) {
+            _inherits(_class, _superclass);
 
-            /**
-             * Indicates that the command may cause the editor to have a different.
-             *
-             * @property {boolean} modifiesSelection
-             */
-            modifiesSelection: React.PropTypes.bool
-        },
+            function _class() {
+                _classCallCheck(this, _class);
 
-        /**
-         * Executes a CKEditor command and fires `actionPerformed` event.
-         *
-         * @param {Object=} data Optional data to be passed to CKEDITOR's `execCommand` method.
-         *
-         * @method execCommand
-         */
-        execCommand: function execCommand(data) {
-            var editor = this.props.editor.get('nativeEditor');
-
-            editor.execCommand(this.props.command, data);
-
-            if (this.props.modifiesSelection) {
-                editor.selectionChange(true);
+                return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
             }
 
-            editor.fire('actionPerformed', this);
-        }
+            _createClass(_class, [{
+                key: 'execCommand',
+
+                /**
+                 * Executes a CKEditor command and fires `actionPerformed` event.
+                 *
+                 * @param {Object=} data Optional data to be passed to CKEDITOR's `execCommand` method.
+                 *
+                 * @method execCommand
+                 */
+                value: function execCommand(data) {
+                    var editor = this.props.editor.get('nativeEditor');
+
+                    editor.execCommand(this.props.command, data);
+
+                    if (this.props.modifiesSelection) {
+                        editor.selectionChange(true);
+                    }
+
+                    editor.fire('actionPerformed', this);
+                }
+            }]);
+
+            return _class;
+        }(superclass);
+    };
+
+    ButtonCommand.propTypes = {
+        /**
+         * The command that should be executed.
+         *
+         * @property {String} command
+         */
+        command: React.PropTypes.string.isRequired,
+
+        /**
+         * Indicates that the command may cause the editor to have a different.
+         *
+         * @property {boolean} modifiesSelection
+         */
+        modifiesSelection: React.PropTypes.bool
     };
 
     AlloyEditor.ButtonCommand = ButtonCommand;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -5876,67 +5986,94 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonKeystroke
      */
 
-    var ButtonKeystroke = {
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The keystroke definition. An object with the following properties:
-             * - fn: The function to be executed
-             * - keys: The keystroke definition, as expected by http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setKeystroke
-             * - name: The name for the CKEditor command that will be created. If empty,
-             * a random name will be created on the fly
-             * @property {Object} keystroke
-             */
-            keystroke: React.PropTypes.object.isRequired
-        },
+    var ButtonKeystroke = function ButtonKeystroke(superclass) {
+        return function (_superclass) {
+            _inherits(_class, _superclass);
 
-        /**
-         * Lifecycle. Invoked once, both on the client and server, immediately before the initial rendering occurs.
-         *
-         * @method componentWillMount
-         */
-        componentWillMount: function componentWillMount() {
-            var nativeEditor = this.props.editor.get('nativeEditor');
-            var keystroke = this.props.keystroke;
+            function _class() {
+                _classCallCheck(this, _class);
 
-            var commandName = keystroke.name || (Math.random() * 1e9 >>> 0).toString();
-
-            var command = nativeEditor.getCommand(commandName);
-
-            if (!command) {
-                command = new CKEDITOR.command(nativeEditor, {
-                    exec: function (editor) {
-                        var keystrokeFn = keystroke.fn;
-
-                        if (AlloyEditor.Lang.isString(keystrokeFn)) {
-                            this[keystrokeFn].call(this, editor);
-                        } else if (AlloyEditor.Lang.isFunction(keystrokeFn)) {
-                            keystrokeFn.call(this, editor);
-                        }
-                    }.bind(this)
-                });
-
-                nativeEditor.addCommand(commandName, command);
+                return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
             }
 
-            this._defaultKeystrokeCommand = nativeEditor.keystrokeHandler.keystrokes[keystroke.keys];
+            _createClass(_class, [{
+                key: 'componentWillMount',
 
-            nativeEditor.setKeystroke(keystroke.keys, commandName);
-        },
+                /**
+                 * Lifecycle. Invoked once, both on the client and server, immediately before the initial rendering occurs.
+                 *
+                 * @method componentWillMount
+                 */
+                value: function componentWillMount() {
+                    var nativeEditor = this.props.editor.get('nativeEditor');
+                    var keystroke = this.props.keystroke;
 
+                    var commandName = keystroke.name || (Math.random() * 1e9 >>> 0).toString();
+
+                    var command = nativeEditor.getCommand(commandName);
+
+                    if (!command) {
+                        command = new CKEDITOR.command(nativeEditor, {
+                            exec: function (editor) {
+                                var keystrokeFn = keystroke.fn;
+
+                                if (AlloyEditor.Lang.isString(keystrokeFn)) {
+                                    this[keystrokeFn].call(this, editor);
+                                } else if (AlloyEditor.Lang.isFunction(keystrokeFn)) {
+                                    keystrokeFn.call(this, editor);
+                                }
+                            }.bind(this)
+                        });
+
+                        nativeEditor.addCommand(commandName, command);
+                    }
+
+                    this._defaultKeystrokeCommand = nativeEditor.keystrokeHandler.keystrokes[keystroke.keys];
+
+                    nativeEditor.setKeystroke(keystroke.keys, commandName);
+                }
+
+                /**
+                 * Lifecycle. Invoked immediately before a component is unmounted from the DOM.
+                 *
+                 * @method componentWillUnmount
+                 */
+
+            }, {
+                key: 'componentWillUnmount',
+                value: function componentWillUnmount() {
+                    this.props.editor.get('nativeEditor').setKeystroke(this.props.keystroke.keys, this._defaultKeystrokeCommand);
+                }
+            }]);
+
+            return _class;
+        }(superclass);
+    };
+
+    // Allows validating props being passed to the component.
+    ButtonKeystroke.propTypes = {
         /**
-         * Lifecycle. Invoked immediately before a component is unmounted from the DOM.
-         *
-         * @method componentWillUnmount
+         * The keystroke definition. An object with the following properties:
+         * - fn: The function to be executed
+         * - keys: The keystroke definition, as expected by http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setKeystroke
+         * - name: The name for the CKEditor command that will be created. If empty,
+         * a random name will be created on the fly
+         * @property {Object} keystroke
          */
-        componentWillUnmount: function componentWillUnmount() {
-            this.props.editor.get('nativeEditor').setKeystroke(this.props.keystroke.keys, this._defaultKeystrokeCommand);
-        }
+        keystroke: React.PropTypes.object.isRequired
     };
 
     AlloyEditor.ButtonKeystroke = ButtonKeystroke;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -5952,34 +6089,58 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonStateClasses
      */
 
-    var ButtonStateClasses = {
-        /**
-         * Returns the list of state classes associated to the current element's state, according
-         * to the results of the isActive and isDisabled methods.
-         *
-         * @method getStateClasses
-         * @return {String} A string with the state CSS classes.
-         */
-        getStateClasses: function getStateClasses() {
-            var stateClasses = '';
+    var ButtonStateClasses = function ButtonStateClasses(superclass) {
+        return function (_superclass) {
+            _inherits(_class, _superclass);
 
-            // Check for active state
-            if (AlloyEditor.Lang.isFunction(this.isActive) && this.isActive()) {
-                stateClasses += 'ae-button-pressed';
+            function _class() {
+                _classCallCheck(this, _class);
+
+                return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
             }
 
-            // Check for disabled state
-            if (AlloyEditor.Lang.isFunction(this.isDisabled) && this.isDisabled()) {
-                stateClasses += ' ae-button-disabled';
-            }
+            _createClass(_class, [{
+                key: 'getStateClasses',
 
-            return stateClasses;
-        }
+                /**
+                 * Returns the list of state classes associated to the current element's state, according
+                 * to the results of the isActive and isDisabled methods.
+                 *
+                 * @method getStateClasses
+                 * @return {String} A string with the state CSS classes.
+                 */
+                value: function getStateClasses() {
+                    var stateClasses = '';
+
+                    // Check for active state
+                    if (AlloyEditor.Lang.isFunction(this.isActive) && this.isActive()) {
+                        stateClasses += 'ae-button-pressed';
+                    }
+
+                    // Check for disabled state
+                    if (AlloyEditor.Lang.isFunction(this.isDisabled) && this.isDisabled()) {
+                        stateClasses += ' ae-button-disabled';
+                    }
+
+                    return stateClasses;
+                }
+            }]);
+
+            return _class;
+        }(superclass);
     };
 
     AlloyEditor.ButtonStateClasses = ButtonStateClasses;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -5991,67 +6152,100 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonStyle
      */
 
-    var ButtonStyle = {
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The style the button should handle as described by http://docs.ckeditor.com/#!/api/CKEDITOR.style
-             *
-             * @property {Object} style
-             */
-            style: React.PropTypes.object
-        },
+    var ButtonStyle = function ButtonStyle(superclass) {
+        return function (_superclass) {
+            _inherits(_class, _superclass);
 
+            function _class() {
+                _classCallCheck(this, _class);
+
+                return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
+            }
+
+            _createClass(_class, [{
+                key: 'componentWillMount',
+
+                /**
+                 * Lifecycle. Invoked once, both on the client and server, immediately before the initial rendering occurs.
+                 *
+                 * @method componentWillMount
+                 */
+                value: function componentWillMount() {
+                    this._style = new CKEDITOR.style(this.props.style);
+                }
+
+                /**
+                 * Lifecycle. Invoked immediately before a component is unmounted from the DOM.
+                 *
+                 * @method componentWillUnmount
+                 */
+
+            }, {
+                key: 'componentWillUnmount',
+                value: function componentWillUnmount() {
+                    this._style = null;
+                }
+
+                /**
+                 * Returns instance of CKEDITOR.style which represents the current button style.
+                 *
+                 * @method getStyle
+                 * @return {CKEDITOR.style} The current style representation.
+                 */
+
+            }, {
+                key: 'getStyle',
+                value: function getStyle() {
+                    return this._style;
+                }
+
+                /**
+                 * Checks if style is active in the current selection.
+                 *
+                 * @method isActive
+                 * @return {Boolean} True if style is active, false otherwise.
+                 */
+
+            }, {
+                key: 'isActive',
+                value: function isActive() {
+                    var result;
+
+                    var editor = this.props.editor.get('nativeEditor');
+
+                    var elementPath = editor.elementPath();
+
+                    result = this.getStyle().checkActive(elementPath, editor);
+
+                    return result;
+                }
+            }]);
+
+            return _class;
+        }(superclass);
+    };
+
+    // Allows validating props being passed to the component.
+    ButtonStyle.propTypes = {
         /**
-         * Lifecycle. Invoked once, both on the client and server, immediately before the initial rendering occurs.
+         * The style the button should handle as described by http://docs.ckeditor.com/#!/api/CKEDITOR.style
          *
-         * @method componentWillMount
+         * @property {Object} style
          */
-        componentWillMount: function componentWillMount() {
-            this._style = new CKEDITOR.style(this.props.style);
-        },
-
-        /**
-         * Lifecycle. Invoked immediately before a component is unmounted from the DOM.
-         *
-         * @method componentWillUnmount
-         */
-        componentWillUnmount: function componentWillUnmount() {
-            this._style = null;
-        },
-
-        /**
-         * Returns instance of CKEDITOR.style which represents the current button style.
-         *
-         * @method getStyle
-         * @return {CKEDITOR.style} The current style representation.
-         */
-        getStyle: function getStyle() {
-            return this._style;
-        },
-
-        /**
-         * Checks if style is active in the current selection.
-         *
-         * @method isActive
-         * @return {Boolean} True if style is active, false otherwise.
-         */
-        isActive: function isActive() {
-            var result;
-
-            var editor = this.props.editor.get('nativeEditor');
-
-            var elementPath = editor.elementPath();
-
-            result = this.getStyle().checkActive(elementPath, editor);
-
-            return result;
-        }
+        style: React.PropTypes.object
     };
 
     AlloyEditor.ButtonStyle = ButtonStyle;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -6063,57 +6257,81 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ToolbarButtons
      */
 
-    var ToolbarButtons = {
-        /**
-         * Analyzes the current selection and the buttons exclusive mode value to figure out which
-         * buttons should be present in a given state.
-         *
-         * @method getToolbarButtons
-         * @param {Array} buttons The buttons could be shown, prior to the state filtering.
-         * @param {Object} additionalProps Additional props that should be passed down to the buttons.
-         * @return {Array} An Array which contains the buttons that should be rendered.
-         */
-        getToolbarButtons: function getToolbarButtons(buttons, additionalProps) {
-            var buttonProps = {};
+    var ToolbarButtons = function ToolbarButtons(superclass) {
+        return function (_superclass) {
+            _inherits(_class, _superclass);
 
-            var toolbarButtons = this.filterExclusive(buttons.filter(function (button) {
-                return button && (AlloyEditor.Buttons[button] || AlloyEditor.Buttons[button.name]);
-            }).map(function (button) {
-                if (AlloyEditor.Lang.isString(button)) {
-                    button = AlloyEditor.Buttons[button];
-                } else if (AlloyEditor.Lang.isString(button.name)) {
-                    buttonProps[AlloyEditor.Buttons[button.name].key] = button.cfg;
-                    button = AlloyEditor.Buttons[button.name];
+            function _class() {
+                _classCallCheck(this, _class);
+
+                return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
+            }
+
+            _createClass(_class, [{
+                key: 'getToolbarButtons',
+
+                /**
+                 * Analyzes the current selection and the buttons exclusive mode value to figure out which
+                 * buttons should be present in a given state.
+                 *
+                 * @method getToolbarButtons
+                 * @param {Array} buttons The buttons could be shown, prior to the state filtering.
+                 * @param {Object} additionalProps Additional props that should be passed down to the buttons.
+                 * @return {Array} An Array which contains the buttons that should be rendered.
+                 */
+                value: function getToolbarButtons(buttons, additionalProps) {
+                    var buttonProps = {};
+
+                    var toolbarButtons = this.filterExclusive(buttons.filter(function (button) {
+                        return button && (AlloyEditor.Buttons[button] || AlloyEditor.Buttons[button.name]);
+                    }).map(function (button) {
+                        if (AlloyEditor.Lang.isString(button)) {
+                            button = AlloyEditor.Buttons[button];
+                        } else if (AlloyEditor.Lang.isString(button.name)) {
+                            buttonProps[AlloyEditor.Buttons[button.name].key] = button.cfg;
+                            button = AlloyEditor.Buttons[button.name];
+                        }
+
+                        return button;
+                    })).map(function (button) {
+                        var props = this.mergeExclusiveProps({
+                            editor: this.props.editor,
+                            key: button.key,
+                            tabKey: button.key,
+                            tabIndex: this.props.trigger && this.props.trigger.props.tabKey === button.key ? 0 : -1,
+                            trigger: this.props.trigger
+                        }, button.key);
+
+                        props = this.mergeDropdownProps(props, button.key);
+
+                        if (additionalProps) {
+                            props = CKEDITOR.tools.merge(props, additionalProps);
+                        }
+
+                        props = CKEDITOR.tools.merge(props, buttonProps[button.key]);
+
+                        return React.createElement(button, props);
+                    }, this);
+
+                    return toolbarButtons;
                 }
+            }]);
 
-                return button;
-            })).map(function (button) {
-                var props = this.mergeExclusiveProps({
-                    editor: this.props.editor,
-                    key: button.key,
-                    tabKey: button.key,
-                    tabIndex: this.props.trigger && this.props.trigger.props.tabKey === button.key ? 0 : -1,
-                    trigger: this.props.trigger
-                }, button.key);
-
-                props = this.mergeDropdownProps(props, button.key);
-
-                if (additionalProps) {
-                    props = CKEDITOR.tools.merge(props, additionalProps);
-                }
-
-                props = CKEDITOR.tools.merge(props, buttonProps[button.key]);
-
-                return React.createElement(button, props);
-            }, this);
-
-            return toolbarButtons;
-        }
+            return _class;
+        }(superclass);
     };
 
     AlloyEditor.ToolbarButtons = ToolbarButtons;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -6125,32 +6343,56 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class WidgetArrowBox
      */
 
-    var WidgetArrowBox = {
-        /**
-         * Returns the list of arrow box classes associated to the current element's state. It relies
-         * on the getInteractionPoint method to calculate the selection direction.
-         *
-         * @method getArrowBoxClasses
-         * @return {String} A string with the arrow box CSS classes.
-         */
-        getArrowBoxClasses: function getArrowBoxClasses() {
-            var arrowBoxClasses = 'ae-arrow-box';
+    var WidgetArrowBox = function WidgetArrowBox(superclass) {
+        return function (_superclass) {
+            _inherits(_class, _superclass);
 
-            if (AlloyEditor.Lang.isFunction(this.getInteractionPoint) && this.getInteractionPoint()) {
-                if (this.getInteractionPoint().direction === CKEDITOR.SELECTION_TOP_TO_BOTTOM) {
-                    arrowBoxClasses += ' ae-arrow-box-top';
-                } else {
-                    arrowBoxClasses += ' ae-arrow-box-bottom';
-                }
+            function _class() {
+                _classCallCheck(this, _class);
+
+                return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
             }
 
-            return arrowBoxClasses;
-        }
+            _createClass(_class, [{
+                key: 'getArrowBoxClasses',
+
+                /**
+                 * Returns the list of arrow box classes associated to the current element's state. It relies
+                 * on the getInteractionPoint method to calculate the selection direction.
+                 *
+                 * @method getArrowBoxClasses
+                 * @return {String} A string with the arrow box CSS classes.
+                 */
+                value: function getArrowBoxClasses() {
+                    var arrowBoxClasses = 'ae-arrow-box';
+
+                    if (AlloyEditor.Lang.isFunction(this.getInteractionPoint) && this.getInteractionPoint()) {
+                        if (this.getInteractionPoint().direction === CKEDITOR.SELECTION_TOP_TO_BOTTOM) {
+                            arrowBoxClasses += ' ae-arrow-box-top';
+                        } else {
+                            arrowBoxClasses += ' ae-arrow-box-bottom';
+                        }
+                    }
+
+                    return arrowBoxClasses;
+                }
+            }]);
+
+            return _class;
+        }(superclass);
     };
 
     AlloyEditor.WidgetArrowBox = WidgetArrowBox;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -6161,77 +6403,110 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class WidgetDropdown
      */
 
-    var WidgetDropdown = {
-        /**
-         * Lifecycle. Invoked when a component is receiving new props.
-         * This method is not called for the initial render.
-         *
-         * @method componentWillReceiveProps
-         */
-        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-            this.setState({
-                dropdownTrigger: null,
-                itemDropdown: null
-            });
-        },
+    var WidgetDropdown = function WidgetDropdown(superclass) {
+        return function (_superclass) {
+            _inherits(_class, _superclass);
 
-        /**
-         * Lifecycle. Invoked once before the component is mounted.
-         *
-         * @method getInitialState
-         */
-        getInitialState: function getInitialState() {
-            return {
-                dropdownTrigger: null,
-                itemDropdown: null
-            };
-        },
+            function _class() {
+                _classCallCheck(this, _class);
 
-        /**
-         * Merges the provided object with two more properties:
-         * - expanded - boolean flag which indicates if an widget should be rendered exclusively.
-         * - toggleDropdown - function, which can be used by an widget in order to obtain exclusive state.
-         *
-         * @method mergeDropdownProps
-         * @param {Object} obj The properties container which should be merged with the properties, related
-         *    to dropdown state.
-         * @param {Object} itemKey They key of an React Widget which contains the dropdown.
-         * @return {Object} The merged object.
-         */
-        mergeDropdownProps: function mergeDropdownProps(obj, itemKey) {
-            return CKEDITOR.tools.merge(obj, {
-                expanded: this.state.itemDropdown === itemKey ? true : false,
-                tabIndex: this.state.dropdownTrigger === itemKey ? 0 : -1,
-                toggleDropdown: this.toggleDropdown.bind(this, itemKey)
-            });
-        },
+                return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
+            }
 
-        /**
-         * Sets the active dropdown of the widget or discards the toggled item from the state.
-         *
-         * @method toggleDropdown
-         * @param {Object} itemDropdown The widget which requests to toggle its dropdown.
-         * @param {Number} toggleDirection User movement direction when toggled via keyboard.
-         */
-        toggleDropdown: function toggleDropdown(itemDropdown, toggleDirection) {
-            this.setState({
-                dropdownTrigger: itemDropdown,
-                itemDropdown: itemDropdown !== this.state.itemDropdown ? itemDropdown : null
-            }, function () {
-                if (!this.state.itemDropdown) {
-                    if (this.moveFocus) {
-                        this.moveFocus(toggleDirection);
-                    } else {
-                        ReactDOM.findDOMNode(this).focus();
-                    }
+            _createClass(_class, [{
+                key: 'componentWillReceiveProps',
+
+                /**
+                 * Lifecycle. Invoked when a component is receiving new props.
+                 * This method is not called for the initial render.
+                 *
+                 * @method componentWillReceiveProps
+                 */
+                value: function componentWillReceiveProps(nextProps) {
+                    this.setState({
+                        dropdownTrigger: null,
+                        itemDropdown: null
+                    });
                 }
-            });
-        }
+
+                /**
+                 * Lifecycle. Invoked once before the component is mounted.
+                 *
+                 * @method getInitialState
+                 */
+
+            }, {
+                key: 'getInitialState',
+                value: function getInitialState() {
+                    return {
+                        dropdownTrigger: null,
+                        itemDropdown: null
+                    };
+                }
+
+                /**
+                 * Merges the provided object with two more properties:
+                 * - expanded - boolean flag which indicates if an widget should be rendered exclusively.
+                 * - toggleDropdown - function, which can be used by an widget in order to obtain exclusive state.
+                 *
+                 * @method mergeDropdownProps
+                 * @param {Object} obj The properties container which should be merged with the properties, related
+                 *    to dropdown state.
+                 * @param {Object} itemKey They key of an React Widget which contains the dropdown.
+                 * @return {Object} The merged object.
+                 */
+
+            }, {
+                key: 'mergeDropdownProps',
+                value: function mergeDropdownProps(obj, itemKey) {
+                    return CKEDITOR.tools.merge(obj, {
+                        expanded: this.state.itemDropdown === itemKey ? true : false,
+                        tabIndex: this.state.dropdownTrigger === itemKey ? 0 : -1,
+                        toggleDropdown: this.toggleDropdown.bind(this, itemKey)
+                    });
+                }
+
+                /**
+                 * Sets the active dropdown of the widget or discards the toggled item from the state.
+                 *
+                 * @method toggleDropdown
+                 * @param {Object} itemDropdown The widget which requests to toggle its dropdown.
+                 * @param {Number} toggleDirection User movement direction when toggled via keyboard.
+                 */
+
+            }, {
+                key: 'toggleDropdown',
+                value: function toggleDropdown(itemDropdown, toggleDirection) {
+                    this.setState({
+                        dropdownTrigger: itemDropdown,
+                        itemDropdown: itemDropdown !== this.state.itemDropdown ? itemDropdown : null
+                    }, function () {
+                        if (!this.state.itemDropdown) {
+                            if (this.moveFocus) {
+                                this.moveFocus(toggleDirection);
+                            } else {
+                                ReactDOM.findDOMNode(this).focus();
+                            }
+                        }
+                    });
+                }
+            }]);
+
+            return _class;
+        }(superclass);
     };
 
     AlloyEditor.WidgetDropdown = WidgetDropdown;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -6245,93 +6520,129 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class WidgetExclusive
      */
 
-    var WidgetExclusive = {
-        /**
-         * Cancels the exclusive state of an widget.
-         *
-         * @method cancelExclusive
-         * @param {Object} itemExclusive The widget which exclusive state should be canceled.
-         */
-        cancelExclusive: function cancelExclusive(itemExclusive) {
-            if (this.state.itemExclusive === itemExclusive) {
-                this.setState({
-                    itemExclusive: null
-                });
+    var WidgetExclusive = function WidgetExclusive(superclass) {
+        return function (_superclass) {
+            _inherits(_class, _superclass);
+
+            function _class() {
+                _classCallCheck(this, _class);
+
+                return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
             }
-        },
 
-        /**
-         * Lifecycle. Invoked when a component is receiving new props.
-         * This method is not called for the initial render.
-         * Calling this.setState() within this function will not trigger an additional render.
-         *
-         * @method componentWillReceiveProps
-         * @param {Object} nextProps Object containing the current set of properties.
-         */
-        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-            // Receiving properties means that the component is being re-rendered.
-            // Re-rendering is triggered by editorInteraction, so we have to
-            // reset the exclusive state and render the UI according to the new selection.
-            this.setState({
-                itemExclusive: null
-            });
-        },
+            _createClass(_class, [{
+                key: 'cancelExclusive',
 
-        /**
-         * Filters the items and returns only those with exclusive state.
-         *
-         * @method filterExclusive
-         * @param {Array} items The widgets to be filtered.
-         * @return {Array|Object} The item with executive state.
-         */
-        filterExclusive: function filterExclusive(items) {
-            return items.filter(function (item) {
-                if (this.state.itemExclusive) {
-                    if (this.state.itemExclusive === item.key) {
-                        return item;
+                /**
+                 * Cancels the exclusive state of an widget.
+                 *
+                 * @method cancelExclusive
+                 * @param {Object} itemExclusive The widget which exclusive state should be canceled.
+                 */
+                value: function cancelExclusive(itemExclusive) {
+                    if (this.state.itemExclusive === itemExclusive) {
+                        this.setState({
+                            itemExclusive: null
+                        });
                     }
-                } else {
-                    return item;
                 }
-            }.bind(this));
-        },
 
-        /**
-         * Merges the provided object with three more properties:
-         * - cancelExclusive - function, which can be used by a widget in order to cancel executive state.
-         * - renderExclusive - boolean flag which indicates if an widget should be rendered exclusively.
-         * - requestExclusive - function, which can be used by a widget in order to obtain exclusive state.
-         *
-         * @method mergeExclusiveProps
-         * @param {Object} obj The properties container which should be merged with the properties, related
-         *    to exclusive state.
-         * @param {Object} itemKey They key of an React Widget which should be rendered exclusively.
-         * @return {Object} The merged object.
-         */
-        mergeExclusiveProps: function mergeExclusiveProps(obj, itemKey) {
-            return CKEDITOR.tools.merge(obj, {
-                cancelExclusive: this.cancelExclusive.bind(this, itemKey),
-                renderExclusive: this.state.itemExclusive === itemKey,
-                requestExclusive: this.requestExclusive.bind(this, itemKey)
-            });
-        },
+                /**
+                 * Lifecycle. Invoked when a component is receiving new props.
+                 * This method is not called for the initial render.
+                 * Calling this.setState() within this function will not trigger an additional render.
+                 *
+                 * @method componentWillReceiveProps
+                 * @param {Object} nextProps Object containing the current set of properties.
+                 */
 
-        /**
-         * Requests and sets exclusive state of an widget.
-         *
-         * @method requestExclusive
-         * @param {Object} itemExclusive The widget which requests exclusive state.
-         */
-        requestExclusive: function requestExclusive(itemExclusive) {
-            this.setState({
-                itemExclusive: itemExclusive
-            });
-        }
+            }, {
+                key: 'componentWillReceiveProps',
+                value: function componentWillReceiveProps(nextProps) {
+                    // Receiving properties means that the component is being re-rendered.
+                    // Re-rendering is triggered by editorInteraction, so we have to
+                    // reset the exclusive state and render the UI according to the new selection.
+                    this.setState({
+                        itemExclusive: null
+                    });
+                }
+
+                /**
+                 * Filters the items and returns only those with exclusive state.
+                 *
+                 * @method filterExclusive
+                 * @param {Array} items The widgets to be filtered.
+                 * @return {Array|Object} The item with executive state.
+                 */
+
+            }, {
+                key: 'filterExclusive',
+                value: function filterExclusive(items) {
+                    return items.filter(function (item) {
+                        if (this.state.itemExclusive) {
+                            if (this.state.itemExclusive === item.key) {
+                                return item;
+                            }
+                        } else {
+                            return item;
+                        }
+                    }.bind(this));
+                }
+
+                /**
+                 * Merges the provided object with three more properties:
+                 * - cancelExclusive - function, which can be used by a widget in order to cancel executive state.
+                 * - renderExclusive - boolean flag which indicates if an widget should be rendered exclusively.
+                 * - requestExclusive - function, which can be used by a widget in order to obtain exclusive state.
+                 *
+                 * @method mergeExclusiveProps
+                 * @param {Object} obj The properties container which should be merged with the properties, related
+                 *    to exclusive state.
+                 * @param {Object} itemKey They key of an React Widget which should be rendered exclusively.
+                 * @return {Object} The merged object.
+                 */
+
+            }, {
+                key: 'mergeExclusiveProps',
+                value: function mergeExclusiveProps(obj, itemKey) {
+                    return CKEDITOR.tools.merge(obj, {
+                        cancelExclusive: this.cancelExclusive.bind(this, itemKey),
+                        renderExclusive: this.state.itemExclusive === itemKey,
+                        requestExclusive: this.requestExclusive.bind(this, itemKey)
+                    });
+                }
+
+                /**
+                 * Requests and sets exclusive state of an widget.
+                 *
+                 * @method requestExclusive
+                 * @param {Object} itemExclusive The widget which requests exclusive state.
+                 */
+
+            }, {
+                key: 'requestExclusive',
+                value: function requestExclusive(itemExclusive) {
+                    this.setState({
+                        itemExclusive: itemExclusive
+                    });
+                }
+            }]);
+
+            return _class;
+        }(superclass);
     };
 
     AlloyEditor.WidgetExclusive = WidgetExclusive;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -6350,330 +6661,387 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      *
      * @class WidgetFocusManager
      */
-    var WidgetFocusManager = {
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * Callback method to be invoked when the focus manager is to be dismissed. This happens
-             * in the following scenarios if a dismiss callback has been specified:
-             * - A dismiss key has been pressed
-             * - In a non-circular focus manager, when:
-             *     - The active descendant is the first one and a prev key has been pressed.
-             *     - The active descendant is the last one and a next key has been pressed.
-             *
-             * @property {Function} onDismiss
-             */
-            onDismiss: React.PropTypes.func,
+    var WidgetFocusManager = function WidgetFocusManager(superclass) {
+        return function (_superclass) {
+            _inherits(_class, _superclass);
 
-            /**
-             * Indicates if focus should be set to the first/last descendant when the limits are reached.
-             *
-             * @property {boolean} circular
-             */
-            circular: React.PropTypes.bool.isRequired,
+            function _class() {
+                _classCallCheck(this, _class);
 
-            /**
-             * String representing the CSS selector used to define the elements that should be handled.
-             *
-             * @property {String} descendants
-             */
-            descendants: React.PropTypes.string.isRequired,
-
-            /**
-             * Object representing the keys used to navigate between descendants. The format for the prop is:
-             * `{dismiss: value, dismissNext: value, dismissPrev: value, next: value, prev: value}` where
-             * value can be both a number or an array of numbers with the allowed keyCodes.
-             *
-             * @property {Object} keys
-             */
-            keys: React.PropTypes.object.isRequired
-        },
-
-        /**
-         * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
-         *
-         * @method componentDidMount
-         */
-        componentDidMount: function componentDidMount() {
-            this._refresh();
-        },
-
-        /**
-         * Lifecycle. Invoked immediately after the component's updates are flushed to the DOM.
-         * Refreshes the descendants list.
-         *
-         * @method componentDidUpdate
-         */
-        componentDidUpdate: function componentDidUpdate() {
-            this._refresh();
-        },
-
-        /**
-         * Focuses the current active descendant.
-         *
-         * Several Widgets can be nested in a component hierarchy by attaching this focus method to
-         * the widget DOM node, transferring the DOM focus control to the inner FocusManager.
-         *
-         * @method focus
-         */
-        focus: function focus(event) {
-            if (!event || this._isValidTarget(event.target)) {
-                if (this._descendants) {
-                    this._descendants[this._activeDescendant].focus();
-
-                    if (event) {
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                }
-            }
-        },
-
-        /**
-         * Handles the key events on a DOM node to execute the appropriate navigation when needed.
-         *
-         * @param {Object} event The Keyboard event that was detected on the widget DOM node.
-         * @method handleKey
-         */
-        handleKey: function handleKey(event) {
-            if (this._isValidTarget(event.target) && this._descendants) {
-                var action = this._getFocusAction(event);
-
-                if (action.type) {
-                    event.stopPropagation();
-                    event.preventDefault();
-
-                    if (action.type === ACTION_MOVE_FOCUS) {
-                        this._moveFocus(action.direction);
-                    }
-
-                    if (action.type === ACTION_DISMISS_FOCUS) {
-                        this.props.onDismiss(action.direction);
-                    }
-                }
-            }
-        },
-
-        /**
-         * Moves the focus among descendants in the especified direction.
-         *
-         * @method moveFocus
-         * @param {number} direction The direction (1 or -1) of the focus movement among descendants.
-         */
-        moveFocus: function moveFocus(direction) {
-            direction = AlloyEditor.Lang.isNumber(direction) ? direction : 0;
-
-            this._moveFocus(direction);
-        },
-
-        /**
-         * Returns the action, if any, that a keyboard event in the current focus manager state
-         * should produce.
-         *
-         * @protected
-         * @method _getFocusAction
-         * @param {object} event The Keyboard event.
-         * @return {Object} An action object with type and direction properties.
-         */
-        _getFocusAction: function _getFocusAction(event) {
-            var action = {
-                type: ACTION_NONE
-            };
-
-            if (this.props.keys) {
-                var direction = this._getFocusMoveDirection(event);
-
-                if (direction) {
-                    action.direction = direction;
-                    action.type = ACTION_MOVE_FOCUS;
-                }
-
-                var dismissAction = this._getFocusDismissAction(event, direction);
-
-                if (dismissAction.dismiss) {
-                    action.direction = dismissAction.direction;
-                    action.type = ACTION_DISMISS_FOCUS;
-                }
+                return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
             }
 
-            return action;
-        },
+            _createClass(_class, [{
+                key: 'componentDidMount',
 
+                /**
+                 * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
+                 *
+                 * @method componentDidMount
+                 */
+                value: function componentDidMount() {
+                    this._refresh();
+                }
+
+                /**
+                 * Lifecycle. Invoked immediately after the component's updates are flushed to the DOM.
+                 * Refreshes the descendants list.
+                 *
+                 * @method componentDidUpdate
+                 */
+
+            }, {
+                key: 'componentDidUpdate',
+                value: function componentDidUpdate() {
+                    this._refresh();
+                }
+
+                /**
+                 * Focuses the current active descendant.
+                 *
+                 * Several Widgets can be nested in a component hierarchy by attaching this focus method to
+                 * the widget DOM node, transferring the DOM focus control to the inner FocusManager.
+                 *
+                 * @method focus
+                 */
+
+            }, {
+                key: 'focus',
+                value: function focus(event) {
+                    if (!event || this._isValidTarget(event.target)) {
+                        if (this._descendants) {
+                            this._descendants[this._activeDescendant].focus();
+
+                            if (event) {
+                                event.stopPropagation();
+                                event.preventDefault();
+                            }
+                        }
+                    }
+                }
+
+                /**
+                 * Handles the key events on a DOM node to execute the appropriate navigation when needed.
+                 *
+                 * @param {Object} event The Keyboard event that was detected on the widget DOM node.
+                 * @method handleKey
+                 */
+
+            }, {
+                key: 'handleKey',
+                value: function handleKey(event) {
+                    if (this._isValidTarget(event.target) && this._descendants) {
+                        var action = this._getFocusAction(event);
+
+                        if (action.type) {
+                            event.stopPropagation();
+                            event.preventDefault();
+
+                            if (action.type === ACTION_MOVE_FOCUS) {
+                                this._moveFocus(action.direction);
+                            }
+
+                            if (action.type === ACTION_DISMISS_FOCUS) {
+                                this.props.onDismiss(action.direction);
+                            }
+                        }
+                    }
+                }
+
+                /**
+                 * Moves the focus among descendants in the especified direction.
+                 *
+                 * @method moveFocus
+                 * @param {number} direction The direction (1 or -1) of the focus movement among descendants.
+                 */
+
+            }, {
+                key: 'moveFocus',
+                value: function moveFocus(direction) {
+                    direction = AlloyEditor.Lang.isNumber(direction) ? direction : 0;
+
+                    this._moveFocus(direction);
+                }
+
+                /**
+                 * Returns the action, if any, that a keyboard event in the current focus manager state
+                 * should produce.
+                 *
+                 * @protected
+                 * @method _getFocusAction
+                 * @param {object} event The Keyboard event.
+                 * @return {Object} An action object with type and direction properties.
+                 */
+
+            }, {
+                key: '_getFocusAction',
+                value: function _getFocusAction(event) {
+                    var action = {
+                        type: ACTION_NONE
+                    };
+
+                    if (this.props.keys) {
+                        var direction = this._getFocusMoveDirection(event);
+
+                        if (direction) {
+                            action.direction = direction;
+                            action.type = ACTION_MOVE_FOCUS;
+                        }
+
+                        var dismissAction = this._getFocusDismissAction(event, direction);
+
+                        if (dismissAction.dismiss) {
+                            action.direction = dismissAction.direction;
+                            action.type = ACTION_DISMISS_FOCUS;
+                        }
+                    }
+
+                    return action;
+                }
+
+                /**
+                 * Returns the dismiss action, if any, the focus manager should execute to yield the focus. This
+                 * will happen in any of these scenarios if a dismiss callback has been specified:
+                 * - A dismiss key has been pressed
+                 * - In a non-circular focus manager, when:
+                 *     - The active descendant is the first one and a prev key has been pressed.
+                 *     - The active descendant is the last one and a next key has been pressed.
+                 *
+                 * @protected
+                 * @method _getFocusDismissAction
+                 * @param {Object} event The Keyboard event.
+                 * @param {Number} focusMoveDirection The focus movement direction (if any).
+                 * @return {Object} A dismiss action with dismiss and direction properties.
+                 */
+
+            }, {
+                key: '_getFocusDismissAction',
+                value: function _getFocusDismissAction(event, focusMoveDirection) {
+                    var dismissAction = {
+                        direction: focusMoveDirection,
+                        dismiss: false
+                    };
+
+                    if (this.props.onDismiss) {
+                        if (this._isValidKey(event.keyCode, this.props.keys.dismiss)) {
+                            dismissAction.dismiss = true;
+                        }
+                        if (this._isValidKey(event.keyCode, this.props.keys.dismissNext)) {
+                            dismissAction.dismiss = true;
+                            dismissAction.direction = DIRECTION_NEXT;
+                        }
+                        if (this._isValidKey(event.keyCode, this.props.keys.dismissPrev)) {
+                            dismissAction.dismiss = true;
+                            dismissAction.direction = DIRECTION_PREV;
+                        }
+
+                        if (!dismissAction.dismiss && !this.props.circular && focusMoveDirection) {
+                            dismissAction.dismiss = focusMoveDirection === DIRECTION_PREV && this._activeDescendant === 0 || focusMoveDirection === DIRECTION_NEXT && this._activeDescendant === this._descendants.length - 1;
+                        }
+                    }
+
+                    return dismissAction;
+                }
+
+                /**
+                 * Returns the direction, if any, in which the focus should be moved. In presence of the
+                 * shift key modifier, the direction of the movement is inverted.
+                 *
+                 * @protected
+                 * @method _getFocusMoveDirection
+                 * @param {Object} event The Keyboard event.
+                 * @return {Number} The computed direction of the expected focus movement.
+                 */
+
+            }, {
+                key: '_getFocusMoveDirection',
+                value: function _getFocusMoveDirection(event) {
+                    var direction = DIRECTION_NONE;
+
+                    if (this._isValidKey(event.keyCode, this.props.keys.next)) {
+                        direction = DIRECTION_NEXT;
+                    }
+                    if (this._isValidKey(event.keyCode, this.props.keys.prev)) {
+                        direction = DIRECTION_PREV;
+                    }
+
+                    if (event.shifKey) {
+                        direction *= -1;
+                    }
+
+                    return direction;
+                }
+
+                /**
+                 * Indicates if a given keyCode is valid for the given set of keys.
+                 *
+                 * @param {Number} keyCode An event keyCode.
+                 * @param {Array|Number} keys A key set. Can be a number an array of numbers representing the allowed keyCodes.
+                 *
+                 * @protected
+                 * @method _isValidKey
+                 * @return {Boolean} A boolean value indicating if the key is valid.
+                 */
+
+            }, {
+                key: '_isValidKey',
+                value: function _isValidKey(keyCode, keys) {
+                    return AlloyEditor.Lang.isArray(keys) ? keys.indexOf(keyCode) !== -1 : keyCode === keys;
+                }
+
+                /**
+                 * Indicates if a given element is valid for focus management. User input elements such as
+                 * input, select or textarea are excluded.
+                 *
+                 * @protected
+                 * @method _isValidKey
+                 * @param {DOMNode} element A DOM element.
+                 * @return {Boolean} A boolean value indicating if the element is valid.
+                 */
+
+            }, {
+                key: '_isValidTarget',
+                value: function _isValidTarget(element) {
+                    var tagName = element.tagName.toLowerCase();
+
+                    return tagName !== 'input' && tagName !== 'select' && tagName !== 'textarea';
+                }
+
+                /**
+                 * Moves the focus among descendants in the especified direction.
+                 *
+                 * @protected
+                 * @method _moveFocus
+                 * @param {number} direction The direction (1 or -1) of the focus movement among descendants.
+                 */
+
+            }, {
+                key: '_moveFocus',
+                value: function _moveFocus(direction) {
+                    var numDescendants = this._descendants.length;
+
+                    var descendant = this._descendants[this._activeDescendant];
+
+                    descendant.setAttribute('tabIndex', -1);
+
+                    this._activeDescendant += direction;
+
+                    if (this.props.circular) {
+                        // Calculate proper modulo result since remainder operator doesn't behave in the
+                        // same way for negative numbers
+                        this._activeDescendant = (this._activeDescendant % numDescendants + numDescendants) % numDescendants;
+                    } else {
+                        this._activeDescendant = Math.max(Math.min(this._activeDescendant, numDescendants - 1), 0);
+                    }
+
+                    descendant = this._descendants[this._activeDescendant];
+
+                    descendant.setAttribute('tabIndex', 0);
+                    descendant.focus();
+                }
+
+                /**
+                 * Refreshes the descendants list by executing the CSS selector again and resets the descendants tabIndex.
+                 *
+                 * @protected
+                 * @method _refresh
+                 */
+
+            }, {
+                key: '_refresh',
+                value: function _refresh() {
+                    var domNode = ReactDOM.findDOMNode(this);
+
+                    if (domNode) {
+                        var descendants = domNode.querySelectorAll(this.props.descendants);
+
+                        var priorityDescendants = [];
+
+                        this._descendants = [];
+
+                        Array.prototype.slice.call(descendants).forEach(function (item) {
+                            var dataTabIndex = item.getAttribute('data-tabindex');
+
+                            if (dataTabIndex) {
+                                priorityDescendants.push(item);
+                            } else {
+                                this._descendants.push(item);
+                            }
+                        }.bind(this));
+
+                        priorityDescendants = priorityDescendants.sort(function (a, b) {
+                            return AlloyEditor.Lang.toInt(a.getAttribute('data-tabindex')) > AlloyEditor.Lang.toInt(b.getAttribute('data-tabindex'));
+                        });
+
+                        this._descendants = priorityDescendants.concat(this._descendants);
+
+                        this._activeDescendant = 0;
+
+                        this._descendants.some(function (item, index) {
+                            if (item.getAttribute('tabindex') === '0') {
+                                this._activeDescendant = index;
+                                this.focus();
+
+                                return true;
+                            }
+                        }.bind(this));
+                    }
+                }
+            }]);
+
+            return _class;
+        }(superclass);
+    };
+
+    // Allows validating props being passed to the component.
+    WidgetFocusManager.propTypes = {
         /**
-         * Returns the dismiss action, if any, the focus manager should execute to yield the focus. This
-         * will happen in any of these scenarios if a dismiss callback has been specified:
+         * Callback method to be invoked when the focus manager is to be dismissed. This happens
+         * in the following scenarios if a dismiss callback has been specified:
          * - A dismiss key has been pressed
          * - In a non-circular focus manager, when:
          *     - The active descendant is the first one and a prev key has been pressed.
          *     - The active descendant is the last one and a next key has been pressed.
          *
-         * @protected
-         * @method _getFocusDismissAction
-         * @param {Object} event The Keyboard event.
-         * @param {Number} focusMoveDirection The focus movement direction (if any).
-         * @return {Object} A dismiss action with dismiss and direction properties.
+         * @property {Function} onDismiss
          */
-        _getFocusDismissAction: function _getFocusDismissAction(event, focusMoveDirection) {
-            var dismissAction = {
-                direction: focusMoveDirection,
-                dismiss: false
-            };
-
-            if (this.props.onDismiss) {
-                if (this._isValidKey(event.keyCode, this.props.keys.dismiss)) {
-                    dismissAction.dismiss = true;
-                }
-                if (this._isValidKey(event.keyCode, this.props.keys.dismissNext)) {
-                    dismissAction.dismiss = true;
-                    dismissAction.direction = DIRECTION_NEXT;
-                }
-                if (this._isValidKey(event.keyCode, this.props.keys.dismissPrev)) {
-                    dismissAction.dismiss = true;
-                    dismissAction.direction = DIRECTION_PREV;
-                }
-
-                if (!dismissAction.dismiss && !this.props.circular && focusMoveDirection) {
-                    dismissAction.dismiss = focusMoveDirection === DIRECTION_PREV && this._activeDescendant === 0 || focusMoveDirection === DIRECTION_NEXT && this._activeDescendant === this._descendants.length - 1;
-                }
-            }
-
-            return dismissAction;
-        },
+        onDismiss: React.PropTypes.func,
 
         /**
-         * Returns the direction, if any, in which the focus should be moved. In presence of the
-         * shift key modifier, the direction of the movement is inverted.
+         * Indicates if focus should be set to the first/last descendant when the limits are reached.
          *
-         * @protected
-         * @method _getFocusMoveDirection
-         * @param {Object} event The Keyboard event.
-         * @return {Number} The computed direction of the expected focus movement.
+         * @property {boolean} circular
          */
-        _getFocusMoveDirection: function _getFocusMoveDirection(event) {
-            var direction = DIRECTION_NONE;
-
-            if (this._isValidKey(event.keyCode, this.props.keys.next)) {
-                direction = DIRECTION_NEXT;
-            }
-            if (this._isValidKey(event.keyCode, this.props.keys.prev)) {
-                direction = DIRECTION_PREV;
-            }
-
-            if (event.shifKey) {
-                direction *= -1;
-            }
-
-            return direction;
-        },
+        circular: React.PropTypes.bool.isRequired,
 
         /**
-         * Indicates if a given keyCode is valid for the given set of keys.
+         * String representing the CSS selector used to define the elements that should be handled.
          *
-         * @param {Number} keyCode An event keyCode.
-         * @param {Array|Number} keys A key set. Can be a number an array of numbers representing the allowed keyCodes.
-         *
-         * @protected
-         * @method _isValidKey
-         * @return {Boolean} A boolean value indicating if the key is valid.
+         * @property {String} descendants
          */
-        _isValidKey: function _isValidKey(keyCode, keys) {
-            return AlloyEditor.Lang.isArray(keys) ? keys.indexOf(keyCode) !== -1 : keyCode === keys;
-        },
+        descendants: React.PropTypes.string.isRequired,
 
         /**
-         * Indicates if a given element is valid for focus management. User input elements such as
-         * input, select or textarea are excluded.
+         * Object representing the keys used to navigate between descendants. The format for the prop is:
+         * `{dismiss: value, dismissNext: value, dismissPrev: value, next: value, prev: value}` where
+         * value can be both a number or an array of numbers with the allowed keyCodes.
          *
-         * @protected
-         * @method _isValidKey
-         * @param {DOMNode} element A DOM element.
-         * @return {Boolean} A boolean value indicating if the element is valid.
+         * @property {Object} keys
          */
-        _isValidTarget: function _isValidTarget(element) {
-            var tagName = element.tagName.toLowerCase();
-
-            return tagName !== 'input' && tagName !== 'select' && tagName !== 'textarea';
-        },
-
-        /**
-         * Moves the focus among descendants in the especified direction.
-         *
-         * @protected
-         * @method _moveFocus
-         * @param {number} direction The direction (1 or -1) of the focus movement among descendants.
-         */
-        _moveFocus: function _moveFocus(direction) {
-            var numDescendants = this._descendants.length;
-
-            var descendant = this._descendants[this._activeDescendant];
-
-            descendant.setAttribute('tabIndex', -1);
-
-            this._activeDescendant += direction;
-
-            if (this.props.circular) {
-                // Calculate proper modulo result since remainder operator doesn't behave in the
-                // same way for negative numbers
-                this._activeDescendant = (this._activeDescendant % numDescendants + numDescendants) % numDescendants;
-            } else {
-                this._activeDescendant = Math.max(Math.min(this._activeDescendant, numDescendants - 1), 0);
-            }
-
-            descendant = this._descendants[this._activeDescendant];
-
-            descendant.setAttribute('tabIndex', 0);
-            descendant.focus();
-        },
-
-        /**
-         * Refreshes the descendants list by executing the CSS selector again and resets the descendants tabIndex.
-         *
-         * @protected
-         * @method _refresh
-         */
-        _refresh: function _refresh() {
-            var domNode = ReactDOM.findDOMNode(this);
-
-            if (domNode) {
-                var descendants = domNode.querySelectorAll(this.props.descendants);
-
-                var priorityDescendants = [];
-
-                this._descendants = [];
-
-                Array.prototype.slice.call(descendants).forEach(function (item) {
-                    var dataTabIndex = item.getAttribute('data-tabindex');
-
-                    if (dataTabIndex) {
-                        priorityDescendants.push(item);
-                    } else {
-                        this._descendants.push(item);
-                    }
-                }.bind(this));
-
-                priorityDescendants = priorityDescendants.sort(function (a, b) {
-                    return AlloyEditor.Lang.toInt(a.getAttribute('data-tabindex')) > AlloyEditor.Lang.toInt(b.getAttribute('data-tabindex'));
-                });
-
-                this._descendants = priorityDescendants.concat(this._descendants);
-
-                this._activeDescendant = 0;
-
-                this._descendants.some(function (item, index) {
-                    if (item.getAttribute('tabindex') === '0') {
-                        this._activeDescendant = index;
-                        this.focus();
-
-                        return true;
-                    }
-                }.bind(this));
-            }
-        }
+        keys: React.PropTypes.object.isRequired
     };
 
     AlloyEditor.WidgetFocusManager = WidgetFocusManager;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -6684,128 +7052,157 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class WidgetInteractionPoint
      */
 
-    var WidgetInteractionPoint = {
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The provided editor event.
-             *
-             * @property {SyntheticEvent} editorEvent
-             */
-            editorEvent: React.PropTypes.object
-        },
+    var WidgetInteractionPoint = function WidgetInteractionPoint(superclass) {
+        return function (_superclass) {
+            _inherits(_class, _superclass);
 
+            function _class() {
+                _classCallCheck(this, _class);
+
+                return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
+            }
+
+            _createClass(_class, [{
+                key: 'getInteractionPoint',
+
+                /**
+                 * Returns the position, in page coordinates, according to which a widget should appear.
+                 * Depending on the direction of the selection, the wdiget may appear above of or on bottom of the selection.
+                 *
+                 * It depends on the props editorEvent to analyze the following user-interaction parameters:
+                 * - {Object} selectionData The data about the selection in the editor as returned from
+                 * {{#crossLink "CKEDITOR.plugins.ae_selectionregion/getSelectionData:method"}}{{/crossLink}}
+                 * - {Number} pos Contains the coordinates of the position, considered as most appropriate.
+                 * This may be the point where the user released the mouse, or just the beginning or the end of
+                 * the selection.
+                 *
+                 * @method getInteractionPoint
+                 * @return {Object} An Object which contains the following properties:
+                 * direction, x, y, where x and y are in page coordinates and direction can be one of these:
+                 * CKEDITOR.SELECTION_BOTTOM_TO_TOP or CKEDITOR.SELECTION_TOP_TO_BOTTOM
+                 */
+                value: function getInteractionPoint() {
+                    var eventPayload = this.props.editorEvent ? this.props.editorEvent.data : null;
+
+                    if (!eventPayload) {
+                        return;
+                    }
+
+                    var selectionData = eventPayload.selectionData;
+
+                    var pos = {
+                        x: eventPayload.nativeEvent.pageX,
+                        y: selectionData.region.top
+                    };
+
+                    var direction = selectionData.region.direction;
+
+                    var endRect = selectionData.region.endRect;
+                    var startRect = selectionData.region.startRect;
+
+                    if (endRect && startRect && startRect.top === endRect.top) {
+                        direction = CKEDITOR.SELECTION_BOTTOM_TO_TOP;
+                    }
+
+                    var x;
+                    var y;
+
+                    // If we have the point where user released the mouse, show Toolbar at this point
+                    // otherwise show it on the middle of the selection.
+                    if (pos.x && pos.y) {
+                        x = this._getXPoint(selectionData, pos.x);
+
+                        if (direction === CKEDITOR.SELECTION_BOTTOM_TO_TOP) {
+                            y = Math.min(pos.y, selectionData.region.top);
+                        } else {
+                            y = Math.max(pos.y, selectionData.region.bottom);
+                        }
+                    } else {
+                        x = selectionData.region.left + selectionData.region.width / 2;
+
+                        if (direction === CKEDITOR.SELECTION_TOP_TO_BOTTOM) {
+                            y = selectionData.region.bottom;
+                        } else {
+                            y = selectionData.region.top;
+                        }
+                    }
+
+                    return {
+                        direction: direction,
+                        x: x,
+                        y: y
+                    };
+                }
+
+                /**
+                 * Returns the position of the Widget.
+                 *
+                 * @protected
+                 * @method _getXPoint
+                 * @param {Object} selectionData The data about the selection in the editor as
+                 * returned from {{#crossLink "CKEDITOR.plugins.ae_selectionregion/getSelectionData:method"}}{{/crossLink}}
+                 * @param {Object} eventX The X coordinate received from the native event (mouseup).
+                 * @return {Number} The calculated X point in page coordinates.
+                 */
+
+            }, {
+                key: '_getXPoint',
+                value: function _getXPoint(selectionData, eventX) {
+                    var region = selectionData.region;
+
+                    var left = region.startRect ? region.startRect.left : region.left;
+                    var right = region.endRect ? region.endRect.right : region.right;
+
+                    var x;
+
+                    if (left < eventX && right > eventX) {
+                        x = eventX;
+                    } else {
+                        var leftDist = Math.abs(left - eventX);
+                        var rightDist = Math.abs(right - eventX);
+
+                        if (leftDist < rightDist) {
+                            // user raised the mouse on left on the selection
+                            x = left;
+                        } else {
+                            x = right;
+                        }
+                    }
+
+                    return x;
+                }
+            }]);
+
+            return _class;
+        }(superclass);
+    };
+
+    // Allows validating props being passed to the component.
+    WidgetInteractionPoint.propTypes = {
         /**
-         * Returns the position, in page coordinates, according to which a widget should appear.
-         * Depending on the direction of the selection, the wdiget may appear above of or on bottom of the selection.
+         * The provided editor event.
          *
-         * It depends on the props editorEvent to analyze the following user-interaction parameters:
-         * - {Object} selectionData The data about the selection in the editor as returned from
-         * {{#crossLink "CKEDITOR.plugins.ae_selectionregion/getSelectionData:method"}}{{/crossLink}}
-         * - {Number} pos Contains the coordinates of the position, considered as most appropriate.
-         * This may be the point where the user released the mouse, or just the beginning or the end of
-         * the selection.
-         *
-         * @method getInteractionPoint
-         * @return {Object} An Object which contains the following properties:
-         * direction, x, y, where x and y are in page coordinates and direction can be one of these:
-         * CKEDITOR.SELECTION_BOTTOM_TO_TOP or CKEDITOR.SELECTION_TOP_TO_BOTTOM
+         * @property {SyntheticEvent} editorEvent
          */
-        getInteractionPoint: function getInteractionPoint() {
-            var eventPayload = this.props.editorEvent ? this.props.editorEvent.data : null;
-
-            if (!eventPayload) {
-                return;
-            }
-
-            var selectionData = eventPayload.selectionData;
-
-            var pos = {
-                x: eventPayload.nativeEvent.pageX,
-                y: selectionData.region.top
-            };
-
-            var direction = selectionData.region.direction;
-
-            var endRect = selectionData.region.endRect;
-            var startRect = selectionData.region.startRect;
-
-            if (endRect && startRect && startRect.top === endRect.top) {
-                direction = CKEDITOR.SELECTION_BOTTOM_TO_TOP;
-            }
-
-            var x;
-            var y;
-
-            // If we have the point where user released the mouse, show Toolbar at this point
-            // otherwise show it on the middle of the selection.
-            if (pos.x && pos.y) {
-                x = this._getXPoint(selectionData, pos.x);
-
-                if (direction === CKEDITOR.SELECTION_BOTTOM_TO_TOP) {
-                    y = Math.min(pos.y, selectionData.region.top);
-                } else {
-                    y = Math.max(pos.y, selectionData.region.bottom);
-                }
-            } else {
-                x = selectionData.region.left + selectionData.region.width / 2;
-
-                if (direction === CKEDITOR.SELECTION_TOP_TO_BOTTOM) {
-                    y = selectionData.region.bottom;
-                } else {
-                    y = selectionData.region.top;
-                }
-            }
-
-            return {
-                direction: direction,
-                x: x,
-                y: y
-            };
-        },
-
-        /**
-         * Returns the position of the Widget.
-         *
-         * @protected
-         * @method _getXPoint
-         * @param {Object} selectionData The data about the selection in the editor as
-         * returned from {{#crossLink "CKEDITOR.plugins.ae_selectionregion/getSelectionData:method"}}{{/crossLink}}
-         * @param {Object} eventX The X coordinate received from the native event (mouseup).
-         * @return {Number} The calculated X point in page coordinates.
-         */
-        _getXPoint: function _getXPoint(selectionData, eventX) {
-            var region = selectionData.region;
-
-            var left = region.startRect ? region.startRect.left : region.left;
-            var right = region.endRect ? region.endRect.right : region.right;
-
-            var x;
-
-            if (left < eventX && right > eventX) {
-                x = eventX;
-            } else {
-                var leftDist = Math.abs(left - eventX);
-                var rightDist = Math.abs(right - eventX);
-
-                if (leftDist < rightDist) {
-                    // user raised the mouse on left on the selection
-                    x = left;
-                } else {
-                    x = right;
-                }
-            }
-
-            return x;
-        }
+        editorEvent: React.PropTypes.object
     };
 
     AlloyEditor.WidgetInteractionPoint = WidgetInteractionPoint;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * Calculates the position where an Widget should be displayed based on the point
@@ -6816,263 +7213,311 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class WidgetPosition
      */
 
-    var WidgetPosition = {
-        mixins: [AlloyEditor.WidgetInteractionPoint],
+    var WidgetPosition = function (_mix$with) {
+        _inherits(WidgetPosition, _mix$with);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
+        function WidgetPosition() {
+            _classCallCheck(this, WidgetPosition);
+
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(WidgetPosition).apply(this, arguments));
+        }
+
+        _createClass(WidgetPosition, [{
+            key: 'getDefaultProps',
+
+            // Allows validating props being passed to the component.
             /**
-             * Should the widget to be restricted to the viewport, or not.
+             * Lifecycle. Returns the default values of the properties used in the widget.
              *
-             * @property {Boolean} constrainToViewport
-             * @default true
+             * @method getDefaultProps
              */
-            constrainToViewport: React.PropTypes.bool,
+            value: function getDefaultProps() {
+                return {
+                    gutter: {
+                        left: 0,
+                        top: 10
+                    },
+                    constrainToViewport: true
+                };
+            }
 
             /**
-             * The gutter (vertical and horizontal) between the interaction point and where the widget
-             * should be rendered.
+             * Cancels an scheduled animation frame.
              *
-             * @property {Object} gutter
-             * @default {
-             *     left: 0,
-             *     top: 10
-             * }
+             * @method cancelAnimation
              */
-            gutter: React.PropTypes.object
-        },
 
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                gutter: {
-                    left: 0,
-                    top: 10
-                },
-                constrainToViewport: true
-            };
-        },
-
-        /**
-         * Cancels an scheduled animation frame.
-         *
-         * @method cancelAnimation
-         */
-        cancelAnimation: function cancelAnimation() {
-            if (window.cancelAnimationFrame) {
-                window.cancelAnimationFrame(this._animationFrameId);
-            }
-        },
-
-        /**
-         * Returns an object which contains the position of the element in page coordinates,
-         * restricted to fit to given viewport.
-         *
-         * @method getConstrainedPosition
-         * @param {Object} attrs The following properties, provided as numbers:
-         * - height
-         * - left
-         * - top
-         * - width
-         * @param {Object} viewPaneSize Optional. If not provided, the current viewport will be used. Should contain at least these properties:
-         * - width
-         * @return {Object} An object with `x` and `y` properties, which represent the constrained position of the
-         * element.
-         */
-        getConstrainedPosition: function getConstrainedPosition(attrs, viewPaneSize) {
-            viewPaneSize = viewPaneSize || new CKEDITOR.dom.window(window).getViewPaneSize();
-
-            var x = attrs.left;
-            var y = attrs.top;
-
-            if (attrs.left + attrs.width > viewPaneSize.width) {
-                x -= attrs.left + attrs.width - viewPaneSize.width;
-            }
-
-            if (y < 0) {
-                y = 0;
-            }
-
-            return {
-                x: x,
-                y: y
-            };
-        },
-
-        /**
-         * Returns the position of the Widget taking in consideration the
-         * {{#crossLink "WidgetPosition/gutter:attribute"}}{{/crossLink}} attribute.
-         *
-         * @protected
-         * @method  getWidgetXYPoint
-         * @param {Number} left The left offset in page coordinates where Toolbar should be shown.
-         * @param {Number} top The top offset in page coordinates where Toolbar should be shown.
-         * @param {Number} direction The direction of the selection. May be one of the following:
-         * CKEDITOR.SELECTION_BOTTOM_TO_TOP or CKEDITOR.SELECTION_TOP_TO_BOTTOM
-         * @return {Array} An Array with left and top offsets in page coordinates.
-         */
-        getWidgetXYPoint: function getWidgetXYPoint(left, top, direction) {
-            var domNode = ReactDOM.findDOMNode(this);
-
-            var gutter = this.props.gutter;
-
-            if (direction === CKEDITOR.SELECTION_TOP_TO_BOTTOM || direction === CKEDITOR.SELECTION_BOTTOM_TO_TOP) {
-                left = left - gutter.left - domNode.offsetWidth / 2;
-
-                top = direction === CKEDITOR.SELECTION_TOP_TO_BOTTOM ? top + gutter.top : top - domNode.offsetHeight - gutter.top;
-            } else if (direction === CKEDITOR.SELECTION_LEFT_TO_RIGHT || direction === CKEDITOR.SELECTION_RIGHT_TO_LEFT) {
-
-                left = direction === CKEDITOR.SELECTION_LEFT_TO_RIGHT ? left + gutter.left + domNode.offsetHeight / 2 : left - 3 * domNode.offsetHeight / 2 - gutter.left;
-
-                top = top - gutter.top - domNode.offsetHeight / 2;
-            }
-
-            if (left < 0) {
-                left = 0;
-            }
-
-            if (top < 0) {
-                top = 0;
-            }
-
-            return [left, top];
-        },
-
-        /**
-         * Returns true if the widget is visible, false otherwise
-         *
-         * @method isVisible
-         * @return {Boolean} True if the widget is visible, false otherwise
-         */
-        isVisible: function isVisible() {
-            var domNode = ReactDOM.findDOMNode(this);
-
-            if (domNode) {
-                var domElement = new CKEDITOR.dom.element(domNode);
-
-                return domElement.hasClass('alloy-editor-visible');
-            }
-
-            return false;
-        },
-
-        /**
-         * Moves a widget from a starting point to a destination point.
-         *
-         * @method moveToPoint
-         * @param  {Object} startPoint The starting point for the movement.
-         * @param  {Object} endPoint The destination point for the movement.
-         */
-        moveToPoint: function moveToPoint(startPoint, endPoint) {
-            var domElement = new CKEDITOR.dom.element(ReactDOM.findDOMNode(this));
-
-            domElement.setStyles({
-                left: startPoint[0] + 'px',
-                top: startPoint[1] + 'px',
-                opacity: 0
-            });
-
-            domElement.removeClass('alloy-editor-invisible');
-
-            this._animate(function () {
-                domElement.addClass('ae-toolbar-transition');
-                domElement.addClass('alloy-editor-visible');
-                domElement.setStyles({
-                    left: endPoint[0] + 'px',
-                    top: endPoint[1] + 'px',
-                    opacity: 1
-                });
-            });
-        },
-
-        /**
-         * Shows the widget with the default animation transition.
-         *
-         * @method show
-         */
-        show: function show() {
-            var domNode = ReactDOM.findDOMNode(this);
-
-            if (!this.isVisible() && domNode) {
-                var interactionPoint = this.getInteractionPoint();
-
-                if (interactionPoint) {
-                    var domElement = new CKEDITOR.dom.element(domNode);
-
-                    var finalX, finalY, initialX, initialY;
-
-                    finalX = initialX = parseFloat(domElement.getStyle('left'));
-                    finalY = initialY = parseFloat(domElement.getStyle('top'));
-
-                    if (this.props.constrainToViewport) {
-                        var res = this.getConstrainedPosition({
-                            height: parseFloat(domNode.offsetHeight),
-                            left: finalX,
-                            top: finalY,
-                            width: parseFloat(domNode.offsetWidth)
-                        });
-
-                        finalX = res.x;
-                        finalY = res.y;
-                    }
-
-                    if (interactionPoint.direction === CKEDITOR.SELECTION_TOP_TO_BOTTOM) {
-                        initialY = this.props.selectionData.region.bottom;
-                    } else {
-                        initialY = this.props.selectionData.region.top;
-                    }
-
-                    this.moveToPoint([initialX, initialY], [finalX, finalY]);
+        }, {
+            key: 'cancelAnimation',
+            value: function cancelAnimation() {
+                if (window.cancelAnimationFrame) {
+                    window.cancelAnimationFrame(this._animationFrameId);
                 }
             }
-        },
 
-        /**
-         * Updates the widget position based on the current interaction point.
-         *
-         * @method updatePosition
-         */
-        updatePosition: function updatePosition() {
-            var interactionPoint = this.getInteractionPoint();
+            /**
+             * Returns an object which contains the position of the element in page coordinates,
+             * restricted to fit to given viewport.
+             *
+             * @method getConstrainedPosition
+             * @param {Object} attrs The following properties, provided as numbers:
+             * - height
+             * - left
+             * - top
+             * - width
+             * @param {Object} viewPaneSize Optional. If not provided, the current viewport will be used. Should contain at least these properties:
+             * - width
+             * @return {Object} An object with `x` and `y` properties, which represent the constrained position of the
+             * element.
+             */
 
-            var domNode = ReactDOM.findDOMNode(this);
+        }, {
+            key: 'getConstrainedPosition',
+            value: function getConstrainedPosition(attrs, viewPaneSize) {
+                viewPaneSize = viewPaneSize || new CKEDITOR.dom.window(window).getViewPaneSize();
 
-            if (interactionPoint && domNode) {
-                var xy = this.getWidgetXYPoint(interactionPoint.x, interactionPoint.y, interactionPoint.direction);
+                var x = attrs.left;
+                var y = attrs.top;
 
-                new CKEDITOR.dom.element(domNode).setStyles({
-                    left: xy[0] + 'px',
-                    top: xy[1] + 'px'
+                if (attrs.left + attrs.width > viewPaneSize.width) {
+                    x -= attrs.left + attrs.width - viewPaneSize.width;
+                }
+
+                if (y < 0) {
+                    y = 0;
+                }
+
+                return {
+                    x: x,
+                    y: y
+                };
+            }
+
+            /**
+             * Returns the position of the Widget taking in consideration the
+             * {{#crossLink "WidgetPosition/gutter:attribute"}}{{/crossLink}} attribute.
+             *
+             * @protected
+             * @method  getWidgetXYPoint
+             * @param {Number} left The left offset in page coordinates where Toolbar should be shown.
+             * @param {Number} top The top offset in page coordinates where Toolbar should be shown.
+             * @param {Number} direction The direction of the selection. May be one of the following:
+             * CKEDITOR.SELECTION_BOTTOM_TO_TOP or CKEDITOR.SELECTION_TOP_TO_BOTTOM
+             * @return {Array} An Array with left and top offsets in page coordinates.
+             */
+
+        }, {
+            key: 'getWidgetXYPoint',
+            value: function getWidgetXYPoint(left, top, direction) {
+                var domNode = ReactDOM.findDOMNode(this);
+
+                var gutter = this.props.gutter;
+
+                if (direction === CKEDITOR.SELECTION_TOP_TO_BOTTOM || direction === CKEDITOR.SELECTION_BOTTOM_TO_TOP) {
+                    left = left - gutter.left - domNode.offsetWidth / 2;
+
+                    top = direction === CKEDITOR.SELECTION_TOP_TO_BOTTOM ? top + gutter.top : top - domNode.offsetHeight - gutter.top;
+                } else if (direction === CKEDITOR.SELECTION_LEFT_TO_RIGHT || direction === CKEDITOR.SELECTION_RIGHT_TO_LEFT) {
+
+                    left = direction === CKEDITOR.SELECTION_LEFT_TO_RIGHT ? left + gutter.left + domNode.offsetHeight / 2 : left - 3 * domNode.offsetHeight / 2 - gutter.left;
+
+                    top = top - gutter.top - domNode.offsetHeight / 2;
+                }
+
+                if (left < 0) {
+                    left = 0;
+                }
+
+                if (top < 0) {
+                    top = 0;
+                }
+
+                return [left, top];
+            }
+
+            /**
+             * Returns true if the widget is visible, false otherwise
+             *
+             * @method isVisible
+             * @return {Boolean} True if the widget is visible, false otherwise
+             */
+
+        }, {
+            key: 'isVisible',
+            value: function isVisible() {
+                var domNode = ReactDOM.findDOMNode(this);
+
+                if (domNode) {
+                    var domElement = new CKEDITOR.dom.element(domNode);
+
+                    return domElement.hasClass('alloy-editor-visible');
+                }
+
+                return false;
+            }
+
+            /**
+             * Moves a widget from a starting point to a destination point.
+             *
+             * @method moveToPoint
+             * @param  {Object} startPoint The starting point for the movement.
+             * @param  {Object} endPoint The destination point for the movement.
+             */
+
+        }, {
+            key: 'moveToPoint',
+            value: function moveToPoint(startPoint, endPoint) {
+                var domElement = new CKEDITOR.dom.element(ReactDOM.findDOMNode(this));
+
+                domElement.setStyles({
+                    left: startPoint[0] + 'px',
+                    top: startPoint[1] + 'px',
+                    opacity: 0
+                });
+
+                domElement.removeClass('alloy-editor-invisible');
+
+                this._animate(function () {
+                    domElement.addClass('ae-toolbar-transition');
+                    domElement.addClass('alloy-editor-visible');
+                    domElement.setStyles({
+                        left: endPoint[0] + 'px',
+                        top: endPoint[1] + 'px',
+                        opacity: 1
+                    });
                 });
             }
-        },
+
+            /**
+             * Shows the widget with the default animation transition.
+             *
+             * @method show
+             */
+
+        }, {
+            key: 'show',
+            value: function show() {
+                var domNode = ReactDOM.findDOMNode(this);
+
+                if (!this.isVisible() && domNode) {
+                    var interactionPoint = this.getInteractionPoint();
+
+                    if (interactionPoint) {
+                        var domElement = new CKEDITOR.dom.element(domNode);
+
+                        var finalX, finalY, initialX, initialY;
+
+                        finalX = initialX = parseFloat(domElement.getStyle('left'));
+                        finalY = initialY = parseFloat(domElement.getStyle('top'));
+
+                        if (this.props.constrainToViewport) {
+                            var res = this.getConstrainedPosition({
+                                height: parseFloat(domNode.offsetHeight),
+                                left: finalX,
+                                top: finalY,
+                                width: parseFloat(domNode.offsetWidth)
+                            });
+
+                            finalX = res.x;
+                            finalY = res.y;
+                        }
+
+                        if (interactionPoint.direction === CKEDITOR.SELECTION_TOP_TO_BOTTOM) {
+                            initialY = this.props.selectionData.region.bottom;
+                        } else {
+                            initialY = this.props.selectionData.region.top;
+                        }
+
+                        this.moveToPoint([initialX, initialY], [finalX, finalY]);
+                    }
+                }
+            }
+
+            /**
+             * Updates the widget position based on the current interaction point.
+             *
+             * @method updatePosition
+             */
+
+        }, {
+            key: 'updatePosition',
+            value: function updatePosition() {
+                var interactionPoint = this.getInteractionPoint();
+
+                var domNode = ReactDOM.findDOMNode(this);
+
+                if (interactionPoint && domNode) {
+                    var xy = this.getWidgetXYPoint(interactionPoint.x, interactionPoint.y, interactionPoint.direction);
+
+                    new CKEDITOR.dom.element(domNode).setStyles({
+                        left: xy[0] + 'px',
+                        top: xy[1] + 'px'
+                    });
+                }
+            }
+
+            /**
+             * Requests an animation frame, if possible, to simulate an animation.
+             *
+             * @protected
+             * @method _animate
+             * @param {Function} callback The function to be executed on the scheduled frame.
+             */
+
+        }, {
+            key: '_animate',
+            value: function _animate(callback) {
+                if (window.requestAnimationFrame) {
+                    this._animationFrameId = window.requestAnimationFrame(callback);
+                } else {
+                    callback();
+                }
+            }
+        }]);
+
+        return WidgetPosition;
+    }(mix(React.Component).with(AlloyEditor.WidgetInteractionPoint));
+
+    ;
+
+    WidgetPosition.propTypes = {
+        /**
+         * Should the widget to be restricted to the viewport, or not.
+         *
+         * @property {Boolean} constrainToViewport
+         * @default true
+         */
+        constrainToViewport: React.PropTypes.bool,
 
         /**
-         * Requests an animation frame, if possible, to simulate an animation.
+         * The gutter (vertical and horizontal) between the interaction point and where the widget
+         * should be rendered.
          *
-         * @protected
-         * @method _animate
-         * @param {Function} callback The function to be executed on the scheduled frame.
+         * @property {Object} gutter
+         * @default {
+         *     left: 0,
+         *     top: 10
+         * }
          */
-        _animate: function _animate(callback) {
-            if (window.requestAnimationFrame) {
-                this._animationFrameId = window.requestAnimationFrame(callback);
-            } else {
-                callback();
-            }
-        }
+        gutter: React.PropTypes.object
     };
 
     AlloyEditor.WidgetPosition = WidgetPosition;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonBold class provides functionality for styling an selection with strong (bold) style.
@@ -7085,87 +7530,110 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonBold
      */
 
-    var ButtonBold = React.createClass({
-        displayName: 'ButtonBold',
+    var ButtonBold = function (_mix$with) {
+        _inherits(ButtonBold, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonKeystroke],
+        function ButtonBold() {
+            _classCallCheck(this, ButtonBold);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default bold
-             */
-            key: 'bold'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'bold',
-                keystroke: {
-                    fn: 'execCommand',
-                    keys: CKEDITOR.CTRL + 66 /*B*/
-                },
-                style: {
-                    element: 'strong'
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.bold, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-bold', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.bold },
-                React.createElement('span', { className: 'ae-icon-bold' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonBold).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonBold, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'bold',
+                    keystroke: {
+                        fn: 'execCommand',
+                        keys: CKEDITOR.CTRL + 66 /*B*/
+                    },
+                    style: {
+                        element: 'strong'
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.bold, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-bold', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.bold },
+                    React.createElement('span', { className: 'ae-icon-bold' })
+                );
+            }
+        }]);
+
+        return ButtonBold;
+    }(mix(React.Component).with(AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonKeystroke));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonBold.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonBold.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default bold
+         */
+        key: 'bold'
+    };
 
     AlloyEditor.Buttons[ButtonBold.key] = AlloyEditor.ButtonBold = ButtonBold;
 })();
-'use strict';
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -7176,189 +7644,230 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonCameraImage
      */
 
-    var ButtonCameraImage = React.createClass({
-        displayName: 'ButtonCameraImage',
+    var ButtonCameraImage = function (_React$Component) {
+        _inherits(ButtonCameraImage, _React$Component);
 
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default cameraImage
-             */
-            key: 'cameraImage'
-        },
+        function ButtonCameraImage() {
+            _classCallCheck(this, ButtonCameraImage);
 
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                videoWidth: 320
-            };
-        },
-
-        /**
-         * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
-         *
-         * Focuses the take photo button.
-         *
-         * @method componentDidMount
-         */
-        componentDidMount: function componentDidMount() {
-            ReactDOM.findDOMNode(this.refs.buttonTakePhoto).focus();
-        },
-
-        /**
-         * Lifecycle. Invoked immediately before a component is unmounted from the DOM.
-         *
-         * @method componentWillUnmount
-         */
-        componentWillUnmount: function componentWillUnmount() {
-            if (this._stream) {
-                if (this._stream.stop) {
-                    this._stream.stop();
-                } else if (this._stream.getVideoTracks) {
-                    this._stream.getVideoTracks().forEach(function (track) {
-                        track.stop();
-                    });
-                }
-                this._stream = null;
-            }
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
-            getUserMedia.call(navigator, {
-                video: true,
-                audio: false
-            }, this._handleStreamSuccess, this._handleStreamError);
-
-            return React.createElement(
-                'div',
-                { className: 'ae-camera' },
-                React.createElement(
-                    'video',
-                    { ref: 'videoContainer' },
-                    'Video stream not available.'
-                ),
-                React.createElement(
-                    'button',
-                    { className: 'ae-camera-shoot', onClick: this.takePhoto, ref: 'buttonTakePhoto' },
-                    'Take photo'
-                ),
-                React.createElement('canvas', { className: 'ae-camera-canvas', ref: 'canvasContainer' })
-            );
-        },
-
-        /**
-         * Takes photo from the video stream and inserts in into editor's content.
-         *
-         * @method takePhoto
-         */
-        takePhoto: function takePhoto() {
-            var videoEl = ReactDOM.findDOMNode(this.refs.videoContainer);
-            var canvasEl = ReactDOM.findDOMNode(this.refs.canvasContainer);
-
-            var context = canvasEl.getContext('2d');
-
-            var height = this._videoHeight;
-            var width = this.props.videoWidth;
-
-            if (width && height) {
-                canvasEl.width = width;
-                canvasEl.height = height;
-
-                context.drawImage(videoEl, 0, 0, width, height);
-
-                var imgURL = canvasEl.toDataURL('image/png');
-
-                var el = CKEDITOR.dom.element.createFromHtml('<img src="' + imgURL + '">');
-
-                var editor = this.props.editor.get('nativeEditor');
-
-                editor.insertElement(el);
-
-                this.props.cancelExclusive();
-
-                editor.fire('actionPerformed', this);
-
-                editor.fire('imageCameraAdd', el);
-            }
-        },
-
-        /**
-         * Displays error message in case of video stream capturing failure.
-         *
-         * @protected
-         * @method _handleStreamError
-         * @param {Event} error The fired event in case of error.
-         */
-        _handleStreamError: function _handleStreamError(error) {
-            window.alert('An error occurred! ' + error);
-        },
-
-        /**
-         * Starts streaming video in the video element and sets width/height to the video
-         * and canvas elements.
-         *
-         * @method _handleStreamSuccess
-         * @param {Object} stream The video stream
-         */
-        _handleStreamSuccess: function _handleStreamSuccess(stream) {
-            var videoEl = ReactDOM.findDOMNode(this.refs.videoContainer);
-            var canvasEl = ReactDOM.findDOMNode(this.refs.canvasContainer);
-
-            videoEl.addEventListener('canplay', function (event) {
-                var height = videoEl.videoHeight / (videoEl.videoWidth / this.props.videoWidth);
-
-                if (isNaN(height)) {
-                    height = this.props.videoWidth / (4 / 3);
-                }
-
-                videoEl.setAttribute('width', this.props.videoWidth);
-                videoEl.setAttribute('height', height);
-                canvasEl.setAttribute('width', this.props.videoWidth);
-                canvasEl.setAttribute('height', height);
-
-                this._videoHeight = height;
-            }.bind(this), false);
-
-            this._stream = stream;
-
-            if (navigator.mozGetUserMedia) {
-                videoEl.mozSrcObject = stream;
-            } else {
-                videoEl.src = (window.URL || window.webkitURL).createObjectURL(stream);
-            }
-
-            videoEl.play();
-
-            ReactDOM.findDOMNode(this.refs.buttonTakePhoto).disabled = false;
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonCameraImage).apply(this, arguments));
         }
 
+        _createClass(ButtonCameraImage, [{
+            key: "getDefaultProps",
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             */
+            value: function getDefaultProps() {
+                return {
+                    videoWidth: 320
+                };
+            }
+
+            /**
+             * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
+             *
+             * Focuses the take photo button.
+             *
+             * @method componentDidMount
+             */
+
+        }, {
+            key: "componentDidMount",
+            value: function componentDidMount() {
+                ReactDOM.findDOMNode(this.refs.buttonTakePhoto).focus();
+            }
+
+            /**
+             * Lifecycle. Invoked immediately before a component is unmounted from the DOM.
+             *
+             * @method componentWillUnmount
+             */
+
+        }, {
+            key: "componentWillUnmount",
+            value: function componentWillUnmount() {
+                if (this._stream) {
+                    if (this._stream.stop) {
+                        this._stream.stop();
+                    } else if (this._stream.getVideoTracks) {
+                        this._stream.getVideoTracks().forEach(function (track) {
+                            track.stop();
+                        });
+                    }
+                    this._stream = null;
+                }
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: "render",
+            value: function render() {
+                var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+                getUserMedia.call(navigator, {
+                    video: true,
+                    audio: false
+                }, this._handleStreamSuccess, this._handleStreamError);
+
+                return React.createElement(
+                    "div",
+                    { className: "ae-camera" },
+                    React.createElement(
+                        "video",
+                        { ref: "videoContainer" },
+                        "Video stream not available."
+                    ),
+                    React.createElement(
+                        "button",
+                        { className: "ae-camera-shoot", onClick: this.takePhoto, ref: "buttonTakePhoto" },
+                        "Take photo"
+                    ),
+                    React.createElement("canvas", { className: "ae-camera-canvas", ref: "canvasContainer" })
+                );
+            }
+
+            /**
+             * Takes photo from the video stream and inserts in into editor's content.
+             *
+             * @method takePhoto
+             */
+
+        }, {
+            key: "takePhoto",
+            value: function takePhoto() {
+                var videoEl = ReactDOM.findDOMNode(this.refs.videoContainer);
+                var canvasEl = ReactDOM.findDOMNode(this.refs.canvasContainer);
+
+                var context = canvasEl.getContext('2d');
+
+                var height = this._videoHeight;
+                var width = this.props.videoWidth;
+
+                if (width && height) {
+                    canvasEl.width = width;
+                    canvasEl.height = height;
+
+                    context.drawImage(videoEl, 0, 0, width, height);
+
+                    var imgURL = canvasEl.toDataURL('image/png');
+
+                    var el = CKEDITOR.dom.element.createFromHtml('<img src="' + imgURL + '">');
+
+                    var editor = this.props.editor.get('nativeEditor');
+
+                    editor.insertElement(el);
+
+                    this.props.cancelExclusive();
+
+                    editor.fire('actionPerformed', this);
+
+                    editor.fire('imageCameraAdd', el);
+                }
+            }
+
+            /**
+             * Displays error message in case of video stream capturing failure.
+             *
+             * @protected
+             * @method _handleStreamError
+             * @param {Event} error The fired event in case of error.
+             */
+
+        }, {
+            key: "_handleStreamError",
+            value: function _handleStreamError(error) {
+                window.alert('An error occurred! ' + error);
+            }
+
+            /**
+             * Starts streaming video in the video element and sets width/height to the video
+             * and canvas elements.
+             *
+             * @method _handleStreamSuccess
+             * @param {Object} stream The video stream
+             */
+
+        }, {
+            key: "_handleStreamSuccess",
+            value: function _handleStreamSuccess(stream) {
+                var videoEl = ReactDOM.findDOMNode(this.refs.videoContainer);
+                var canvasEl = ReactDOM.findDOMNode(this.refs.canvasContainer);
+
+                videoEl.addEventListener('canplay', function (event) {
+                    var height = videoEl.videoHeight / (videoEl.videoWidth / this.props.videoWidth);
+
+                    if (isNaN(height)) {
+                        height = this.props.videoWidth / (4 / 3);
+                    }
+
+                    videoEl.setAttribute('width', this.props.videoWidth);
+                    videoEl.setAttribute('height', height);
+                    canvasEl.setAttribute('width', this.props.videoWidth);
+                    canvasEl.setAttribute('height', height);
+
+                    this._videoHeight = height;
+                }.bind(this), false);
+
+                this._stream = stream;
+
+                if (navigator.mozGetUserMedia) {
+                    videoEl.mozSrcObject = stream;
+                } else {
+                    videoEl.src = (window.URL || window.webkitURL).createObjectURL(stream);
+                }
+
+                videoEl.play();
+
+                ReactDOM.findDOMNode(this.refs.buttonTakePhoto).disabled = false;
+            }
+
+            /**
+             * Fired when an image is being taken from the camera and added as an element to the editor.
+             *
+             * @event imageCameraAdd
+             * @param {CKEDITOR.dom.element} el The created img element in editor.
+             */
+
+        }]);
+
+        return ButtonCameraImage;
+    }(React.Component);
+
+    // Lifecycle. Provides static properties to the widget.
+
+
+    ButtonCameraImage.statics = {
         /**
-         * Fired when an image is being taken from the camera and added as an element to the editor.
+         * The name which will be used as an alias of the button in the configuration.
          *
-         * @event imageCameraAdd
-         * @param {CKEDITOR.dom.element} el The created img element in editor.
+         * @static
+         * @property {String} key
+         * @default cameraImage
          */
-    });
+        key: 'cameraImage'
+    };
 
     AlloyEditor.ButtonCameraImage = ButtonCameraImage;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -7372,75 +7881,99 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonCamera
      */
 
-    var ButtonCamera = React.createClass({
-        displayName: 'ButtonCamera',
+    var ButtonCamera = function (_React$Component) {
+        _inherits(ButtonCamera, _React$Component);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
+        function ButtonCamera() {
+            _classCallCheck(this, ButtonCamera);
 
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonCamera).apply(this, arguments));
+        }
+
+        _createClass(ButtonCamera, [{
+            key: 'render',
 
             /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
+             * Lifecycle. Renders the UI of the button.
              *
-             * @property {Number} tabIndex
+             * @method render
+             * @return {Object} The content which should be rendered.
              */
-            tabIndex: React.PropTypes.number
-        },
+            value: function render() {
+                if (this.props.renderExclusive) {
+                    return React.createElement(AlloyEditor.ButtonCameraImage, this.props);
+                } else {
+                    var disabled = !(navigator.getUserMedia || navigator.webkitGetUserMedia && location.protocol === 'https' || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default camera
-             */
-            key: 'camera'
-        },
+                    var label = disabled ? AlloyEditor.Strings.cameraDisabled : AlloyEditor.Strings.camera;
+
+                    return React.createElement(
+                        'button',
+                        { 'aria-label': label, className: 'ae-button', 'data-type': 'button-image-camera', disabled: disabled, onClick: this.props.requestExclusive.bind(ButtonCamera.key), tabIndex: this.props.tabIndex, title: label },
+                        React.createElement('span', { className: 'ae-icon-camera' })
+                    );
+                }
+            }
+        }]);
+
+        return ButtonCamera;
+    }(React.Component);
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonCamera.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
 
         /**
-         * Lifecycle. Renders the UI of the button.
+         * The label that should be used for accessibility purposes.
          *
-         * @method render
-         * @return {Object} The content which should be rendered.
+         * @property {String} label
          */
-        render: function render() {
-            if (this.props.renderExclusive) {
-                return React.createElement(AlloyEditor.ButtonCameraImage, this.props);
-            } else {
-                var disabled = !(navigator.getUserMedia || navigator.webkitGetUserMedia && location.protocol === 'https' || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+        label: React.PropTypes.string,
 
-                var label = disabled ? AlloyEditor.Strings.cameraDisabled : AlloyEditor.Strings.camera;
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
 
-                return React.createElement(
-                    'button',
-                    { 'aria-label': label, className: 'ae-button', 'data-type': 'button-image-camera', disabled: disabled, onClick: this.props.requestExclusive.bind(ButtonCamera.key), tabIndex: this.props.tabIndex, title: label },
-                    React.createElement('span', { className: 'ae-icon-camera' })
-                );
-            }
-        }
-    });
+    // Lifecycle. Provides static properties to the widget.
+    ButtonCamera.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default camera
+         */
+        key: 'camera'
+    };
 
     AlloyEditor.Buttons[ButtonCamera.key] = AlloyEditor.ButtonCamera = ButtonCamera;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonCode class provides wraps a selection in `pre` element.
@@ -7452,85 +7985,110 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonCode
      */
 
-    var ButtonCode = React.createClass({
-        displayName: 'ButtonCode',
+    var ButtonCode = function (_mix$with) {
+        _inherits(ButtonCode, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonActionStyle],
+        function ButtonCode() {
+            _classCallCheck(this, ButtonCode);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default code
-             */
-            key: 'code'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                style: {
-                    element: 'pre'
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.code, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-code', onClick: this.applyStyle, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.code },
-                React.createElement('span', { className: 'ae-icon-code' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonCode).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonCode, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    style: {
+                        element: 'pre'
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.code, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-code', onClick: this.applyStyle, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.code },
+                    React.createElement('span', { className: 'ae-icon-code' })
+                );
+            }
+        }]);
+
+        return ButtonCode;
+    }(mix(React.Component).with(AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonActionStyle));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonCode.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonCode.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default code
+         */
+        key: 'code'
+    };
 
     AlloyEditor.Buttons[ButtonCode.key] = AlloyEditor.ButtonCode = ButtonCode;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonCommandListItem class is a UI class that renders a ButtonCommand that can be used inside
@@ -7541,76 +8099,99 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonCommandListItem
      */
 
-    var ButtonCommandListItem = React.createClass({
-        displayName: 'ButtonCommandListItem',
+    var ButtonCommandListItem = function (_mix$with) {
+        _inherits(ButtonCommandListItem, _mix$with);
 
-        mixins: [AlloyEditor.ButtonCommand],
+        function ButtonCommandListItem() {
+            _classCallCheck(this, ButtonCommandListItem);
 
-        propTypes: {
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonCommandListItem).apply(this, arguments));
+        }
+
+        _createClass(ButtonCommandListItem, [{
+            key: 'render',
+
             /**
-             * The command label or description to render in the list entry.
+             * Lifecycle. Renders the UI of the button.
              *
-             * @property {String} description
+             * @method render
+             * @return {Object} The content which should be rendered.
              */
-            description: React.PropTypes.string.isRequired,
-
-            /**
-             * The command icon to render in the list entry.
-             *
-             * @property {String} icon
-             */
-            icon: React.PropTypes.string
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default buttonCommandListItem
-             */
-            key: 'buttonCommandListItem'
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            return React.createElement(
-                'button',
-                { 'aria-label': this.props.description, className: this._getClassName(), onClick: this.execCommand, tabIndex: this.props.tabIndex },
-                this.props.description
-            );
-        },
-
-        /**
-         * Returns the class name of Widget.
-         *
-         * @method _getClassName
-         * @return {String} The class name of the Widget.
-         */
-        _getClassName: function _getClassName() {
-            var className = 'ae-toolbar-element';
-
-            if (this.props.icon) {
-                className += ' ae-icon-' + this.props.icon;
+            value: function render() {
+                return React.createElement(
+                    'button',
+                    { 'aria-label': this.props.description, className: this._getClassName(), onClick: this.execCommand, tabIndex: this.props.tabIndex },
+                    this.props.description
+                );
             }
 
-            return className;
-        }
-    });
+            /**
+             * Returns the class name of Widget.
+             *
+             * @method _getClassName
+             * @return {String} The class name of the Widget.
+             */
+
+        }, {
+            key: '_getClassName',
+            value: function _getClassName() {
+                var className = 'ae-toolbar-element';
+
+                if (this.props.icon) {
+                    className += ' ae-icon-' + this.props.icon;
+                }
+
+                return className;
+            }
+        }]);
+
+        return ButtonCommandListItem;
+    }(mix(React.Component).with(AlloyEditor.ButtonCommand));
+
+    ButtonCommandListItem.propTypes = {
+        /**
+         * The command label or description to render in the list entry.
+         *
+         * @property {String} description
+         */
+        description: React.PropTypes.string.isRequired,
+
+        /**
+         * The command icon to render in the list entry.
+         *
+         * @property {String} icon
+         */
+        icon: React.PropTypes.string
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonCommandListItem.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default buttonCommandListItem
+         */
+        key: 'buttonCommandListItem'
+    };
 
     AlloyEditor.ButtonCommandListItem = ButtonCommandListItem;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonCommandsList class provides functionality for showing a list of commands that can be
@@ -7621,127 +8202,158 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonCommandsList
      */
 
-    var ButtonCommandsList = React.createClass({
-        displayName: 'ButtonCommandsList',
+    var ButtonCommandsList = function (_mix$with) {
+        _inherits(ButtonCommandsList, _mix$with);
 
-        mixins: [AlloyEditor.WidgetFocusManager],
+        function ButtonCommandsList() {
+            _classCallCheck(this, ButtonCommandsList);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * List of the commands the button is able to handle.
-             *
-             * @property {Array} commands
-             */
-            commands: React.PropTypes.arrayOf(React.PropTypes.object),
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonCommandsList).apply(this, arguments));
+        }
+
+        _createClass(ButtonCommandsList, [{
+            key: 'componentDidMount',
 
             /**
-             * The editor instance where the component is being used.
+             * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
              *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * List id to be used for accessibility purposes such as aria-owns.
+             * Focuses on the list node to allow keyboard interaction.
              *
-             * @property {String} listId
+             * @method componentDidMount
              */
-            listId: React.PropTypes.string
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default buttonCommandsList
-             */
-            key: 'buttonCommandsList'
-        },
-
-        /**
-         * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
-         *
-         * Focuses on the list node to allow keyboard interaction.
-         *
-         * @method componentDidMount
-         */
-        componentDidMount: function componentDidMount() {
-            ReactDOM.findDOMNode(this).focus();
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                circular: false,
-                descendants: '.ae-toolbar-element',
-                keys: {
-                    dismiss: [27],
-                    dismissNext: [39],
-                    dismissPrev: [37],
-                    next: [40],
-                    prev: [38]
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the list.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            return React.createElement(
-                'div',
-                { className: 'ae-dropdown ae-arrow-box ae-arrow-box-top-left', onFocus: this.focus, onKeyDown: this.handleKey, tabIndex: '0' },
-                React.createElement(
-                    'ul',
-                    { className: 'ae-listbox', id: this.props.listId, role: 'listbox' },
-                    this._renderActions(this.props.commands)
-                )
-            );
-        },
-
-        /**
-         * Renders instances of ButtonCommandListItem with the description of the row action that will be executed.
-         *
-         * @protected
-         * @method _renderActions
-         * @return {Array} Rendered instances of ButtonCommandListItem class
-         */
-        _renderActions: function _renderActions(commands) {
-            var editor = this.props.editor;
-            var items;
-
-            if (commands && commands.length) {
-                items = commands.map(function (item) {
-                    return React.createElement(
-                        'li',
-                        { key: item.command, role: 'option' },
-                        React.createElement(AlloyEditor.ButtonCommandListItem, { command: item.command, description: typeof item.label === 'string' ? item.label : item.label(), editor: editor })
-                    );
-                });
+            value: function componentDidMount() {
+                ReactDOM.findDOMNode(this).focus();
             }
 
-            return items;
-        }
-    });
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+
+        }, {
+            key: 'getDefaultProps',
+            value: function getDefaultProps() {
+                return {
+                    circular: false,
+                    descendants: '.ae-toolbar-element',
+                    keys: {
+                        dismiss: [27],
+                        dismissNext: [39],
+                        dismissPrev: [37],
+                        next: [40],
+                        prev: [38]
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the list.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                return React.createElement(
+                    'div',
+                    { className: 'ae-dropdown ae-arrow-box ae-arrow-box-top-left', onFocus: this.focus, onKeyDown: this.handleKey, tabIndex: '0' },
+                    React.createElement(
+                        'ul',
+                        { className: 'ae-listbox', id: this.props.listId, role: 'listbox' },
+                        this._renderActions(this.props.commands)
+                    )
+                );
+            }
+
+            /**
+             * Renders instances of ButtonCommandListItem with the description of the row action that will be executed.
+             *
+             * @protected
+             * @method _renderActions
+             * @return {Array} Rendered instances of ButtonCommandListItem class
+             */
+
+        }, {
+            key: '_renderActions',
+            value: function _renderActions(commands) {
+                var editor = this.props.editor;
+                var items;
+
+                if (commands && commands.length) {
+                    items = commands.map(function (item) {
+                        return React.createElement(
+                            'li',
+                            { key: item.command, role: 'option' },
+                            React.createElement(AlloyEditor.ButtonCommandListItem, { command: item.command, description: typeof item.label === 'string' ? item.label : item.label(), editor: editor })
+                        );
+                    });
+                }
+
+                return items;
+            }
+        }]);
+
+        return ButtonCommandsList;
+    }(mix(React.Component).with(AlloyEditor.WidgetFocusManager));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonCommandsList.propTypes = {
+        /**
+         * List of the commands the button is able to handle.
+         *
+         * @property {Array} commands
+         */
+        commands: React.PropTypes.arrayOf(React.PropTypes.object),
+
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * List id to be used for accessibility purposes such as aria-owns.
+         *
+         * @property {String} listId
+         */
+        listId: React.PropTypes.string
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonCommandsList.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default buttonCommandsList
+         */
+        key: 'buttonCommandsList'
+    };
 
     AlloyEditor.ButtonCommandsList = ButtonCommandsList;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonDropdown class provides markup and keyboard navigation behaviour to a dropdown
@@ -7750,64 +8362,87 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonDropdown
      */
 
-    var ButtonDropdown = React.createClass({
-        displayName: 'ButtonDropdown',
+    var ButtonDropdown = function (_mix$with) {
+        _inherits(ButtonDropdown, _mix$with);
 
-        mixins: [AlloyEditor.WidgetFocusManager],
+        function ButtonDropdown() {
+            _classCallCheck(this, ButtonDropdown);
 
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                circular: false,
-                descendants: '.ae-toolbar-element',
-                keys: {
-                    dismiss: [27],
-                    dismissNext: [39],
-                    dismissPrev: [37],
-                    next: [40],
-                    prev: [38]
-                }
-            };
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the dropdown in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default dropdown
-             */
-            key: 'dropdown'
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            return React.createElement(
-                'div',
-                { className: 'ae-dropdown ae-arrow-box ae-arrow-box-top-left', onFocus: this.focus, onKeyDown: this.handleKey, tabIndex: '0' },
-                React.createElement(
-                    'ul',
-                    { className: 'ae-listbox', role: 'listbox' },
-                    this.props.children
-                )
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonDropdown).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonDropdown, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             */
+            value: function getDefaultProps() {
+                return {
+                    circular: false,
+                    descendants: '.ae-toolbar-element',
+                    keys: {
+                        dismiss: [27],
+                        dismissNext: [39],
+                        dismissPrev: [37],
+                        next: [40],
+                        prev: [38]
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                return React.createElement(
+                    'div',
+                    { className: 'ae-dropdown ae-arrow-box ae-arrow-box-top-left', onFocus: this.focus, onKeyDown: this.handleKey, tabIndex: '0' },
+                    React.createElement(
+                        'ul',
+                        { className: 'ae-listbox', role: 'listbox' },
+                        this.props.children
+                    )
+                );
+            }
+        }]);
+
+        return ButtonDropdown;
+    }(mix(React.Component).with(AlloyEditor.WidgetFocusManager));
+
+    // Lifecycle. Provides static properties to the widget.
+
+
+    ButtonDropdown.statics = {
+        /**
+         * The name which will be used as an alias of the dropdown in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default dropdown
+         */
+        key: 'dropdown'
+    };
 
     AlloyEditor.Buttons[ButtonDropdown.key] = AlloyEditor.ButtonDropdown = ButtonDropdown;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -7821,230 +8456,282 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      *
      * @class ButtonEmbedEdit
      */
-    var ButtonEmbedEdit = React.createClass({
-        displayName: 'ButtonEmbedEdit',
 
-        // Allows validating props being passed to the component.
-        propTypes: {
+    var ButtonEmbedEdit = function (_React$Component) {
+        _inherits(ButtonEmbedEdit, _React$Component);
+
+        function ButtonEmbedEdit() {
+            _classCallCheck(this, ButtonEmbedEdit);
+
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonEmbedEdit).apply(this, arguments));
+        }
+
+        _createClass(ButtonEmbedEdit, [{
+            key: 'componentDidMount',
+
             /**
-             * The editor instance where the component is being used.
+             * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
              *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
+             * Focuses on the link input to immediately allow editing. This should only happen if the component
+             * is rendered in exclusive mode to prevent aggressive focus stealing.
              *
-             * @static
-             * @property {String} key
-             * @default embedEdit
+             * @method componentDidMount
              */
-            key: 'embedEdit'
-        },
-
-        /**
-         * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
-         *
-         * Focuses on the link input to immediately allow editing. This should only happen if the component
-         * is rendered in exclusive mode to prevent aggressive focus stealing.
-         *
-         * @method componentDidMount
-         */
-        componentDidMount: function componentDidMount() {
-            if (this.props.renderExclusive || this.props.manualSelection) {
-                // We need to wait for the next rendering cycle before focusing to avoid undesired
-                // scrolls on the page
-                if (window.requestAnimationFrame) {
-                    window.requestAnimationFrame(this._focusLinkInput);
-                } else {
-                    setTimeout(this._focusLinkInput, 0);
-                }
-            }
-        },
-
-        /**
-         * Lifecycle. Invoked when a component is receiving new props.
-         * This method is not called for the initial render.
-         *
-         * @method componentWillReceiveProps
-         */
-        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-            this.replaceState(this.getInitialState());
-        },
-
-        /**
-         * Lifecycle. Invoked once before the component is mounted.
-         * The return value will be used as the initial value of this.state.
-         *
-         * @method getInitialState
-         */
-        getInitialState: function getInitialState() {
-            var editor = this.props.editor.get('nativeEditor');
-            var embed;
-
-            var selection = editor.getSelection();
-
-            if (selection) {
-                var range = selection.getRanges()[0];
-
-                if (range) {
-                    range.shrink(CKEDITOR.SHRINK_TEXT);
-
-                    embed = editor.elementPath(range.getCommonAncestor()).contains(function (element) {
-                        return element.getAttribute('data-widget') === 'ae_embed' || element.getAttribute('data-cke-widget-wrapper') && element.find('[data-widget="ae_embed"]');
-                    }, 1);
-
-                    if (embed && embed.getAttribute('data-widget') !== 'ae_embed') {
-                        embed = embed.find('[data-widget="ae_embed"]').getItem(0);
+            value: function componentDidMount() {
+                if (this.props.renderExclusive || this.props.manualSelection) {
+                    // We need to wait for the next rendering cycle before focusing to avoid undesired
+                    // scrolls on the page
+                    if (window.requestAnimationFrame) {
+                        window.requestAnimationFrame(this._focusLinkInput);
+                    } else {
+                        setTimeout(this._focusLinkInput, 0);
                     }
                 }
             }
 
-            var href = embed ? embed.getAttribute('data-ae-embed-url') : '';
+            /**
+             * Lifecycle. Invoked when a component is receiving new props.
+             * This method is not called for the initial render.
+             *
+             * @method componentWillReceiveProps
+             */
 
-            return {
-                initialLink: {
-                    href: href
-                },
-                linkHref: href
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var clearLinkStyle = {
-                opacity: this.state.linkHref ? 1 : 0
-            };
-
-            return React.createElement(
-                'div',
-                { className: 'ae-container-edit-link' },
-                React.createElement(
-                    'div',
-                    { className: 'ae-container-input xxl' },
-                    React.createElement('input', { className: 'ae-input', onChange: this._handleLinkHrefChange, onKeyDown: this._handleKeyDown, placeholder: AlloyEditor.Strings.editLink, ref: 'linkInput', type: 'text', value: this.state.linkHref }),
-                    React.createElement('button', { 'aria-label': AlloyEditor.Strings.clearInput, className: 'ae-button ae-icon-remove', onClick: this._clearLink, style: clearLinkStyle, title: AlloyEditor.Strings.clear })
-                ),
-                React.createElement(
-                    'button',
-                    { 'aria-label': AlloyEditor.Strings.confirm, className: 'ae-button', disabled: !this._isValidState(), onClick: this._embedLink, title: AlloyEditor.Strings.confirm },
-                    React.createElement('span', { className: 'ae-icon-ok' })
-                )
-            );
-        },
-
-        /**
-         * Clears the link input. This only changes the component internal state, but does not
-         * affect the link element of the editor. Only the _removeLink and _updateLink methods
-         * are translated to the editor element.
-         *
-         * @protected
-         * @method _clearLink
-         */
-        _clearLink: function _clearLink() {
-            this.setState({
-                linkHref: ''
-            });
-        },
-
-        /**
-         * Triggers the embedUrl command to transform the link into an embed media object
-         *
-         * @protected
-         * @method _embedLink
-         */
-        _embedLink: function _embedLink() {
-            var nativeEditor = this.props.editor.get('nativeEditor');
-
-            nativeEditor.execCommand('embedUrl', {
-                url: this.state.linkHref
-            });
-
-            // We need to cancelExclusive with the bound parameters in case the button is used
-            // inside another in exclusive mode (such is the case of the link button)
-            this.props.cancelExclusive();
-        },
-
-        /**
-         * Focuses the user cursor on the widget's input.
-         *
-         * @protected
-         * @method _focusLinkInput
-         */
-        _focusLinkInput: function _focusLinkInput() {
-            ReactDOM.findDOMNode(this.refs.linkInput).focus();
-        },
-
-        /**
-         * Monitors key interaction inside the input element to respond to the keys:
-         * - Enter: Creates/updates the link.
-         * - Escape: Discards the changes.
-         *
-         * @protected
-         * @method _handleKeyDown
-         * @param {SyntheticEvent} event The keyboard event.
-         */
-        _handleKeyDown: function _handleKeyDown(event) {
-            if (event.keyCode === KEY_ENTER || event.keyCode === KEY_ESC) {
-                event.preventDefault();
+        }, {
+            key: 'componentWillReceiveProps',
+            value: function componentWillReceiveProps(nextProps) {
+                this.replaceState(this.getInitialState());
             }
 
-            if (event.keyCode === KEY_ENTER) {
-                this._embedLink();
-            } else if (event.keyCode === KEY_ESC) {
+            /**
+             * Lifecycle. Invoked once before the component is mounted.
+             * The return value will be used as the initial value of this.state.
+             *
+             * @method getInitialState
+             */
+
+        }, {
+            key: 'getInitialState',
+            value: function getInitialState() {
                 var editor = this.props.editor.get('nativeEditor');
+                var embed;
+
+                var selection = editor.getSelection();
+
+                if (selection) {
+                    var range = selection.getRanges()[0];
+
+                    if (range) {
+                        range.shrink(CKEDITOR.SHRINK_TEXT);
+
+                        embed = editor.elementPath(range.getCommonAncestor()).contains(function (element) {
+                            return element.getAttribute('data-widget') === 'ae_embed' || element.getAttribute('data-cke-widget-wrapper') && element.find('[data-widget="ae_embed"]');
+                        }, 1);
+
+                        if (embed && embed.getAttribute('data-widget') !== 'ae_embed') {
+                            embed = embed.find('[data-widget="ae_embed"]').getItem(0);
+                        }
+                    }
+                }
+
+                var href = embed ? embed.getAttribute('data-ae-embed-url') : '';
+
+                return {
+                    initialLink: {
+                        href: href
+                    },
+                    linkHref: href
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var clearLinkStyle = {
+                    opacity: this.state.linkHref ? 1 : 0
+                };
+
+                return React.createElement(
+                    'div',
+                    { className: 'ae-container-edit-link' },
+                    React.createElement(
+                        'div',
+                        { className: 'ae-container-input xxl' },
+                        React.createElement('input', { className: 'ae-input', onChange: this._handleLinkHrefChange, onKeyDown: this._handleKeyDown, placeholder: AlloyEditor.Strings.editLink, ref: 'linkInput', type: 'text', value: this.state.linkHref }),
+                        React.createElement('button', { 'aria-label': AlloyEditor.Strings.clearInput, className: 'ae-button ae-icon-remove', onClick: this._clearLink, style: clearLinkStyle, title: AlloyEditor.Strings.clear })
+                    ),
+                    React.createElement(
+                        'button',
+                        { 'aria-label': AlloyEditor.Strings.confirm, className: 'ae-button', disabled: !this._isValidState(), onClick: this._embedLink, title: AlloyEditor.Strings.confirm },
+                        React.createElement('span', { className: 'ae-icon-ok' })
+                    )
+                );
+            }
+
+            /**
+             * Clears the link input. This only changes the component internal state, but does not
+             * affect the link element of the editor. Only the _removeLink and _updateLink methods
+             * are translated to the editor element.
+             *
+             * @protected
+             * @method _clearLink
+             */
+
+        }, {
+            key: '_clearLink',
+            value: function _clearLink() {
+                this.setState({
+                    linkHref: ''
+                });
+            }
+
+            /**
+             * Triggers the embedUrl command to transform the link into an embed media object
+             *
+             * @protected
+             * @method _embedLink
+             */
+
+        }, {
+            key: '_embedLink',
+            value: function _embedLink() {
+                var nativeEditor = this.props.editor.get('nativeEditor');
+
+                nativeEditor.execCommand('embedUrl', {
+                    url: this.state.linkHref
+                });
 
                 // We need to cancelExclusive with the bound parameters in case the button is used
                 // inside another in exclusive mode (such is the case of the link button)
                 this.props.cancelExclusive();
-
-                editor.fire('actionPerformed', this);
             }
-        },
 
+            /**
+             * Focuses the user cursor on the widget's input.
+             *
+             * @protected
+             * @method _focusLinkInput
+             */
+
+        }, {
+            key: '_focusLinkInput',
+            value: function _focusLinkInput() {
+                ReactDOM.findDOMNode(this.refs.linkInput).focus();
+            }
+
+            /**
+             * Monitors key interaction inside the input element to respond to the keys:
+             * - Enter: Creates/updates the link.
+             * - Escape: Discards the changes.
+             *
+             * @protected
+             * @method _handleKeyDown
+             * @param {SyntheticEvent} event The keyboard event.
+             */
+
+        }, {
+            key: '_handleKeyDown',
+            value: function _handleKeyDown(event) {
+                if (event.keyCode === KEY_ENTER || event.keyCode === KEY_ESC) {
+                    event.preventDefault();
+                }
+
+                if (event.keyCode === KEY_ENTER) {
+                    this._embedLink();
+                } else if (event.keyCode === KEY_ESC) {
+                    var editor = this.props.editor.get('nativeEditor');
+
+                    // We need to cancelExclusive with the bound parameters in case the button is used
+                    // inside another in exclusive mode (such is the case of the link button)
+                    this.props.cancelExclusive();
+
+                    editor.fire('actionPerformed', this);
+                }
+            }
+
+            /**
+             * Updates the component state when the link input changes on user interaction.
+             *
+             * @protected
+             * @method _handleLinkHrefChange
+             * @param {SyntheticEvent} event The change event.
+             */
+
+        }, {
+            key: '_handleLinkHrefChange',
+            value: function _handleLinkHrefChange(event) {
+                this.setState({
+                    linkHref: event.target.value
+                });
+            }
+
+            /**
+             * Verifies that the current link state is valid so the user can save the link. A valid state
+             * means that we have a non-empty href that's different from the original one.
+             *
+             * @method _isValidState
+             * @protected
+             * @return {Boolean} True if the state is valid, false otherwise
+             */
+
+        }, {
+            key: '_isValidState',
+            value: function _isValidState() {
+                var validState = this.state.linkHref && this.state.linkHref !== this.state.initialLink.href;
+
+                return validState;
+            }
+        }]);
+
+        return ButtonEmbedEdit;
+    }(React.Component);
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonEmbedEdit.propTypes = {
         /**
-         * Updates the component state when the link input changes on user interaction.
+         * The editor instance where the component is being used.
          *
-         * @protected
-         * @method _handleLinkHrefChange
-         * @param {SyntheticEvent} event The change event.
+         * @property {Object} editor
          */
-        _handleLinkHrefChange: function _handleLinkHrefChange(event) {
-            this.setState({
-                linkHref: event.target.value
-            });
-        },
+        editor: React.PropTypes.object.isRequired
+    };
 
+    // Lifecycle. Provides static properties to the widget.
+    ButtonEmbedEdit.statics = {
         /**
-         * Verifies that the current link state is valid so the user can save the link. A valid state
-         * means that we have a non-empty href that's different from the original one.
+         * The name which will be used as an alias of the button in the configuration.
          *
-         * @method _isValidState
-         * @protected
-         * @return {Boolean} True if the state is valid, false otherwise
+         * @static
+         * @property {String} key
+         * @default embedEdit
          */
-        _isValidState: function _isValidState() {
-            var validState = this.state.linkHref && this.state.linkHref !== this.state.initialLink.href;
-
-            return validState;
-        }
-    });
+        key: 'embedEdit'
+    };
 
     AlloyEditor.Buttons[ButtonEmbedEdit.key] = AlloyEditor.ButtonEmbedEdit = ButtonEmbedEdit;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonEmbed class provides functionality for creating and editing an embed link in a document.
@@ -8058,98 +8745,126 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonEmbed
      */
 
-    var ButtonEmbed = React.createClass({
-        displayName: 'ButtonEmbed',
+    var ButtonEmbed = function (_mix$with) {
+        _inherits(ButtonEmbed, _mix$with);
 
-        mixins: [AlloyEditor.ButtonKeystroke],
+        function ButtonEmbed() {
+            _classCallCheck(this, ButtonEmbed);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default embed
-             */
-            key: 'embed'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                keystroke: {
-                    fn: '_requestExclusive',
-                    keys: CKEDITOR.CTRL + CKEDITOR.SHIFT + 76 /*L*/
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            if (this.props.renderExclusive) {
-                return React.createElement(AlloyEditor.ButtonEmbedEdit, this.props);
-            } else {
-                return React.createElement(
-                    'button',
-                    { 'aria-label': AlloyEditor.Strings.link, className: 'ae-button', 'data-type': 'button-embed', onClick: this._requestExclusive, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.link },
-                    React.createElement('span', { className: 'ae-icon-add' })
-                );
-            }
-        },
-
-        /**
-         * Requests the link button to be rendered in exclusive mode to allow the embedding of a link.
-         *
-         * @protected
-         * @method _requestExclusive
-         */
-        _requestExclusive: function _requestExclusive() {
-            this.props.requestExclusive(ButtonEmbed.key);
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonEmbed).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonEmbed, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    keystroke: {
+                        fn: '_requestExclusive',
+                        keys: CKEDITOR.CTRL + CKEDITOR.SHIFT + 76 /*L*/
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                if (this.props.renderExclusive) {
+                    return React.createElement(AlloyEditor.ButtonEmbedEdit, this.props);
+                } else {
+                    return React.createElement(
+                        'button',
+                        { 'aria-label': AlloyEditor.Strings.link, className: 'ae-button', 'data-type': 'button-embed', onClick: this._requestExclusive, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.link },
+                        React.createElement('span', { className: 'ae-icon-add' })
+                    );
+                }
+            }
+
+            /**
+             * Requests the link button to be rendered in exclusive mode to allow the embedding of a link.
+             *
+             * @protected
+             * @method _requestExclusive
+             */
+
+        }, {
+            key: '_requestExclusive',
+            value: function _requestExclusive() {
+                this.props.requestExclusive(ButtonEmbed.key);
+            }
+        }]);
+
+        return ButtonEmbed;
+    }(mix(React.Component).with(AlloyEditor.ButtonKeystroke));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonEmbed.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonEmbed.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default embed
+         */
+        key: 'embed'
+    };
 
     AlloyEditor.Buttons[ButtonEmbed.key] = AlloyEditor.ButtonEmbed = ButtonEmbed;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonH1 class provides wraps a selection in `h1` element.
@@ -8161,85 +8876,110 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonH1
      */
 
-    var ButtonH1 = React.createClass({
-        displayName: 'ButtonH1',
+    var ButtonH1 = function (_mix$with) {
+        _inherits(ButtonH1, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonActionStyle],
+        function ButtonH1() {
+            _classCallCheck(this, ButtonH1);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default h1
-             */
-            key: 'h1'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                style: {
-                    element: 'h1'
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.h1, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-h1', onClick: this.applyStyle, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.h1 },
-                React.createElement('span', { className: 'ae-icon-h1' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonH1).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonH1, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    style: {
+                        element: 'h1'
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.h1, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-h1', onClick: this.applyStyle, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.h1 },
+                    React.createElement('span', { className: 'ae-icon-h1' })
+                );
+            }
+        }]);
+
+        return ButtonH1;
+    }(mix(React.Component).with(AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonActionStyle));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonH1.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonH1.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default h1
+         */
+        key: 'h1'
+    };
 
     AlloyEditor.Buttons[ButtonH1.key] = AlloyEditor.ButtonH1 = ButtonH1;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonH2 class provides wraps a selection in `h2` element.
@@ -8251,85 +8991,110 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonH2
      */
 
-    var ButtonH2 = React.createClass({
-        displayName: 'ButtonH2',
+    var ButtonH2 = function (_mix$with) {
+        _inherits(ButtonH2, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonActionStyle],
+        function ButtonH2() {
+            _classCallCheck(this, ButtonH2);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default h2
-             */
-            key: 'h2'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                style: {
-                    element: 'h2'
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.h2, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-h2', onClick: this.applyStyle, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.h2 },
-                React.createElement('span', { className: 'ae-icon-h2' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonH2).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonH2, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    style: {
+                        element: 'h2'
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.h2, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-h2', onClick: this.applyStyle, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.h2 },
+                    React.createElement('span', { className: 'ae-icon-h2' })
+                );
+            }
+        }]);
+
+        return ButtonH2;
+    }(mix(React.Component).with(AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonActionStyle));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonH2.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonH2.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default h2
+         */
+        key: 'h2'
+    };
 
     AlloyEditor.Buttons[ButtonH2.key] = AlloyEditor.ButtonH2 = ButtonH2;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonHline class provides inserts horizontal line.
@@ -8340,84 +9105,109 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonHline
      */
 
-    var ButtonHline = React.createClass({
-        displayName: 'ButtonHline',
+    var ButtonHline = function (_mix$with) {
+        _inherits(ButtonHline, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStyle, AlloyEditor.ButtonCommand],
+        function ButtonHline() {
+            _classCallCheck(this, ButtonHline);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default hline
-             */
-            key: 'hline'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'horizontalrule',
-                style: {
-                    element: 'hr'
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.horizontalrule, className: 'ae-button', 'data-type': 'button-hline', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.horizontalrule },
-                React.createElement('span', { className: 'ae-icon-separator' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonHline).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonHline, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'horizontalrule',
+                    style: {
+                        element: 'hr'
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.horizontalrule, className: 'ae-button', 'data-type': 'button-hline', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.horizontalrule },
+                    React.createElement('span', { className: 'ae-icon-separator' })
+                );
+            }
+        }]);
+
+        return ButtonHline;
+    }(mix(React.Component).with(AlloyEditor.ButtonStyle, AlloyEditor.ButtonCommand));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonHline.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonHline.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default hline
+         */
+        key: 'hline'
+    };
 
     AlloyEditor.Buttons[ButtonHline.key] = AlloyEditor.ButtonHline = ButtonHline;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonImageAlignCenter class provides functionality for aligning an image in the center.
@@ -8429,83 +9219,108 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonImageAlignCenter
      */
 
-    var ButtonImageAlignCenter = React.createClass({
-        displayName: 'ButtonImageAlignCenter',
+    var ButtonImageAlignCenter = function (_mix$with) {
+        _inherits(ButtonImageAlignCenter, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonCommandActive],
+        function ButtonImageAlignCenter() {
+            _classCallCheck(this, ButtonImageAlignCenter);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default imageCenter
-             */
-            key: 'imageCenter'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'justifycenter'
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.alignCenter, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-image-align-center', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.alignCenter },
-                React.createElement('span', { className: 'ae-icon-align-center' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonImageAlignCenter).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonImageAlignCenter, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'justifycenter'
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.alignCenter, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-image-align-center', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.alignCenter },
+                    React.createElement('span', { className: 'ae-icon-align-center' })
+                );
+            }
+        }]);
+
+        return ButtonImageAlignCenter;
+    }(mix(React.Component).with(AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonCommandActive));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonImageAlignCenter.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonImageAlignCenter.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default imageCenter
+         */
+        key: 'imageCenter'
+    };
 
     AlloyEditor.Buttons[ButtonImageAlignCenter.key] = AlloyEditor.ButtonImageAlignCenter = ButtonImageAlignCenter;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonImageAlignLeft class provides functionality for aligning an image on left.
@@ -8517,83 +9332,108 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonImageAlignLeft
      */
 
-    var ButtonImageAlignLeft = React.createClass({
-        displayName: 'ButtonImageAlignLeft',
+    var ButtonImageAlignLeft = function (_mix$with) {
+        _inherits(ButtonImageAlignLeft, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonCommandActive],
+        function ButtonImageAlignLeft() {
+            _classCallCheck(this, ButtonImageAlignLeft);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default imageLeft
-             */
-            key: 'imageLeft'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'justifyleft'
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.alignLeft, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-image-align-left', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.alignLeft },
-                React.createElement('span', { className: 'ae-icon-align-left' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonImageAlignLeft).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonImageAlignLeft, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'justifyleft'
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.alignLeft, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-image-align-left', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.alignLeft },
+                    React.createElement('span', { className: 'ae-icon-align-left' })
+                );
+            }
+        }]);
+
+        return ButtonImageAlignLeft;
+    }(mix(React.Component).with(AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonCommandActive));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonImageAlignLeft.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonImageAlignLeft.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default imageLeft
+         */
+        key: 'imageLeft'
+    };
 
     AlloyEditor.Buttons[ButtonImageAlignLeft.key] = AlloyEditor.ButtonImageAlignLeft = ButtonImageAlignLeft;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonImageAlignRight class provides functionality for aligning an image on right.
@@ -8605,80 +9445,103 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonImageAlignRight
      */
 
-    var ButtonImageAlignRight = React.createClass({
-        displayName: 'ButtonImageAlignRight',
+    var ButtonImageAlignRight = function (_mix$with) {
+        _inherits(ButtonImageAlignRight, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonCommandActive],
+        function ButtonImageAlignRight() {
+            _classCallCheck(this, ButtonImageAlignRight);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default imageRight
-             */
-            key: 'imageRight'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'justifyright'
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.alignRight, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-image-align-right', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.alignRight },
-                React.createElement('span', { className: 'ae-icon-align-right' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonImageAlignRight).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonImageAlignRight, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'justifyright'
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.alignRight, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-image-align-right', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.alignRight },
+                    React.createElement('span', { className: 'ae-icon-align-right' })
+                );
+            }
+        }]);
+
+        return ButtonImageAlignRight;
+    }(mix(React.Component).with(AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonCommandActive));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonImageAlignRight.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonImageAlignRight.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default imageRight
+         */
+        key: 'imageRight'
+    };
 
     AlloyEditor.Buttons[ButtonImageAlignRight.key] = AlloyEditor.ButtonImageAlignRight = ButtonImageAlignRight;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -8689,135 +9552,166 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonImage
      */
 
-    var ButtonImage = React.createClass({
-        displayName: 'ButtonImage',
+    var ButtonImage = function (_React$Component) {
+        _inherits(ButtonImage, _React$Component);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
+        function ButtonImage() {
+            _classCallCheck(this, ButtonImage);
 
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default image
-             */
-            key: 'image'
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var inputSyle = { display: 'none' };
-
-            return React.createElement(
-                'div',
-                null,
-                React.createElement(
-                    'button',
-                    { 'aria-label': AlloyEditor.Strings.image, className: 'ae-button', 'data-type': 'button-image', onClick: this.handleClick, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.image },
-                    React.createElement('span', { className: 'ae-icon-image' })
-                ),
-                React.createElement('input', { accept: 'image/*', onChange: this._onInputChange, ref: 'fileInput', style: inputSyle, type: 'file' })
-            );
-        },
-
-        /**
-         * Simulates click on the input element. This will open browser's native file open dialog.
-         *
-         * @method handleClick
-         * @param {SyntheticEvent} event The received click event on the button.
-         */
-        handleClick: function handleClick(event) {
-            ReactDOM.findDOMNode(this.refs.fileInput).click();
-        },
-
-        /**
-         * On input change, reads the chosen file and creates an img element with src the image data as Data URI.
-         * Then, fires an {{#crossLink "ButtonImage/imageAdd:event"}}{{/crossLink}} via CKEditor's
-         * message system. The passed params will be:
-         * - `el` - the created img element
-         * - `file` - the original image file from the input element
-         *
-         * @protected
-         * @method _onInputChange
-         */
-        _onInputChange: function _onInputChange() {
-            var inputEl = ReactDOM.findDOMNode(this.refs.fileInput);
-
-            // On IE11 the function might be called with an empty array of
-            // files. In such a case, no actions will be taken.
-            if (!inputEl.files.length) {
-                return;
-            }
-
-            var reader = new FileReader();
-            var file = inputEl.files[0];
-
-            reader.onload = function (event) {
-                var editor = this.props.editor.get('nativeEditor');
-
-                var el = CKEDITOR.dom.element.createFromHtml('<img src="' + event.target.result + '">');
-
-                editor.insertElement(el);
-
-                editor.fire('actionPerformed', this);
-
-                var imageData = {
-                    el: el,
-                    file: file
-                };
-
-                editor.fire('imageAdd', imageData);
-            }.bind(this);
-
-            reader.readAsDataURL(file);
-
-            inputEl.value = '';
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonImage).apply(this, arguments));
         }
 
+        _createClass(ButtonImage, [{
+            key: 'render',
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+            value: function render() {
+                var inputSyle = { display: 'none' };
+
+                return React.createElement(
+                    'div',
+                    null,
+                    React.createElement(
+                        'button',
+                        { 'aria-label': AlloyEditor.Strings.image, className: 'ae-button', 'data-type': 'button-image', onClick: this.handleClick, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.image },
+                        React.createElement('span', { className: 'ae-icon-image' })
+                    ),
+                    React.createElement('input', { accept: 'image/*', onChange: this._onInputChange, ref: 'fileInput', style: inputSyle, type: 'file' })
+                );
+            }
+
+            /**
+             * Simulates click on the input element. This will open browser's native file open dialog.
+             *
+             * @method handleClick
+             * @param {SyntheticEvent} event The received click event on the button.
+             */
+
+        }, {
+            key: 'handleClick',
+            value: function handleClick(event) {
+                ReactDOM.findDOMNode(this.refs.fileInput).click();
+            }
+
+            /**
+             * On input change, reads the chosen file and creates an img element with src the image data as Data URI.
+             * Then, fires an {{#crossLink "ButtonImage/imageAdd:event"}}{{/crossLink}} via CKEditor's
+             * message system. The passed params will be:
+             * - `el` - the created img element
+             * - `file` - the original image file from the input element
+             *
+             * @protected
+             * @method _onInputChange
+             */
+
+        }, {
+            key: '_onInputChange',
+            value: function _onInputChange() {
+                var inputEl = ReactDOM.findDOMNode(this.refs.fileInput);
+
+                // On IE11 the function might be called with an empty array of
+                // files. In such a case, no actions will be taken.
+                if (!inputEl.files.length) {
+                    return;
+                }
+
+                var reader = new FileReader();
+                var file = inputEl.files[0];
+
+                reader.onload = function (event) {
+                    var editor = this.props.editor.get('nativeEditor');
+
+                    var el = CKEDITOR.dom.element.createFromHtml('<img src="' + event.target.result + '">');
+
+                    editor.insertElement(el);
+
+                    editor.fire('actionPerformed', this);
+
+                    var imageData = {
+                        el: el,
+                        file: file
+                    };
+
+                    editor.fire('imageAdd', imageData);
+                }.bind(this);
+
+                reader.readAsDataURL(file);
+
+                inputEl.value = '';
+            }
+
+            /**
+             * Fired when an image file is added as an element to the editor.
+             *
+             * @event imageAdd
+             * @param {CKEDITOR.dom.element} el The created image with src as Data URI.
+             */
+
+        }]);
+
+        return ButtonImage;
+    }(React.Component);
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonImage.propTypes = {
         /**
-         * Fired when an image file is added as an element to the editor.
+         * The editor instance where the component is being used.
          *
-         * @event imageAdd
-         * @param {CKEDITOR.dom.element} el The created image with src as Data URI.
+         * @property {Object} editor
          */
-    });
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonImage.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default image
+         */
+        key: 'image'
+    };
 
     AlloyEditor.Buttons[ButtonImage.key] = AlloyEditor.ButtonImage = ButtonImage;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonItalic class provides functionality for styling an selection with italic (em) style.
@@ -8830,87 +9724,110 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonItalic
      */
 
-    var ButtonItalic = React.createClass({
-        displayName: 'ButtonItalic',
+    var ButtonItalic = function (_mix$with) {
+        _inherits(ButtonItalic, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonKeystroke],
+        function ButtonItalic() {
+            _classCallCheck(this, ButtonItalic);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default italic
-             */
-            key: 'italic'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'italic',
-                keystroke: {
-                    fn: 'execCommand',
-                    keys: CKEDITOR.CTRL + 73 /*I*/
-                },
-                style: {
-                    element: 'em'
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.italic, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-italic', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.italic },
-                React.createElement('span', { className: 'ae-icon-italic' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonItalic).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonItalic, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'italic',
+                    keystroke: {
+                        fn: 'execCommand',
+                        keys: CKEDITOR.CTRL + 73 /*I*/
+                    },
+                    style: {
+                        element: 'em'
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.italic, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-italic', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.italic },
+                    React.createElement('span', { className: 'ae-icon-italic' })
+                );
+            }
+        }]);
+
+        return ButtonItalic;
+    }(mix(React.Component).with(AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonKeystroke));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonItalic.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonItalic.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default italic
+         */
+        key: 'italic'
+    };
 
     AlloyEditor.Buttons[ButtonItalic.key] = AlloyEditor.ButtonItalic = ButtonItalic;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -8918,362 +9835,426 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var KEY_ENTER = 13;
     var KEY_ESC = 27;
 
+    var mix = AlloyEditor.OOP.mix;
+
     /**
      * The ButtonLinkEdit class provides functionality for creating and editing a link in a document.
      * Provides UI for creating, editing and removing a link.
      *
      * @class ButtonLinkEdit
      */
-    var ButtonLinkEdit = React.createClass({
-        displayName: 'ButtonLinkEdit',
 
-        mixins: [AlloyEditor.WidgetDropdown],
+    var ButtonLinkEdit = function (_mix$with) {
+        _inherits(ButtonLinkEdit, _mix$with);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * List of the allowed values for the target attribute.
-             *
-             * @property {Array} allowedTargets
-             */
-            allowedTargets: React.PropTypes.arrayOf(React.PropTypes.object),
+        function ButtonLinkEdit() {
+            _classCallCheck(this, ButtonLinkEdit);
 
-            /**
-             * Indicate if we add http:// protocol to link or not
-             *
-             * @property {Boolean} appendProtocol
-             */
-            appendProtocol: React.PropTypes.bool,
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonLinkEdit).apply(this, arguments));
+        }
+
+        _createClass(ButtonLinkEdit, [{
+            key: 'componentDidMount',
 
             /**
-             * The editor instance where the component is being used.
+             * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
              *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * Default value of the link target attribute.
+             * Focuses on the link input to immediately allow editing. This should only happen if the component
+             * is rendered in exclusive mode to prevent aggressive focus stealing.
              *
-             * @property {String} defaultLinkTarget
+             * @method componentDidMount
              */
-            defaultLinkTarget: React.PropTypes.string,
-
-            /**
-             * Indicates whether the link target selector should appear.
-             *
-             * @property {Boolean} showTargetSelector
-             */
-            showTargetSelector: React.PropTypes.bool
-
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default linkEdit
-             */
-            key: 'linkEdit'
-        },
-
-        /**
-         * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
-         *
-         * Focuses on the link input to immediately allow editing. This should only happen if the component
-         * is rendered in exclusive mode to prevent aggressive focus stealing.
-         *
-         * @method componentDidMount
-         */
-        componentDidMount: function componentDidMount() {
-            if (this.props.renderExclusive || this.props.manualSelection) {
-                // We need to wait for the next rendering cycle before focusing to avoid undesired
-                // scrolls on the page
-                if (window.requestAnimationFrame) {
-                    window.requestAnimationFrame(this._focusLinkInput);
-                } else {
-                    setTimeout(this._focusLinkInput, 0);
+            value: function componentDidMount() {
+                if (this.props.renderExclusive || this.props.manualSelection) {
+                    // We need to wait for the next rendering cycle before focusing to avoid undesired
+                    // scrolls on the page
+                    if (window.requestAnimationFrame) {
+                        window.requestAnimationFrame(this._focusLinkInput);
+                    } else {
+                        setTimeout(this._focusLinkInput, 0);
+                    }
                 }
             }
-        },
 
-        /**
-         * Lifecycle. Invoked when a component is receiving new props.
-         * This method is not called for the initial render.
-         *
-         * @method componentWillReceiveProps
-         */
-        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-            this.replaceState(this.getInitialState());
-        },
+            /**
+             * Lifecycle. Invoked when a component is receiving new props.
+             * This method is not called for the initial render.
+             *
+             * @method componentWillReceiveProps
+             */
 
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                defaultLinkTarget: '',
-                showTargetSelector: true,
-                appendProtocol: true
-            };
-        },
+        }, {
+            key: 'componentWillReceiveProps',
+            value: function componentWillReceiveProps(nextProps) {
+                this.replaceState(this.getInitialState());
+            }
 
-        /**
-         * Lifecycle. Invoked once before the component is mounted.
-         * The return value will be used as the initial value of this.state.
-         *
-         * @method getInitialState
-         */
-        getInitialState: function getInitialState() {
-            var link = new CKEDITOR.Link(this.props.editor.get('nativeEditor')).getFromSelection();
-            var href = link ? link.getAttribute('href') : '';
-            var target = link ? link.getAttribute('target') : this.props.defaultLinkTarget;
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
 
-            return {
-                element: link,
-                initialLink: {
-                    href: href,
-                    target: target
-                },
-                linkHref: href,
-                linkTarget: target
-            };
-        },
+        }, {
+            key: 'getDefaultProps',
+            value: function getDefaultProps() {
+                return {
+                    defaultLinkTarget: '',
+                    showTargetSelector: true,
+                    appendProtocol: true
+                };
+            }
 
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var clearLinkStyle = {
-                opacity: this.state.linkHref ? 1 : 0
-            };
+            /**
+             * Lifecycle. Invoked once before the component is mounted.
+             * The return value will be used as the initial value of this.state.
+             *
+             * @method getInitialState
+             */
 
-            var targetSelector;
+        }, {
+            key: 'getInitialState',
+            value: function getInitialState() {
+                var link = new CKEDITOR.Link(this.props.editor.get('nativeEditor')).getFromSelection();
+                var href = link ? link.getAttribute('href') : '';
+                var target = link ? link.getAttribute('target') : this.props.defaultLinkTarget;
 
-            if (this.props.showTargetSelector) {
-                var targetSelectorProps = {
-                    allowedTargets: this._getAllowedTargetItems(),
-                    editor: this.props.editor,
-                    handleLinkTargetChange: this._handleLinkTargetChange,
-                    onDismiss: this.props.toggleDropdown,
-                    selectedTarget: this.state.linkTarget || AlloyEditor.Strings.linkTargetDefault
+                return {
+                    element: link,
+                    initialLink: {
+                        href: href,
+                        target: target
+                    },
+                    linkHref: href,
+                    linkTarget: target
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var clearLinkStyle = {
+                    opacity: this.state.linkHref ? 1 : 0
                 };
 
-                targetSelectorProps = this.mergeDropdownProps(targetSelectorProps, AlloyEditor.ButtonLinkTargetEdit.key);
+                var targetSelector;
 
-                targetSelector = React.createElement(AlloyEditor.ButtonLinkTargetEdit, targetSelectorProps);
-            }
+                if (this.props.showTargetSelector) {
+                    var targetSelectorProps = {
+                        allowedTargets: this._getAllowedTargetItems(),
+                        editor: this.props.editor,
+                        handleLinkTargetChange: this._handleLinkTargetChange,
+                        onDismiss: this.props.toggleDropdown,
+                        selectedTarget: this.state.linkTarget || AlloyEditor.Strings.linkTargetDefault
+                    };
 
-            return React.createElement(
-                'div',
-                { className: 'ae-container-edit-link' },
-                React.createElement(
-                    'button',
-                    { 'aria-label': AlloyEditor.Strings.removeLink, className: 'ae-button', disabled: !this.state.element, onClick: this._removeLink, title: AlloyEditor.Strings.remove },
-                    React.createElement('span', { className: 'ae-icon-unlink' })
-                ),
-                React.createElement(
-                    'div',
-                    { className: 'ae-container-input xxl' },
-                    targetSelector,
-                    React.createElement('input', { className: 'ae-input', onChange: this._handleLinkHrefChange, onKeyDown: this._handleKeyDown, placeholder: AlloyEditor.Strings.editLink, ref: 'linkInput', type: 'text', value: this.state.linkHref }),
-                    React.createElement('button', { 'aria-label': AlloyEditor.Strings.clearInput, className: 'ae-button ae-icon-remove', onClick: this._clearLink, style: clearLinkStyle, title: AlloyEditor.Strings.clear })
-                ),
-                React.createElement(
-                    'button',
-                    { 'aria-label': AlloyEditor.Strings.confirm, className: 'ae-button', disabled: !this._isValidState(), onClick: this._updateLink, title: AlloyEditor.Strings.confirm },
-                    React.createElement('span', { className: 'ae-icon-ok' })
-                )
-            );
-        },
+                    targetSelectorProps = this.mergeDropdownProps(targetSelectorProps, AlloyEditor.ButtonLinkTargetEdit.key);
 
-        /**
-         * Clears the link input. This only changes the component internal state, but does not
-         * affect the link element of the editor. Only the _removeLink and _updateLink methods
-         * are translated to the editor element.
-         *
-         * @protected
-         * @method _clearLink
-         */
-        _clearLink: function _clearLink() {
-            this.setState({
-                linkHref: ''
-            });
-        },
-
-        /**
-         * Focuses the user cursor on the widget's input.
-         *
-         * @protected
-         * @method _focusLinkInput
-         */
-        _focusLinkInput: function _focusLinkInput() {
-            ReactDOM.findDOMNode(this.refs.linkInput).focus();
-        },
-
-        /**
-         * Returns an array of allowed target items. Each item consists of two properties:
-         * - label - the label for the item, for example "_self (same tab)"
-         * - value - the value that will be set for the link target attribute
-         *
-         * @method _getALlowedTargetItems
-         * @protected
-         * @return {Array<object>} An array of objects containing the allowed items.
-         */
-        _getAllowedTargetItems: function _getAllowedTargetItems() {
-            return this.props.allowedLinkTargets || [{
-                label: AlloyEditor.Strings.linkTargetSelf,
-                value: '_self'
-            }, {
-                label: AlloyEditor.Strings.linkTargetBlank,
-                value: '_blank'
-            }, {
-                label: AlloyEditor.Strings.linkTargetParent,
-                value: '_parent'
-            }, {
-                label: AlloyEditor.Strings.linkTargetTop,
-                value: '_top'
-            }];
-        },
-
-        /**
-         * Monitors key interaction inside the input element to respond to the keys:
-         * - Enter: Creates/updates the link.
-         * - Escape: Discards the changes.
-         *
-         * @protected
-         * @method _handleKeyDown
-         * @param {SyntheticEvent} event The keyboard event.
-         */
-        _handleKeyDown: function _handleKeyDown(event) {
-            if (event.keyCode === KEY_ENTER || event.keyCode === KEY_ESC) {
-                event.preventDefault();
-            }
-
-            if (event.keyCode === KEY_ENTER) {
-                this._updateLink();
-            } else if (event.keyCode === KEY_ESC) {
-                var editor = this.props.editor.get('nativeEditor');
-
-                new CKEDITOR.Link(editor).advanceSelection();
-
-                this.props.editor.get('nativeEditor').fire('actionPerformed', this);
-            }
-        },
-
-        /**
-         * Updates the component state when the link input changes on user interaction.
-         *
-         * @protected
-         * @method _handleLinkHrefChange
-         * @param {SyntheticEvent} event The change event.
-         */
-        _handleLinkHrefChange: function _handleLinkHrefChange(event) {
-            this.setState({
-                linkHref: event.target.value
-            });
-        },
-
-        /**
-         * Updates the component state when the link target changes on user interaction.
-         *
-         * @protected
-         * @method _handleLinkTargetChange
-         * @param {SyntheticEvent} event The click event.
-         */
-        _handleLinkTargetChange: function _handleLinkTargetChange(event) {
-            this.setState({
-                itemDropdown: null,
-                linkTarget: event.target.getAttribute('data-value')
-            });
-        },
-
-        /**
-         * Removes the link in the editor element.
-         *
-         * @protected
-         * @method _removeLink
-         */
-        _removeLink: function _removeLink() {
-            var editor = this.props.editor.get('nativeEditor');
-            var linkUtils = new CKEDITOR.Link(editor);
-            var selection = editor.getSelection();
-            var bookmarks = selection.createBookmarks();
-
-            linkUtils.remove(this.state.element, { advance: true });
-
-            selection.selectBookmarks(bookmarks);
-
-            // We need to cancelExclusive with the bound parameters in case the button is used
-            // inside another in exclusive mode (such is the case of the link button)
-            this.props.cancelExclusive();
-
-            editor.fire('actionPerformed', this);
-        },
-
-        /**
-         * Updates the link in the editor element. If the element didn't exist previously, it will
-         * create a new <a> element with the href specified in the link input.
-         *
-         * @protected
-         * @method _updateLink
-         */
-        _updateLink: function _updateLink() {
-            var editor = this.props.editor.get('nativeEditor');
-            var linkUtils = new CKEDITOR.Link(editor, { appendProtocol: this.props.appendProtocol });
-            var linkAttrs = {
-                target: this.state.linkTarget
-            };
-            var modifySelection = { advance: true };
-
-            if (this.state.linkHref) {
-                if (this.state.element) {
-                    linkAttrs.href = this.state.linkHref;
-
-                    linkUtils.update(linkAttrs, this.state.element, modifySelection);
-                } else {
-                    linkUtils.create(this.state.linkHref, linkAttrs, modifySelection);
+                    targetSelector = React.createElement(AlloyEditor.ButtonLinkTargetEdit, targetSelectorProps);
                 }
+
+                return React.createElement(
+                    'div',
+                    { className: 'ae-container-edit-link' },
+                    React.createElement(
+                        'button',
+                        { 'aria-label': AlloyEditor.Strings.removeLink, className: 'ae-button', disabled: !this.state.element, onClick: this._removeLink, title: AlloyEditor.Strings.remove },
+                        React.createElement('span', { className: 'ae-icon-unlink' })
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'ae-container-input xxl' },
+                        targetSelector,
+                        React.createElement('input', { className: 'ae-input', onChange: this._handleLinkHrefChange, onKeyDown: this._handleKeyDown, placeholder: AlloyEditor.Strings.editLink, ref: 'linkInput', type: 'text', value: this.state.linkHref }),
+                        React.createElement('button', { 'aria-label': AlloyEditor.Strings.clearInput, className: 'ae-button ae-icon-remove', onClick: this._clearLink, style: clearLinkStyle, title: AlloyEditor.Strings.clear })
+                    ),
+                    React.createElement(
+                        'button',
+                        { 'aria-label': AlloyEditor.Strings.confirm, className: 'ae-button', disabled: !this._isValidState(), onClick: this._updateLink, title: AlloyEditor.Strings.confirm },
+                        React.createElement('span', { className: 'ae-icon-ok' })
+                    )
+                );
+            }
+
+            /**
+             * Clears the link input. This only changes the component internal state, but does not
+             * affect the link element of the editor. Only the _removeLink and _updateLink methods
+             * are translated to the editor element.
+             *
+             * @protected
+             * @method _clearLink
+             */
+
+        }, {
+            key: '_clearLink',
+            value: function _clearLink() {
+                this.setState({
+                    linkHref: ''
+                });
+            }
+
+            /**
+             * Focuses the user cursor on the widget's input.
+             *
+             * @protected
+             * @method _focusLinkInput
+             */
+
+        }, {
+            key: '_focusLinkInput',
+            value: function _focusLinkInput() {
+                ReactDOM.findDOMNode(this.refs.linkInput).focus();
+            }
+
+            /**
+             * Returns an array of allowed target items. Each item consists of two properties:
+             * - label - the label for the item, for example "_self (same tab)"
+             * - value - the value that will be set for the link target attribute
+             *
+             * @method _getALlowedTargetItems
+             * @protected
+             * @return {Array<object>} An array of objects containing the allowed items.
+             */
+
+        }, {
+            key: '_getAllowedTargetItems',
+            value: function _getAllowedTargetItems() {
+                return this.props.allowedLinkTargets || [{
+                    label: AlloyEditor.Strings.linkTargetSelf,
+                    value: '_self'
+                }, {
+                    label: AlloyEditor.Strings.linkTargetBlank,
+                    value: '_blank'
+                }, {
+                    label: AlloyEditor.Strings.linkTargetParent,
+                    value: '_parent'
+                }, {
+                    label: AlloyEditor.Strings.linkTargetTop,
+                    value: '_top'
+                }];
+            }
+
+            /**
+             * Monitors key interaction inside the input element to respond to the keys:
+             * - Enter: Creates/updates the link.
+             * - Escape: Discards the changes.
+             *
+             * @protected
+             * @method _handleKeyDown
+             * @param {SyntheticEvent} event The keyboard event.
+             */
+
+        }, {
+            key: '_handleKeyDown',
+            value: function _handleKeyDown(event) {
+                if (event.keyCode === KEY_ENTER || event.keyCode === KEY_ESC) {
+                    event.preventDefault();
+                }
+
+                if (event.keyCode === KEY_ENTER) {
+                    this._updateLink();
+                } else if (event.keyCode === KEY_ESC) {
+                    var editor = this.props.editor.get('nativeEditor');
+
+                    new CKEDITOR.Link(editor).advanceSelection();
+
+                    this.props.editor.get('nativeEditor').fire('actionPerformed', this);
+                }
+            }
+
+            /**
+             * Updates the component state when the link input changes on user interaction.
+             *
+             * @protected
+             * @method _handleLinkHrefChange
+             * @param {SyntheticEvent} event The change event.
+             */
+
+        }, {
+            key: '_handleLinkHrefChange',
+            value: function _handleLinkHrefChange(event) {
+                this.setState({
+                    linkHref: event.target.value
+                });
+            }
+
+            /**
+             * Updates the component state when the link target changes on user interaction.
+             *
+             * @protected
+             * @method _handleLinkTargetChange
+             * @param {SyntheticEvent} event The click event.
+             */
+
+        }, {
+            key: '_handleLinkTargetChange',
+            value: function _handleLinkTargetChange(event) {
+                this.setState({
+                    itemDropdown: null,
+                    linkTarget: event.target.getAttribute('data-value')
+                });
+            }
+
+            /**
+             * Removes the link in the editor element.
+             *
+             * @protected
+             * @method _removeLink
+             */
+
+        }, {
+            key: '_removeLink',
+            value: function _removeLink() {
+                var editor = this.props.editor.get('nativeEditor');
+                var linkUtils = new CKEDITOR.Link(editor);
+                var selection = editor.getSelection();
+                var bookmarks = selection.createBookmarks();
+
+                linkUtils.remove(this.state.element, { advance: true });
+
+                selection.selectBookmarks(bookmarks);
+
+                // We need to cancelExclusive with the bound parameters in case the button is used
+                // inside another in exclusive mode (such is the case of the link button)
+                this.props.cancelExclusive();
 
                 editor.fire('actionPerformed', this);
             }
 
-            // We need to cancelExclusive with the bound parameters in case the button is used
-            // inside another in exclusive mode (such is the case of the link button)
-            this.props.cancelExclusive();
-        },
+            /**
+             * Updates the link in the editor element. If the element didn't exist previously, it will
+             * create a new <a> element with the href specified in the link input.
+             *
+             * @protected
+             * @method _updateLink
+             */
+
+        }, {
+            key: '_updateLink',
+            value: function _updateLink() {
+                var editor = this.props.editor.get('nativeEditor');
+                var linkUtils = new CKEDITOR.Link(editor, { appendProtocol: this.props.appendProtocol });
+                var linkAttrs = {
+                    target: this.state.linkTarget
+                };
+                var modifySelection = { advance: true };
+
+                if (this.state.linkHref) {
+                    if (this.state.element) {
+                        linkAttrs.href = this.state.linkHref;
+
+                        linkUtils.update(linkAttrs, this.state.element, modifySelection);
+                    } else {
+                        linkUtils.create(this.state.linkHref, linkAttrs, modifySelection);
+                    }
+
+                    editor.fire('actionPerformed', this);
+                }
+
+                // We need to cancelExclusive with the bound parameters in case the button is used
+                // inside another in exclusive mode (such is the case of the link button)
+                this.props.cancelExclusive();
+            }
+
+            /**
+             * Verifies that the current link state is valid so the user can save the link. A valid state
+             * means that we have a non-empty href and that either that or the link target are different
+             * from the original link.
+             *
+             * @protected
+             * @method _isValidState
+             * @return {Boolean} [description]
+             */
+
+        }, {
+            key: '_isValidState',
+            value: function _isValidState() {
+                var validState = this.state.linkHref && (this.state.linkHref !== this.state.initialLink.href || this.state.linkTarget !== this.state.initialLink.target);
+
+                return validState;
+            }
+        }]);
+
+        return ButtonLinkEdit;
+    }(mix(React.Component).with(AlloyEditor.WidgetDropdown));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonLinkEdit.propTypes = {
+        /**
+         * List of the allowed values for the target attribute.
+         *
+         * @property {Array} allowedTargets
+         */
+        allowedTargets: React.PropTypes.arrayOf(React.PropTypes.object),
 
         /**
-         * Verifies that the current link state is valid so the user can save the link. A valid state
-         * means that we have a non-empty href and that either that or the link target are different
-         * from the original link.
+         * Indicate if we add http:// protocol to link or not
          *
-         * @protected
-         * @method _isValidState
-         * @return {Boolean} [description]
+         * @property {Boolean} appendProtocol
          */
-        _isValidState: function _isValidState() {
-            var validState = this.state.linkHref && (this.state.linkHref !== this.state.initialLink.href || this.state.linkTarget !== this.state.initialLink.target);
+        appendProtocol: React.PropTypes.bool,
 
-            return validState;
-        }
-    });
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * Default value of the link target attribute.
+         *
+         * @property {String} defaultLinkTarget
+         */
+        defaultLinkTarget: React.PropTypes.string,
+
+        /**
+         * Indicates whether the link target selector should appear.
+         *
+         * @property {Boolean} showTargetSelector
+         */
+        showTargetSelector: React.PropTypes.bool
+
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonLinkEdit.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default linkEdit
+         */
+        key: 'linkEdit'
+    };
 
     AlloyEditor.Buttons[ButtonLinkEdit.key] = AlloyEditor.ButtonLinkEdit = ButtonLinkEdit;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonLinkTargetEdit class provides functionality for changing the target of a link
@@ -9284,163 +10265,197 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonLinkTargetEdit
      */
 
-    var ButtonLinkTargetEdit = React.createClass({
-        displayName: 'ButtonLinkTargetEdit',
+    var ButtonLinkTargetEdit = function (_mix$with) {
+        _inherits(ButtonLinkTargetEdit, _mix$with);
 
-        mixins: [AlloyEditor.WidgetFocusManager],
+        function ButtonLinkTargetEdit() {
+            _classCallCheck(this, ButtonLinkTargetEdit);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * List of the allowed items for the target attribute. Every allowed target is an object
-             * with a `label` attribute that will be shown in the dropdown and a `value` attribute
-             * that will get set as the link target attribute.
-             *
-             * @property {Array<object>} allowedTargets
-             */
-            allowedTargets: React.PropTypes.arrayOf(React.PropTypes.object),
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonLinkTargetEdit).apply(this, arguments));
+        }
+
+        _createClass(ButtonLinkTargetEdit, [{
+            key: 'getDefaultProps',
 
             /**
-             * The editor instance where the component is being used.
+             * Lifecycle. Returns the default values of the properties used in the widget.
              *
-             * @property {Object} editor
+             * @method getDefaultProps
              */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * Label of the current target value.
-             *
-             * @property {String} selectedTarget
-             */
-            selectedTarget: React.PropTypes.string.isRequired
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default linkTargetEdit
-             */
-            key: 'linkTargetEdit'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                circular: false,
-                descendants: '.ae-toolbar-element',
-                keys: {
-                    dismiss: [27],
-                    dismissNext: [39],
-                    dismissPrev: [37],
-                    next: [40],
-                    prev: [38]
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var allowedTargetsList;
-
-            if (this.props.expanded) {
-                allowedTargetsList = this._getAllowedTargetsList();
+            value: function getDefaultProps() {
+                return {
+                    circular: false,
+                    descendants: '.ae-toolbar-element',
+                    keys: {
+                        dismiss: [27],
+                        dismissNext: [39],
+                        dismissPrev: [37],
+                        next: [40],
+                        prev: [38]
+                    }
+                };
             }
 
-            return React.createElement(
-                'div',
-                { className: 'ae-container-edit-link-target ae-container-dropdown ae-container-dropdown-medium ae-has-dropdown', onFocus: this.focus, onKeyDown: this.handleKey, tabIndex: '0' },
-                React.createElement(
-                    'button',
-                    { 'aria-expanded': this.props.expanded, 'aria-label': this.props.selectedTarget, className: 'ae-toolbar-element', onClick: this.props.toggleDropdown, role: 'combobox', tabIndex: this.props.tabIndex, title: this.props.selectedTarget },
-                    React.createElement(
-                        'div',
-                        { className: 'ae-container' },
-                        React.createElement(
-                            'span',
-                            { className: 'ae-container-dropdown-selected-item' },
-                            this.props.selectedTarget
-                        ),
-                        React.createElement('span', { className: 'ae-icon-arrow' })
-                    )
-                ),
-                allowedTargetsList
-            );
-        },
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
 
-        /**
-         * Lifecycle. Invoked before rendering when new props or state are being received.
-         * This method is not called for the initial render or when forceUpdate is used.
-         *
-         * @method  shouldComponentUpdate
-         * @return {Boolean} Returns false when the transition to the new props and state will not
-         * require a component update.
-         */
-        shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
-            return nextProps.expanded !== this.props.expanded || nextProps.selectedTarget !== this.props.selectedTarget;
-        },
+        }, {
+            key: 'render',
+            value: function render() {
+                var allowedTargetsList;
 
-        /**
-         * Creates the dropdown list of allowed link targets.
-         *
-         * @protected
-         * @method _getAllowedTargetsList
-         *
-         * @return {Object} The allowed targets dropdown.
-         */
-        _getAllowedTargetsList: function _getAllowedTargetsList() {
-            return React.createElement(
-                AlloyEditor.ButtonDropdown,
-                null,
-                this._getAllowedTargetsListItems()
-            );
-        },
+                if (this.props.expanded) {
+                    allowedTargetsList = this._getAllowedTargetsList();
+                }
 
-        /**
-         * Creates the allowed link target items.
-         *
-         * @protected
-         * @method _getAllowedTargetsListItems
-         *
-         * @return {Array} The allowed target items.
-         */
-        _getAllowedTargetsListItems: function _getAllowedTargetsListItems() {
-            var handleLinkTargetChange = this.props.handleLinkTargetChange;
-
-            var items = this.props.allowedTargets.map(function (item) {
                 return React.createElement(
-                    'li',
-                    { key: item.value, role: 'option' },
+                    'div',
+                    { className: 'ae-container-edit-link-target ae-container-dropdown ae-container-dropdown-medium ae-has-dropdown', onFocus: this.focus, onKeyDown: this.handleKey, tabIndex: '0' },
                     React.createElement(
                         'button',
-                        { className: 'ae-toolbar-element', 'data-value': item.value, onClick: handleLinkTargetChange },
-                        item.label
-                    )
+                        { 'aria-expanded': this.props.expanded, 'aria-label': this.props.selectedTarget, className: 'ae-toolbar-element', onClick: this.props.toggleDropdown, role: 'combobox', tabIndex: this.props.tabIndex, title: this.props.selectedTarget },
+                        React.createElement(
+                            'div',
+                            { className: 'ae-container' },
+                            React.createElement(
+                                'span',
+                                { className: 'ae-container-dropdown-selected-item' },
+                                this.props.selectedTarget
+                            ),
+                            React.createElement('span', { className: 'ae-icon-arrow' })
+                        )
+                    ),
+                    allowedTargetsList
                 );
-            });
+            }
 
-            return items;
-        }
-    });
+            /**
+             * Lifecycle. Invoked before rendering when new props or state are being received.
+             * This method is not called for the initial render or when forceUpdate is used.
+             *
+             * @method  shouldComponentUpdate
+             * @return {Boolean} Returns false when the transition to the new props and state will not
+             * require a component update.
+             */
+
+        }, {
+            key: 'shouldComponentUpdate',
+            value: function shouldComponentUpdate(nextProps, nextState) {
+                return nextProps.expanded !== this.props.expanded || nextProps.selectedTarget !== this.props.selectedTarget;
+            }
+
+            /**
+             * Creates the dropdown list of allowed link targets.
+             *
+             * @protected
+             * @method _getAllowedTargetsList
+             *
+             * @return {Object} The allowed targets dropdown.
+             */
+
+        }, {
+            key: '_getAllowedTargetsList',
+            value: function _getAllowedTargetsList() {
+                return React.createElement(
+                    AlloyEditor.ButtonDropdown,
+                    null,
+                    this._getAllowedTargetsListItems()
+                );
+            }
+
+            /**
+             * Creates the allowed link target items.
+             *
+             * @protected
+             * @method _getAllowedTargetsListItems
+             *
+             * @return {Array} The allowed target items.
+             */
+
+        }, {
+            key: '_getAllowedTargetsListItems',
+            value: function _getAllowedTargetsListItems() {
+                var handleLinkTargetChange = this.props.handleLinkTargetChange;
+
+                var items = this.props.allowedTargets.map(function (item) {
+                    return React.createElement(
+                        'li',
+                        { key: item.value, role: 'option' },
+                        React.createElement(
+                            'button',
+                            { className: 'ae-toolbar-element', 'data-value': item.value, onClick: handleLinkTargetChange },
+                            item.label
+                        )
+                    );
+                });
+
+                return items;
+            }
+        }]);
+
+        return ButtonLinkTargetEdit;
+    }(mix(React.Component).with(AlloyEditor.WidgetFocusManager));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonLinkTargetEdit.propTypes = {
+        /**
+         * List of the allowed items for the target attribute. Every allowed target is an object
+         * with a `label` attribute that will be shown in the dropdown and a `value` attribute
+         * that will get set as the link target attribute.
+         *
+         * @property {Array<object>} allowedTargets
+         */
+        allowedTargets: React.PropTypes.arrayOf(React.PropTypes.object),
+
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * Label of the current target value.
+         *
+         * @property {String} selectedTarget
+         */
+        selectedTarget: React.PropTypes.string.isRequired
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonLinkTargetEdit.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default linkTargetEdit
+         */
+        key: 'linkTargetEdit'
+    };
 
     AlloyEditor.Buttons[ButtonLinkTargetEdit.key] = AlloyEditor.ButtonLinkTargetEdit = ButtonLinkTargetEdit;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonLink class provides functionality for creating and editing a link in a document. ButtonLink
@@ -9455,110 +10470,141 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonLink
      */
 
-    var ButtonLink = React.createClass({
-        displayName: 'ButtonLink',
+    var ButtonLink = function (_mix$with) {
+        _inherits(ButtonLink, _mix$with);
 
-        mixins: [AlloyEditor.ButtonKeystroke, AlloyEditor.ButtonStateClasses],
+        function ButtonLink() {
+            _classCallCheck(this, ButtonLink);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default link
-             */
-            key: 'link'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                keystroke: {
-                    fn: '_requestExclusive',
-                    keys: CKEDITOR.CTRL + 76 /*L*/
-                }
-            };
-        },
-
-        /**
-         * Checks if the current selection is contained within a link.
-         *
-         * @method isActive
-         * @return {Boolean} True if the selection is inside a link, false otherwise.
-         */
-        isActive: function isActive() {
-            return new CKEDITOR.Link(this.props.editor.get('nativeEditor')).getFromSelection() !== null;
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            if (this.props.renderExclusive) {
-                return React.createElement(AlloyEditor.ButtonLinkEdit, this.props);
-            } else {
-                return React.createElement(
-                    'button',
-                    { 'aria-label': AlloyEditor.Strings.link, className: cssClass, 'data-type': 'button-link', onClick: this._requestExclusive, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.link },
-                    React.createElement('span', { className: 'ae-icon-link' })
-                );
-            }
-        },
-
-        /**
-         * Requests the link button to be rendered in exclusive mode to allow the creation of a link.
-         *
-         * @protected
-         * @method _requestExclusive
-         */
-        _requestExclusive: function _requestExclusive() {
-            this.props.requestExclusive(ButtonLink.key);
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonLink).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonLink, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    keystroke: {
+                        fn: '_requestExclusive',
+                        keys: CKEDITOR.CTRL + 76 /*L*/
+                    }
+                };
+            }
+
+            /**
+             * Checks if the current selection is contained within a link.
+             *
+             * @method isActive
+             * @return {Boolean} True if the selection is inside a link, false otherwise.
+             */
+
+        }, {
+            key: 'isActive',
+            value: function isActive() {
+                return new CKEDITOR.Link(this.props.editor.get('nativeEditor')).getFromSelection() !== null;
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                if (this.props.renderExclusive) {
+                    return React.createElement(AlloyEditor.ButtonLinkEdit, this.props);
+                } else {
+                    return React.createElement(
+                        'button',
+                        { 'aria-label': AlloyEditor.Strings.link, className: cssClass, 'data-type': 'button-link', onClick: this._requestExclusive, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.link },
+                        React.createElement('span', { className: 'ae-icon-link' })
+                    );
+                }
+            }
+
+            /**
+             * Requests the link button to be rendered in exclusive mode to allow the creation of a link.
+             *
+             * @protected
+             * @method _requestExclusive
+             */
+
+        }, {
+            key: '_requestExclusive',
+            value: function _requestExclusive() {
+                this.props.requestExclusive(ButtonLink.key);
+            }
+        }]);
+
+        return ButtonLink;
+    }(mix(React.Component).with(AlloyEditor.ButtonKeystroke, AlloyEditor.ButtonStateClasses));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonLink.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonLink.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default link
+         */
+        key: 'link'
+    };
 
     AlloyEditor.Buttons[ButtonLink.key] = AlloyEditor.ButtonLink = ButtonLink;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonOrderedList class provides functionality for creating ordered lists in an editor.
@@ -9570,86 +10616,111 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonOrderedList
      */
 
-    var ButtonOrderedList = React.createClass({
-        displayName: 'ButtonOrderedList',
+    var ButtonOrderedList = function (_mix$with) {
+        _inherits(ButtonOrderedList, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand],
+        function ButtonOrderedList() {
+            _classCallCheck(this, ButtonOrderedList);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default ol
-             */
-            key: 'ol'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'numberedlist',
-                style: {
-                    element: 'ol'
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.numberedlist, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-ol', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.numberedlist },
-                React.createElement('span', { className: 'ae-icon-numbered-list' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonOrderedList).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonOrderedList, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'numberedlist',
+                    style: {
+                        element: 'ol'
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.numberedlist, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-ol', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.numberedlist },
+                    React.createElement('span', { className: 'ae-icon-numbered-list' })
+                );
+            }
+        }]);
+
+        return ButtonOrderedList;
+    }(mix(React.Component).with(AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonOrderedList.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonOrderedList.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default ol
+         */
+        key: 'ol'
+    };
 
     AlloyEditor.Buttons[ButtonOrderedList.key] = AlloyEditor.ButtonOrderedList = ButtonOrderedList;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonParagraphAlignLeft class provides functionality for aligning a paragraph on left.
@@ -9661,83 +10732,108 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonParagraphAlignLeft
      */
 
-    var ButtonParagraphAlignLeft = React.createClass({
-        displayName: 'ButtonParagraphAlignLeft',
+    var ButtonParagraphAlignLeft = function (_mix$with) {
+        _inherits(ButtonParagraphAlignLeft, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonCommandActive],
+        function ButtonParagraphAlignLeft() {
+            _classCallCheck(this, ButtonParagraphAlignLeft);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default paragraphLeft
-             */
-            key: 'paragraphLeft'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'justifyleft'
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.alignLeft, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-paragraph-align-left', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.alignLeft },
-                React.createElement('span', { className: 'ae-icon-align-left' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonParagraphAlignLeft).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonParagraphAlignLeft, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'justifyleft'
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.alignLeft, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-paragraph-align-left', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.alignLeft },
+                    React.createElement('span', { className: 'ae-icon-align-left' })
+                );
+            }
+        }]);
+
+        return ButtonParagraphAlignLeft;
+    }(mix(React.Component).with(AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonCommandActive));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonParagraphAlignLeft.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    },
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonParagraphAlignLeft.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default paragraphLeft
+         */
+        key: 'paragraphLeft'
+    };
 
     AlloyEditor.Buttons[ButtonParagraphAlignLeft.key] = AlloyEditor.ButtonParagraphAlignLeft = ButtonParagraphAlignLeft;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonParagraphAlignRight class provides functionality for aligning a paragraph on right.
@@ -9749,83 +10845,108 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonParagraphAlignRight
      */
 
-    var ButtonParagraphAlignRight = React.createClass({
-        displayName: 'ButtonParagraphAlignRight',
+    var ButtonParagraphAlignRight = function (_mix$with) {
+        _inherits(ButtonParagraphAlignRight, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonCommandActive],
+        function ButtonParagraphAlignRight() {
+            _classCallCheck(this, ButtonParagraphAlignRight);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default paragraphRight
-             */
-            key: 'paragraphRight'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'justifyright'
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.alignRight, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-paragraph-align-right', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.alignRight },
-                React.createElement('span', { className: 'ae-icon-align-right' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonParagraphAlignRight).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonParagraphAlignRight, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'justifyright'
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.alignRight, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-paragraph-align-right', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.alignRight },
+                    React.createElement('span', { className: 'ae-icon-align-right' })
+                );
+            }
+        }]);
+
+        return ButtonParagraphAlignRight;
+    }(mix(React.Component).with(AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonCommandActive));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonParagraphAlignRight.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonParagraphAlignRight.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default paragraphRight
+         */
+        key: 'paragraphRight'
+    };
 
     AlloyEditor.Buttons[ButtonParagraphAlignRight.key] = AlloyEditor.ButtonParagraphAlignRight = ButtonParagraphAlignRight;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonParagraphCenter class provides functionality for centering a paragraph.
@@ -9837,83 +10958,108 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonParagraphCenter
      */
 
-    var ButtonParagraphCenter = React.createClass({
-        displayName: 'ButtonParagraphCenter',
+    var ButtonParagraphCenter = function (_mix$with) {
+        _inherits(ButtonParagraphCenter, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonCommandActive],
+        function ButtonParagraphCenter() {
+            _classCallCheck(this, ButtonParagraphCenter);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default paragraphCenter
-             */
-            key: 'paragraphCenter'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'justifycenter'
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.alignCenter, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-paragraph-center', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.alignCenter },
-                React.createElement('span', { className: 'ae-icon-align-center' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonParagraphCenter).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonParagraphCenter, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'justifycenter'
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.alignCenter, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-paragraph-center', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.alignCenter },
+                    React.createElement('span', { className: 'ae-icon-align-center' })
+                );
+            }
+        }]);
+
+        return ButtonParagraphCenter;
+    }(mix(React.Component).with(AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonCommandActive));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonParagraphCenter.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonParagraphCenter.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default paragraphCenter
+         */
+        key: 'paragraphCenter'
+    };
 
     AlloyEditor.Buttons[ButtonParagraphCenter.key] = AlloyEditor.ButtonParagraphCenter = ButtonParagraphCenter;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonParagraphJustify class provides functionality for justfying a paragraph.
@@ -9925,83 +11071,106 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonParagraphJustify
      */
 
-    var ButtonParagraphJustify = React.createClass({
-        displayName: 'ButtonParagraphJustify',
+    var ButtonParagraphJustify = function (_mix$with) {
+        _inherits(ButtonParagraphJustify, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonCommandActive],
+        function ButtonParagraphJustify() {
+            _classCallCheck(this, ButtonParagraphJustify);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default paragraphJustify
-             */
-            key: 'paragraphJustify'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'justifyblock'
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.alignJustify, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-paragraph-justify', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.alignJustify },
-                React.createElement('span', { className: 'ae-icon-align-justified' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonParagraphJustify).apply(this, arguments));
         }
-    });
 
-    AlloyEditor.Buttons[ButtonParagraphJustify.key] = AlloyEditor.ButtonParagraphJustify = ButtonParagraphJustify;
+        _createClass(ButtonParagraphJustify, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'justifyblock'
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.alignJustify, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-paragraph-justify', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.alignJustify },
+                    React.createElement('span', { className: 'ae-icon-align-justified' })
+                );
+            }
+        }]);
+
+        return ButtonParagraphJustify;
+    }(mix(React.Component).with(AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonCommandActive));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonParagraphJustify.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonParagraphJustify.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default paragraphJustify
+         */
+        key: 'paragraphJustify'
+    }, AlloyEditor.Buttons[ButtonParagraphJustify.key] = AlloyEditor.ButtonParagraphJustify = ButtonParagraphJustify;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonQuote class wraps a selection in `blockquote` element.
@@ -10013,86 +11182,111 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonQuote
      */
 
-    var ButtonQuote = React.createClass({
-        displayName: 'ButtonQuote',
+    var ButtonQuote = function (_mix$with) {
+        _inherits(ButtonQuote, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand],
+        function ButtonQuote() {
+            _classCallCheck(this, ButtonQuote);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default quote
-             */
-            key: 'quote'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'blockquote',
-                style: {
-                    element: 'blockquote'
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.quote, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-quote', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.quote },
-                React.createElement('span', { className: 'ae-icon-quote' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonQuote).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonQuote, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'blockquote',
+                    style: {
+                        element: 'blockquote'
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.quote, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-quote', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.quote },
+                    React.createElement('span', { className: 'ae-icon-quote' })
+                );
+            }
+        }]);
+
+        return ButtonQuote;
+    }(mix(React.Component).with(AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonQuote.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonQuote.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default quote
+         */
+        key: 'quote'
+    };
 
     AlloyEditor.Buttons[ButtonQuote.key] = AlloyEditor.ButtonQuote = ButtonQuote;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonRemoveFormat class removes style formatting.
@@ -10102,81 +11296,106 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonRemoveFormat
      */
 
-    var ButtonRemoveFormat = React.createClass({
-        displayName: 'ButtonRemoveFormat',
+    var ButtonRemoveFormat = function (_mix$with) {
+        _inherits(ButtonRemoveFormat, _mix$with);
 
-        mixins: [AlloyEditor.ButtonCommand],
+        function ButtonRemoveFormat() {
+            _classCallCheck(this, ButtonRemoveFormat);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default removeFormat
-             */
-            key: 'removeFormat'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'removeFormat'
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.removeformat, className: 'ae-button', 'data-type': 'button-removeformat', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.removeformat },
-                React.createElement('span', { className: 'ae-icon-removeformat' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonRemoveFormat).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonRemoveFormat, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'removeFormat'
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.removeformat, className: 'ae-button', 'data-type': 'button-removeformat', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.removeformat },
+                    React.createElement('span', { className: 'ae-icon-removeformat' })
+                );
+            }
+        }]);
+
+        return ButtonRemoveFormat;
+    }(mix(React.Component).with(AlloyEditor.ButtonCommand));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonRemoveFormat.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonRemoveFormat.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default removeFormat
+         */
+        key: 'removeFormat'
+    };
 
     AlloyEditor.Buttons[ButtonRemoveFormat.key] = AlloyEditor.ButtonRemoveFormat = ButtonRemoveFormat;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonStrike class styles a selection with strike style.
@@ -10188,83 +11407,106 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonStrike
      */
 
-    var ButtonStrike = React.createClass({
-        displayName: 'ButtonStrike',
+    var ButtonStrike = function (_mix$with) {
+        _inherits(ButtonStrike, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand],
+        function ButtonStrike() {
+            _classCallCheck(this, ButtonStrike);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default strike
-             */
-            key: 'strike'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'strike',
-                style: {
-                    element: 's'
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.strike, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-strike', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.strike },
-                React.createElement('span', { className: 'ae-icon-strike' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonStrike).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonStrike, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'strike',
+                    style: {
+                        element: 's'
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.strike, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-strike', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.strike },
+                    React.createElement('span', { className: 'ae-icon-strike' })
+                );
+            }
+        }]);
+
+        return ButtonStrike;
+    }(mix(React.Component).with(AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonStrike.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonStrike.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default strike
+         */
+        key: 'strike'
+    };
 
     AlloyEditor.Buttons[ButtonStrike.key] = AlloyEditor.ButtonStrike = ButtonStrike;
 })();
 "use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -10275,31 +11517,51 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonsStylesListHeader
      */
 
-    var ButtonsStylesListHeader = React.createClass({
-        displayName: "ButtonsStylesListHeader",
+    var ButtonsStylesListHeader = function (_React$Component) {
+        _inherits(ButtonsStylesListHeader, _React$Component);
 
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            if (this.props.styles && this.props.styles.length) {
-                return React.createElement(
-                    "span",
-                    { className: "ae-list-header" },
-                    this.props.name
-                );
-            } else {
-                return null;
-            }
+        function ButtonsStylesListHeader() {
+            _classCallCheck(this, ButtonsStylesListHeader);
+
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonsStylesListHeader).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonsStylesListHeader, [{
+            key: "render",
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+            value: function render() {
+                if (this.props.styles && this.props.styles.length) {
+                    return React.createElement(
+                        "span",
+                        { className: "ae-list-header" },
+                        this.props.name
+                    );
+                } else {
+                    return null;
+                }
+            }
+        }]);
+
+        return ButtonsStylesListHeader;
+    }(React.Component);
 
     AlloyEditor.ButtonsStylesListHeader = ButtonsStylesListHeader;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -10311,111 +11573,141 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonStylesListItemRemove
      */
 
-    var ButtonStylesListItemRemove = React.createClass({
-        displayName: 'ButtonStylesListItemRemove',
+    var ButtonStylesListItemRemove = function (_React$Component) {
+        _inherits(ButtonStylesListItemRemove, _React$Component);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
+        function ButtonStylesListItemRemove() {
+            _classCallCheck(this, ButtonStylesListItemRemove);
 
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * Block styles that should be removed in addition to all other inline styles
-             *
-             * @property {Array} removeBlocks
-             * @default ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'pre']
-             */
-            removeBlocks: React.PropTypes.array,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        //Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default buttonStylesListItemRemove
-             */
-            key: 'buttonStylesListItemRemove'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                removeBlocks: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'pre']
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            return React.createElement(
-                'li',
-                { role: 'option' },
-                React.createElement(
-                    'button',
-                    { className: 'ae-toolbar-element', onClick: this._removeStyles, tabIndex: this.props.tabIndex },
-                    AlloyEditor.Strings.normal
-                )
-            );
-        },
-
-        /**
-         * Removes all inline styles and configured block elements applied to the current selection.
-         *
-         * @protected
-         * @method _removeStyles
-         */
-        _removeStyles: function _removeStyles() {
-            var editor = this.props.editor.get('nativeEditor');
-
-            editor.execCommand('removeFormat');
-
-            this.props.removeBlocks.forEach(function (blockItem) {
-                var blockStyle = new CKEDITOR.style({ element: blockItem });
-
-                editor.removeStyle(blockStyle);
-            });
-
-            editor.fire('actionPerformed', this);
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonStylesListItemRemove).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonStylesListItemRemove, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    removeBlocks: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'pre']
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                return React.createElement(
+                    'li',
+                    { role: 'option' },
+                    React.createElement(
+                        'button',
+                        { className: 'ae-toolbar-element', onClick: this._removeStyles, tabIndex: this.props.tabIndex },
+                        AlloyEditor.Strings.normal
+                    )
+                );
+            }
+
+            /**
+             * Removes all inline styles and configured block elements applied to the current selection.
+             *
+             * @protected
+             * @method _removeStyles
+             */
+
+        }, {
+            key: '_removeStyles',
+            value: function _removeStyles() {
+                var editor = this.props.editor.get('nativeEditor');
+
+                editor.execCommand('removeFormat');
+
+                this.props.removeBlocks.forEach(function (blockItem) {
+                    var blockStyle = new CKEDITOR.style({ element: blockItem });
+
+                    editor.removeStyle(blockStyle);
+                });
+
+                editor.fire('actionPerformed', this);
+            }
+        }]);
+
+        return ButtonStylesListItemRemove;
+    }(React.Component);
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonStylesListItemRemove.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * Block styles that should be removed in addition to all other inline styles
+         *
+         * @property {Array} removeBlocks
+         * @default ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'pre']
+         */
+        removeBlocks: React.PropTypes.array,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    //Lifecycle. Provides static properties to the widget.
+    ButtonStylesListItemRemove.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default buttonStylesListItemRemove
+         */
+        key: 'buttonStylesListItemRemove'
+    };
 
     AlloyEditor.ButtonStylesListItemRemove = ButtonStylesListItemRemove;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonStylesListItem class provides functionality for previewing a style definition
@@ -10427,77 +11719,105 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonStylesListItem
      */
 
-    var ButtonStylesListItem = React.createClass({
-        displayName: 'ButtonStylesListItem',
+    var ButtonStylesListItem = function (_mix$with) {
+        _inherits(ButtonStylesListItem, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStyle, AlloyEditor.ButtonActionStyle],
+        function ButtonStylesListItem() {
+            _classCallCheck(this, ButtonStylesListItem);
 
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default buttonStylesListItem
-             */
-            key: 'buttonStylesListItem'
-        },
-
-        /**
-         * Lifecycle. Invoked once, both on the client and server, immediately before the initial rendering occurs.
-         *
-         * @method componentWillMount
-         */
-        componentWillMount: function componentWillMount() {
-            // Styles with wildcard element (*) generate an empty tag in their preview < class="custom-class" />.
-            // We default to element span and remove the margins to obtain a more consistent set of previews.
-            var styleCfg = {
-                element: 'span',
-                styles: {
-                    margin: 0
-                }
-            };
-
-            styleCfg = CKEDITOR.tools.merge(styleCfg, this.props.style);
-
-            this._preview = new CKEDITOR.style(styleCfg).buildPreview(this.props.name);
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            // We need to use dangerouselySetInnterHTML since we're not in control of the style
-            // preview that is generated by CKEditor.
-            return React.createElement('button', { className: 'ae-toolbar-element', dangerouslySetInnerHTML: { __html: this._preview }, onClick: this._onClick, tabIndex: this.props.tabIndex });
-        },
-
-        /**
-         * Applies the item style to the editor selection.
-         *
-         * @protected
-         * @method _onClick
-         */
-        _onClick: function _onClick() {
-            // Typically, we want the style to be the only one applied to the current selection, so
-            // we execute the 'removeFormat' command first. Note that block styles won't be cleaned.
-            // However, this is consistent with other editors implementations of this feature.
-            this.props.editor.get('nativeEditor').execCommand('removeFormat');
-
-            this.applyStyle();
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonStylesListItem).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonStylesListItem, [{
+            key: 'componentWillMount',
+
+            /**
+             * Lifecycle. Invoked once, both on the client and server, immediately before the initial rendering occurs.
+             *
+             * @method componentWillMount
+             */
+            value: function componentWillMount() {
+                // Styles with wildcard element (*) generate an empty tag in their preview < class="custom-class" />.
+                // We default to element span and remove the margins to obtain a more consistent set of previews.
+                var styleCfg = {
+                    element: 'span',
+                    styles: {
+                        margin: 0
+                    }
+                };
+
+                styleCfg = CKEDITOR.tools.merge(styleCfg, this.props.style);
+
+                this._preview = new CKEDITOR.style(styleCfg).buildPreview(this.props.name);
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                // We need to use dangerouselySetInnterHTML since we're not in control of the style
+                // preview that is generated by CKEditor.
+                return React.createElement('button', { className: 'ae-toolbar-element', dangerouslySetInnerHTML: { __html: this._preview }, onClick: this._onClick, tabIndex: this.props.tabIndex });
+            }
+
+            /**
+             * Applies the item style to the editor selection.
+             *
+             * @protected
+             * @method _onClick
+             */
+
+        }, {
+            key: '_onClick',
+            value: function _onClick() {
+                // Typically, we want the style to be the only one applied to the current selection, so
+                // we execute the 'removeFormat' command first. Note that block styles won't be cleaned.
+                // However, this is consistent with other editors implementations of this feature.
+                this.props.editor.get('nativeEditor').execCommand('removeFormat');
+
+                this.applyStyle();
+            }
+        }]);
+
+        return ButtonStylesListItem;
+    }(mix(React.Component).with(AlloyEditor.ButtonStyle, AlloyEditor.ButtonActionStyle));
+
+    // Lifecycle. Provides static properties to the widget.
+
+
+    ButtonStylesListItem.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default buttonStylesListItem
+         */
+        key: 'buttonStylesListItem'
+    };
 
     AlloyEditor.ButtonStylesListItem = ButtonStylesListItem;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonStylesList class provides functionality for showing a list of styles that can be
@@ -10508,141 +11828,173 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonStylesList
      */
 
-    var ButtonStylesList = React.createClass({
-        displayName: 'ButtonStylesList',
+    var ButtonStylesList = function (_mix$with) {
+        _inherits(ButtonStylesList, _mix$with);
 
-        mixins: [AlloyEditor.WidgetFocusManager],
+        function ButtonStylesList() {
+            _classCallCheck(this, ButtonStylesList);
 
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default buttonStylesList
-             */
-            key: 'buttonStylesList'
-        },
-
-        /**
-         * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
-         *
-         * Focuses on the list node to allow keyboard interaction.
-         *
-         * @method componentDidMount
-         */
-        componentDidMount: function componentDidMount() {
-            ReactDOM.findDOMNode(this).focus();
-        },
-
-        /**
-         * Lifecycle. Invoked once, both on the client and server, immediately before the initial rendering occurs.
-         *
-         * @method componentWillMount
-         */
-        componentWillMount: function componentWillMount() {
-            var blockStyles = [];
-            var inlineStyles = [];
-            var objectStyles = [];
-
-            this.props.styles.forEach(function (item) {
-                var style = new CKEDITOR.style(item.style);
-
-                if (style.type === CKEDITOR.STYLE_BLOCK) {
-                    blockStyles.push(item);
-                } else if (style.type === CKEDITOR.STYLE_INLINE) {
-                    inlineStyles.push(item);
-                } else if (style.type === CKEDITOR.STYLE_OBJECT) {
-                    objectStyles.push(item);
-                }
-            });
-
-            this._blockStyles = blockStyles;
-            this._inlineStyles = inlineStyles;
-            this._objectStyles = objectStyles;
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                circular: false,
-                descendants: '.ae-toolbar-element',
-                keys: {
-                    dismiss: [27],
-                    dismissNext: [39],
-                    dismissPrev: [37],
-                    next: [40],
-                    prev: [38]
-                },
-                showRemoveStylesItem: true
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the list.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var removeStylesItem;
-
-            if (this.props.showRemoveStylesItem) {
-                removeStylesItem = React.createElement(AlloyEditor.ButtonStylesListItemRemove, { editor: this.props.editor });
-            }
-
-            return React.createElement(
-                'div',
-                { className: 'ae-dropdown ae-arrow-box ae-arrow-box-top-left', onFocus: this.focus, onKeyDown: this.handleKey, tabIndex: '0' },
-                React.createElement(
-                    'ul',
-                    { className: 'ae-listbox', role: 'listbox' },
-                    removeStylesItem,
-                    React.createElement(AlloyEditor.ButtonsStylesListHeader, { name: AlloyEditor.Strings.blockStyles, styles: this._blockStyles }),
-                    this._renderStylesItems(this._blockStyles),
-                    React.createElement(AlloyEditor.ButtonsStylesListHeader, { name: AlloyEditor.Strings.inlineStyles, styles: this._inlineStyles }),
-                    this._renderStylesItems(this._inlineStyles),
-                    React.createElement(AlloyEditor.ButtonsStylesListHeader, { name: AlloyEditor.Strings.objectStyles, styles: this._objectStyles }),
-                    this._renderStylesItems(this._objectStyles)
-                )
-            );
-        },
-
-        /**
-         * Renders instances of ButtonStylesListItem with the preview of the correspondent block, inline or object styles.
-         *
-         * @protected
-         * @method _renderStylesItems
-         * @param {Array} styles List of styles for which preview should be rendered.
-         * @return {Array} Rendered instances of ButtonStylesListItem class
-         */
-        _renderStylesItems: function _renderStylesItems(styles) {
-            var editor = this.props.editor;
-            var items;
-
-            if (styles && styles.length) {
-                items = styles.map(function (item) {
-                    return React.createElement(
-                        'li',
-                        { key: item.name, role: 'option' },
-                        React.createElement(AlloyEditor.ButtonStylesListItem, { editor: editor, name: item.name, style: item.style })
-                    );
-                });
-            }
-
-            return items;
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonStylesList).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonStylesList, [{
+            key: 'componentDidMount',
+
+            /**
+             * Lifecycle. Invoked once, only on the client, immediately after the initial rendering occurs.
+             *
+             * Focuses on the list node to allow keyboard interaction.
+             *
+             * @method componentDidMount
+             */
+            value: function componentDidMount() {
+                ReactDOM.findDOMNode(this).focus();
+            }
+
+            /**
+             * Lifecycle. Invoked once, both on the client and server, immediately before the initial rendering occurs.
+             *
+             * @method componentWillMount
+             */
+
+        }, {
+            key: 'componentWillMount',
+            value: function componentWillMount() {
+                var blockStyles = [];
+                var inlineStyles = [];
+                var objectStyles = [];
+
+                this.props.styles.forEach(function (item) {
+                    var style = new CKEDITOR.style(item.style);
+
+                    if (style.type === CKEDITOR.STYLE_BLOCK) {
+                        blockStyles.push(item);
+                    } else if (style.type === CKEDITOR.STYLE_INLINE) {
+                        inlineStyles.push(item);
+                    } else if (style.type === CKEDITOR.STYLE_OBJECT) {
+                        objectStyles.push(item);
+                    }
+                });
+
+                this._blockStyles = blockStyles;
+                this._inlineStyles = inlineStyles;
+                this._objectStyles = objectStyles;
+            }
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+
+        }, {
+            key: 'getDefaultProps',
+            value: function getDefaultProps() {
+                return {
+                    circular: false,
+                    descendants: '.ae-toolbar-element',
+                    keys: {
+                        dismiss: [27],
+                        dismissNext: [39],
+                        dismissPrev: [37],
+                        next: [40],
+                        prev: [38]
+                    },
+                    showRemoveStylesItem: true
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the list.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var removeStylesItem;
+
+                if (this.props.showRemoveStylesItem) {
+                    removeStylesItem = React.createElement(AlloyEditor.ButtonStylesListItemRemove, { editor: this.props.editor });
+                }
+
+                return React.createElement(
+                    'div',
+                    { className: 'ae-dropdown ae-arrow-box ae-arrow-box-top-left', onFocus: this.focus, onKeyDown: this.handleKey, tabIndex: '0' },
+                    React.createElement(
+                        'ul',
+                        { className: 'ae-listbox', role: 'listbox' },
+                        removeStylesItem,
+                        React.createElement(AlloyEditor.ButtonsStylesListHeader, { name: AlloyEditor.Strings.blockStyles, styles: this._blockStyles }),
+                        this._renderStylesItems(this._blockStyles),
+                        React.createElement(AlloyEditor.ButtonsStylesListHeader, { name: AlloyEditor.Strings.inlineStyles, styles: this._inlineStyles }),
+                        this._renderStylesItems(this._inlineStyles),
+                        React.createElement(AlloyEditor.ButtonsStylesListHeader, { name: AlloyEditor.Strings.objectStyles, styles: this._objectStyles }),
+                        this._renderStylesItems(this._objectStyles)
+                    )
+                );
+            }
+
+            /**
+             * Renders instances of ButtonStylesListItem with the preview of the correspondent block, inline or object styles.
+             *
+             * @protected
+             * @method _renderStylesItems
+             * @param {Array} styles List of styles for which preview should be rendered.
+             * @return {Array} Rendered instances of ButtonStylesListItem class
+             */
+
+        }, {
+            key: '_renderStylesItems',
+            value: function _renderStylesItems(styles) {
+                var editor = this.props.editor;
+                var items;
+
+                if (styles && styles.length) {
+                    items = styles.map(function (item) {
+                        return React.createElement(
+                            'li',
+                            { key: item.name, role: 'option' },
+                            React.createElement(AlloyEditor.ButtonStylesListItem, { editor: editor, name: item.name, style: item.style })
+                        );
+                    });
+                }
+
+                return items;
+            }
+        }]);
+
+        return ButtonStylesList;
+    }(mix(React.Component).with(AlloyEditor.WidgetFocusManager));
+
+    // Lifecycle. Provides static properties to the widget.
+
+
+    ButtonStylesList.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default buttonStylesList
+         */
+        key: 'buttonStylesList'
+    };
 
     AlloyEditor.ButtonStylesList = ButtonStylesList;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -10655,184 +12007,214 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonStyles
      */
 
-    var ButtonStyles = React.createClass({
-        displayName: 'ButtonStyles',
+    var ButtonStyles = function (_React$Component) {
+        _inherits(ButtonStyles, _React$Component);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
+        function ButtonStyles() {
+            _classCallCheck(this, ButtonStyles);
 
-            /**
-             * Indicates whether the styles list is expanded or not.
-             *
-             * @property {Boolean} expanded
-             */
-            expanded: React.PropTypes.bool,
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonStyles).apply(this, arguments));
+        }
+
+        _createClass(ButtonStyles, [{
+            key: 'render',
 
             /**
-             * The label that should be used for accessibility purposes.
+             * Lifecycle. Renders the UI of the button.
              *
-             * @property {String} label
+             * @method render
+             * @return {Object} The content which should be rendered.
              */
-            label: React.PropTypes.string,
+            value: function render() {
+                var activeStyle = AlloyEditor.Strings.normal;
 
-            /**
-             * Indicates whether the remove styles item should appear in the styles list.
-             *
-             * @property {Boolean} expanded
-             */
-            showRemoveStylesItem: React.PropTypes.bool,
+                var styles = this._getStyles();
 
-            /**
-             * List of the styles the button is able to handle.
-             *
-             * @property {Array} styles
-             */
-            styles: React.PropTypes.arrayOf(React.PropTypes.object),
+                styles.forEach(function (item) {
+                    if (this._checkActive(item.style)) {
+                        activeStyle = item.name;
+                    }
+                }.bind(this));
 
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number,
+                var buttonStylesList;
 
-            /**
-             * Callback provided by the button host to notify when the styles list has been expanded.
-             *
-             * @property {Function} toggleDropdown
-             */
-            toggleDropdown: React.PropTypes.func
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default styles
-             */
-            key: 'styles'
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var activeStyle = AlloyEditor.Strings.normal;
-
-            var styles = this._getStyles();
-
-            styles.forEach(function (item) {
-                if (this._checkActive(item.style)) {
-                    activeStyle = item.name;
+                if (this.props.expanded) {
+                    buttonStylesList = React.createElement(AlloyEditor.ButtonStylesList, { editor: this.props.editor, onDismiss: this.props.toggleDropdown, showRemoveStylesItem: this.props.showRemoveStylesItem, styles: styles });
                 }
-            }.bind(this));
 
-            var buttonStylesList;
-
-            if (this.props.expanded) {
-                buttonStylesList = React.createElement(AlloyEditor.ButtonStylesList, { editor: this.props.editor, onDismiss: this.props.toggleDropdown, showRemoveStylesItem: this.props.showRemoveStylesItem, styles: styles });
+                return React.createElement(
+                    'div',
+                    { className: 'ae-container-dropdown ae-has-dropdown' },
+                    React.createElement(
+                        'button',
+                        { 'aria-expanded': this.props.expanded, 'aria-label': AlloyEditor.Strings.styles + ' ' + activeStyle, className: 'ae-toolbar-element', onClick: this.props.toggleDropdown, role: 'combobox', tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.styles + ' ' + activeStyle },
+                        React.createElement(
+                            'div',
+                            { className: 'ae-container' },
+                            React.createElement(
+                                'span',
+                                { className: 'ae-container-dropdown-selected-item' },
+                                activeStyle
+                            ),
+                            React.createElement('span', { className: 'ae-icon-arrow' })
+                        )
+                    ),
+                    buttonStylesList
+                );
             }
 
-            return React.createElement(
-                'div',
-                { className: 'ae-container-dropdown ae-has-dropdown' },
-                React.createElement(
-                    'button',
-                    { 'aria-expanded': this.props.expanded, 'aria-label': AlloyEditor.Strings.styles + ' ' + activeStyle, className: 'ae-toolbar-element', onClick: this.props.toggleDropdown, role: 'combobox', tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.styles + ' ' + activeStyle },
-                    React.createElement(
-                        'div',
-                        { className: 'ae-container' },
-                        React.createElement(
-                            'span',
-                            { className: 'ae-container-dropdown-selected-item' },
-                            activeStyle
-                        ),
-                        React.createElement('span', { className: 'ae-icon-arrow' })
-                    )
-                ),
-                buttonStylesList
-            );
-        },
+            /**
+             * Checks if the given style definition is applied to the current selection in the editor.
+             *
+             * @protected
+             * @method _checkActive
+             * @param {Object} styleConfig Style definition as per http://docs.ckeditor.com/#!/api/CKEDITOR.style.
+             * @return {Boolean} Returns true if the style is applied to the selection, false otherwise.
+             */
+
+        }, {
+            key: '_checkActive',
+            value: function _checkActive(styleConfig) {
+                var nativeEditor = this.props.editor.get('nativeEditor');
+
+                // Styles with wildcard element (*) won't be considered active by CKEditor. Defaulting
+                // to a 'span' element works for most of those cases with no defined element.
+                styleConfig = CKEDITOR.tools.merge({ element: 'span' }, styleConfig);
+
+                var style = new CKEDITOR.style(styleConfig);
+
+                return style.checkActive(nativeEditor.elementPath(), nativeEditor);
+            }
+
+            /**
+             * Returns an array of styles. Each style consists from two properties:
+             * - name - the style name, for example "h1"
+             * - style - an object with one property, called `element` which value
+             * represents the style which have to be applied to the element.
+             *
+             * @method _getStyles
+             * @protected
+             * @return {Array<object>} An array of objects containing the styles.
+             */
+
+        }, {
+            key: '_getStyles',
+            value: function _getStyles() {
+                return this.props.styles || [{
+                    name: AlloyEditor.Strings.h1,
+                    style: {
+                        element: 'h1'
+                    }
+                }, {
+                    name: AlloyEditor.Strings.h2,
+                    style: {
+                        element: 'h2'
+                    }
+                }, {
+                    name: AlloyEditor.Strings.formatted,
+                    style: {
+                        element: 'pre'
+                    }
+                }, {
+                    name: AlloyEditor.Strings.cite,
+                    style: {
+                        element: 'cite'
+                    }
+                }, {
+                    name: AlloyEditor.Strings.code,
+                    style: {
+                        element: 'code'
+                    }
+                }];
+            }
+        }]);
+
+        return ButtonStyles;
+    }(React.Component);
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonStyles.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
 
         /**
-         * Checks if the given style definition is applied to the current selection in the editor.
+         * Indicates whether the styles list is expanded or not.
          *
-         * @protected
-         * @method _checkActive
-         * @param {Object} styleConfig Style definition as per http://docs.ckeditor.com/#!/api/CKEDITOR.style.
-         * @return {Boolean} Returns true if the style is applied to the selection, false otherwise.
+         * @property {Boolean} expanded
          */
-        _checkActive: function _checkActive(styleConfig) {
-            var nativeEditor = this.props.editor.get('nativeEditor');
-
-            // Styles with wildcard element (*) won't be considered active by CKEditor. Defaulting
-            // to a 'span' element works for most of those cases with no defined element.
-            styleConfig = CKEDITOR.tools.merge({ element: 'span' }, styleConfig);
-
-            var style = new CKEDITOR.style(styleConfig);
-
-            return style.checkActive(nativeEditor.elementPath(), nativeEditor);
-        },
+        expanded: React.PropTypes.bool,
 
         /**
-         * Returns an array of styles. Each style consists from two properties:
-         * - name - the style name, for example "h1"
-         * - style - an object with one property, called `element` which value
-         * represents the style which have to be applied to the element.
+         * The label that should be used for accessibility purposes.
          *
-         * @method _getStyles
-         * @protected
-         * @return {Array<object>} An array of objects containing the styles.
+         * @property {String} label
          */
-        _getStyles: function _getStyles() {
-            return this.props.styles || [{
-                name: AlloyEditor.Strings.h1,
-                style: {
-                    element: 'h1'
-                }
-            }, {
-                name: AlloyEditor.Strings.h2,
-                style: {
-                    element: 'h2'
-                }
-            }, {
-                name: AlloyEditor.Strings.formatted,
-                style: {
-                    element: 'pre'
-                }
-            }, {
-                name: AlloyEditor.Strings.cite,
-                style: {
-                    element: 'cite'
-                }
-            }, {
-                name: AlloyEditor.Strings.code,
-                style: {
-                    element: 'code'
-                }
-            }];
-        }
-    });
+        label: React.PropTypes.string,
+
+        /**
+         * Indicates whether the remove styles item should appear in the styles list.
+         *
+         * @property {Boolean} expanded
+         */
+        showRemoveStylesItem: React.PropTypes.bool,
+
+        /**
+         * List of the styles the button is able to handle.
+         *
+         * @property {Array} styles
+         */
+        styles: React.PropTypes.arrayOf(React.PropTypes.object),
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number,
+
+        /**
+         * Callback provided by the button host to notify when the styles list has been expanded.
+         *
+         * @property {Function} toggleDropdown
+         */
+        toggleDropdown: React.PropTypes.func
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonStyles.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default styles
+         */
+        key: 'styles'
+    };
 
     AlloyEditor.Buttons[ButtonStyles.key] = AlloyEditor.ButtonStyles = ButtonStyles;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonSubscript class provides functionality for applying subscript style to a text selection.
@@ -10844,86 +12226,111 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonSubscript
      */
 
-    var ButtonSubscript = React.createClass({
-        displayName: 'ButtonSubscript',
+    var ButtonSubscript = function (_mix$with) {
+        _inherits(ButtonSubscript, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand],
+        function ButtonSubscript() {
+            _classCallCheck(this, ButtonSubscript);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default subscript
-             */
-            key: 'subscript'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'subscript',
-                style: {
-                    element: 'sub'
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.subscript, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-subscript', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.subscript },
-                React.createElement('span', { className: 'ae-icon-subscript' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonSubscript).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonSubscript, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'subscript',
+                    style: {
+                        element: 'sub'
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.subscript, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-subscript', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.subscript },
+                    React.createElement('span', { className: 'ae-icon-subscript' })
+                );
+            }
+        }]);
+
+        return ButtonSubscript;
+    }(mix(React.Component).with(AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonSubscript.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonSubscript.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default subscript
+         */
+        key: 'subscript'
+    };
 
     AlloyEditor.Buttons[ButtonSubscript.key] = AlloyEditor.ButtonSubscript = ButtonSubscript;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonSuperscript class provides functionality for applying superscript style to a text selection.
@@ -10935,83 +12342,106 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonSuperscript
      */
 
-    var ButtonSuperscript = React.createClass({
-        displayName: 'ButtonSuperscript',
+    var ButtonSuperscript = function (_mix$with) {
+        _inherits(ButtonSuperscript, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand],
+        function ButtonSuperscript() {
+            _classCallCheck(this, ButtonSuperscript);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default superscript
-             */
-            key: 'superscript'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'superscript',
-                style: {
-                    element: 'sup'
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.superscript, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-superscript', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.superscript },
-                React.createElement('span', { className: 'ae-icon-superscript' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonSuperscript).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonSuperscript, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'superscript',
+                    style: {
+                        element: 'sup'
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.superscript, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-superscript', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.superscript },
+                    React.createElement('span', { className: 'ae-icon-superscript' })
+                );
+            }
+        }]);
+
+        return ButtonSuperscript;
+    }(mix(React.Component).with(AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonSuperscript.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonSuperscript.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default superscript
+         */
+        key: 'superscript'
+    };
 
     AlloyEditor.Buttons[ButtonSuperscript.key] = AlloyEditor.ButtonSuperscript = ButtonSuperscript;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -11022,133 +12452,158 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonTableCell
      */
 
-    var ButtonTableCell = React.createClass({
-        displayName: 'ButtonTableCell',
+    var ButtonTableCell = function (_React$Component) {
+        _inherits(ButtonTableCell, _React$Component);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * List of the commands the button is able to handle.
-             *
-             * @property {Array} commands
-             */
-            commands: React.PropTypes.arrayOf(React.PropTypes.object),
+        function ButtonTableCell() {
+            _classCallCheck(this, ButtonTableCell);
 
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonTableCell).apply(this, arguments));
+        }
+
+        _createClass(ButtonTableCell, [{
+            key: 'render',
 
             /**
-             * Indicates whether the styles list is expanded or not.
+             * Lifecycle. Renders the UI of the button.
              *
-             * @property {Boolean} expanded
+             * @method render
+             * @return {Object} The content which should be rendered.
              */
-            expanded: React.PropTypes.bool,
+            value: function render() {
+                var buttonCommandsList;
+                var buttonCommandsListId;
 
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
+                if (this.props.expanded) {
+                    buttonCommandsListId = ButtonTableCell.key + 'List';
+                    buttonCommandsList = React.createElement(AlloyEditor.ButtonCommandsList, { commands: this._getCommands(), editor: this.props.editor, listId: buttonCommandsListId, onDismiss: this.props.toggleDropdown });
+                }
 
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number,
-
-            /**
-             * Callback provided by the button host to notify when the styles list has been expanded.
-             *
-             * @property {Function} toggleDropdown
-             */
-            toggleDropdown: React.PropTypes.func
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default tableCell
-             */
-            key: 'tableCell'
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var buttonCommandsList;
-            var buttonCommandsListId;
-
-            if (this.props.expanded) {
-                buttonCommandsListId = ButtonTableCell.key + 'List';
-                buttonCommandsList = React.createElement(AlloyEditor.ButtonCommandsList, { commands: this._getCommands(), editor: this.props.editor, listId: buttonCommandsListId, onDismiss: this.props.toggleDropdown });
+                return React.createElement(
+                    'div',
+                    { className: 'ae-container ae-has-dropdown' },
+                    React.createElement(
+                        'button',
+                        { 'aria-expanded': this.props.expanded, 'aria-label': AlloyEditor.Strings.cell, 'aria-owns': buttonCommandsListId, className: 'ae-button', onClick: this.props.toggleDropdown, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.cell },
+                        React.createElement('span', { className: 'ae-icon-cell' })
+                    ),
+                    buttonCommandsList
+                );
             }
 
-            return React.createElement(
-                'div',
-                { className: 'ae-container ae-has-dropdown' },
-                React.createElement(
-                    'button',
-                    { 'aria-expanded': this.props.expanded, 'aria-label': AlloyEditor.Strings.cell, 'aria-owns': buttonCommandsListId, className: 'ae-button', onClick: this.props.toggleDropdown, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.cell },
-                    React.createElement('span', { className: 'ae-icon-cell' })
-                ),
-                buttonCommandsList
-            );
-        },
+            /**
+             * Returns a list of commands. If a list of commands was passed
+             * as property `commands`, it will take a precedence over the default ones.
+             *
+             * @method _getCommands
+             * @return {Array} The list of available commands.
+             */
+
+        }, {
+            key: '_getCommands',
+            value: function _getCommands() {
+                return this.props.commands || [{
+                    command: 'cellInsertBefore',
+                    label: AlloyEditor.Strings.cellInsertBefore
+                }, {
+                    command: 'cellInsertAfter',
+                    label: AlloyEditor.Strings.cellInsertAfter
+                }, {
+                    command: 'cellDelete',
+                    label: AlloyEditor.Strings.cellDelete
+                }, {
+                    command: 'cellMerge',
+                    label: AlloyEditor.Strings.cellMerge
+                }, {
+                    command: 'cellMergeDown',
+                    label: AlloyEditor.Strings.cellMergeDown
+                }, {
+                    command: 'cellMergeRight',
+                    label: AlloyEditor.Strings.cellMergeRight
+                }, {
+                    command: 'cellHorizontalSplit',
+                    label: AlloyEditor.Strings.cellSplitHorizontal
+                }, {
+                    command: 'cellVerticalSplit',
+                    label: AlloyEditor.Strings.cellSplitVertical
+                }];
+            }
+        }]);
+
+        return ButtonTableCell;
+    }(React.Component);
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonTableCell.propTypes = {
+        /**
+         * List of the commands the button is able to handle.
+         *
+         * @property {Array} commands
+         */
+        commands: React.PropTypes.arrayOf(React.PropTypes.object),
 
         /**
-         * Returns a list of commands. If a list of commands was passed
-         * as property `commands`, it will take a precedence over the default ones.
+         * The editor instance where the component is being used.
          *
-         * @method _getCommands
-         * @return {Array} The list of available commands.
+         * @property {Object} editor
          */
-        _getCommands: function _getCommands() {
-            return this.props.commands || [{
-                command: 'cellInsertBefore',
-                label: AlloyEditor.Strings.cellInsertBefore
-            }, {
-                command: 'cellInsertAfter',
-                label: AlloyEditor.Strings.cellInsertAfter
-            }, {
-                command: 'cellDelete',
-                label: AlloyEditor.Strings.cellDelete
-            }, {
-                command: 'cellMerge',
-                label: AlloyEditor.Strings.cellMerge
-            }, {
-                command: 'cellMergeDown',
-                label: AlloyEditor.Strings.cellMergeDown
-            }, {
-                command: 'cellMergeRight',
-                label: AlloyEditor.Strings.cellMergeRight
-            }, {
-                command: 'cellHorizontalSplit',
-                label: AlloyEditor.Strings.cellSplitHorizontal
-            }, {
-                command: 'cellVerticalSplit',
-                label: AlloyEditor.Strings.cellSplitVertical
-            }];
-        }
-    });
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * Indicates whether the styles list is expanded or not.
+         *
+         * @property {Boolean} expanded
+         */
+        expanded: React.PropTypes.bool,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number,
+
+        /**
+         * Callback provided by the button host to notify when the styles list has been expanded.
+         *
+         * @property {Function} toggleDropdown
+         */
+        toggleDropdown: React.PropTypes.func
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonTableCell.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default tableCell
+         */
+        key: 'tableCell'
+    };
 
     AlloyEditor.Buttons[ButtonTableCell.key] = AlloyEditor.ButtonTableCell = ButtonTableCell;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -11159,117 +12614,142 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonTableColumn
      */
 
-    var ButtonTableColumn = React.createClass({
-        displayName: 'ButtonTableColumn',
+    var ButtonTableColumn = function (_React$Component) {
+        _inherits(ButtonTableColumn, _React$Component);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * List of the commands the button is able to handle.
-             *
-             * @property {Array} commands
-             */
-            commands: React.PropTypes.arrayOf(React.PropTypes.object),
+        function ButtonTableColumn() {
+            _classCallCheck(this, ButtonTableColumn);
 
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonTableColumn).apply(this, arguments));
+        }
+
+        _createClass(ButtonTableColumn, [{
+            key: 'render',
 
             /**
-             * Indicates whether the styles list is expanded or not.
+             * Lifecycle. Renders the UI of the button.
              *
-             * @property {Boolean} expanded
+             * @method render
+             * @return {Object} The content which should be rendered.
              */
-            expanded: React.PropTypes.bool,
+            value: function render() {
+                var buttonCommandsList, buttonCommandsListId;
 
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
+                if (this.props.expanded) {
+                    buttonCommandsListId = ButtonTableColumn.key + 'List';
+                    buttonCommandsList = React.createElement(AlloyEditor.ButtonCommandsList, { commands: this._getCommands(), editor: this.props.editor, listId: buttonCommandsListId, onDismiss: this.props.toggleDropdown });
+                }
 
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number,
-
-            /**
-             * Callback provided by the button host to notify when the styles list has been expanded.
-             *
-             * @property {Function} toggleDropdown
-             */
-            toggleDropdown: React.PropTypes.func
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default tableColumn
-             */
-            key: 'tableColumn'
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var buttonCommandsList, buttonCommandsListId;
-
-            if (this.props.expanded) {
-                buttonCommandsListId = ButtonTableColumn.key + 'List';
-                buttonCommandsList = React.createElement(AlloyEditor.ButtonCommandsList, { commands: this._getCommands(), editor: this.props.editor, listId: buttonCommandsListId, onDismiss: this.props.toggleDropdown });
+                return React.createElement(
+                    'div',
+                    { className: 'ae-container ae-has-dropdown' },
+                    React.createElement(
+                        'button',
+                        { 'aria-expanded': this.props.expanded, 'aria-label': AlloyEditor.Strings.column, 'aria-owns': buttonCommandsListId, className: 'ae-button', onClick: this.props.toggleDropdown, role: 'listbox', tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.column },
+                        React.createElement('span', { className: 'ae-icon-column' })
+                    ),
+                    buttonCommandsList
+                );
             }
 
-            return React.createElement(
-                'div',
-                { className: 'ae-container ae-has-dropdown' },
-                React.createElement(
-                    'button',
-                    { 'aria-expanded': this.props.expanded, 'aria-label': AlloyEditor.Strings.column, 'aria-owns': buttonCommandsListId, className: 'ae-button', onClick: this.props.toggleDropdown, role: 'listbox', tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.column },
-                    React.createElement('span', { className: 'ae-icon-column' })
-                ),
-                buttonCommandsList
-            );
-        },
+            /**
+             * Returns a list of commands. If a list of commands was passed
+             * as property `commands`, it will take a precedence over the default ones.
+             *
+             * @method _getCommands
+             * @return {Array} The list of available commands.
+             */
+
+        }, {
+            key: '_getCommands',
+            value: function _getCommands() {
+                return this.props.commands || [{
+                    command: 'columnInsertBefore',
+                    label: AlloyEditor.Strings.columnInsertBefore
+                }, {
+                    command: 'columnInsertAfter',
+                    label: AlloyEditor.Strings.columnInsertAfter
+                }, {
+                    command: 'columnDelete',
+                    label: AlloyEditor.Strings.columnDelete
+                }];
+            }
+        }]);
+
+        return ButtonTableColumn;
+    }(React.Component);
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonTableColumn.propTypes = {
+        /**
+         * List of the commands the button is able to handle.
+         *
+         * @property {Array} commands
+         */
+        commands: React.PropTypes.arrayOf(React.PropTypes.object),
 
         /**
-         * Returns a list of commands. If a list of commands was passed
-         * as property `commands`, it will take a precedence over the default ones.
+         * The editor instance where the component is being used.
          *
-         * @method _getCommands
-         * @return {Array} The list of available commands.
+         * @property {Object} editor
          */
-        _getCommands: function _getCommands() {
-            return this.props.commands || [{
-                command: 'columnInsertBefore',
-                label: AlloyEditor.Strings.columnInsertBefore
-            }, {
-                command: 'columnInsertAfter',
-                label: AlloyEditor.Strings.columnInsertAfter
-            }, {
-                command: 'columnDelete',
-                label: AlloyEditor.Strings.columnDelete
-            }];
-        }
-    });
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * Indicates whether the styles list is expanded or not.
+         *
+         * @property {Boolean} expanded
+         */
+        expanded: React.PropTypes.bool,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number,
+
+        /**
+         * Callback provided by the button host to notify when the styles list has been expanded.
+         *
+         * @property {Function} toggleDropdown
+         */
+        toggleDropdown: React.PropTypes.func
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonTableColumn.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default tableColumn
+         */
+        key: 'tableColumn'
+    };
 
     AlloyEditor.Buttons[ButtonTableColumn.key] = AlloyEditor.ButtonTableColumn = ButtonTableColumn;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -11283,182 +12763,223 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      *
      * @class ButtonTableEdit
      */
-    var ButtonTableEdit = React.createClass({
-        displayName: 'ButtonTableEdit',
 
-        // Allows validating props being passed to the component.
-        propTypes: {
+    var ButtonTableEdit = function (_React$Component) {
+        _inherits(ButtonTableEdit, _React$Component);
 
-            /**
-             * Method to notify the button abandons the exclusive rendering mode.
-             *
-             * @property {Function} cancelExclusive
-             */
-            cancelExclusive: React.PropTypes.func.isRequired,
+        function ButtonTableEdit() {
+            _classCallCheck(this, ButtonTableEdit);
 
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default tableEdit
-             */
-            key: 'tableEdit'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                tableAttributes: {
-                    border: 1,
-                    cellPadding: 0,
-                    cellSpacing: 0,
-                    style: 'width: 100%'
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Invoked once, only on the client (not on the server),
-         * immediately after the initial rendering occurs.
-         *
-         * Focuses on the link input to immediately allow editing.
-         *
-         * @method componentDidMount
-         */
-        componentDidMount: function componentDidMount() {
-            ReactDOM.findDOMNode(this.refs.rows).focus();
-        },
-
-        /**
-         * Lifecycle. Invoked once before the component is mounted.
-         *
-         * @method getInitialState
-         */
-        getInitialState: function getInitialState() {
-            return {
-                cols: 3,
-                rows: 3
-            };
-        },
-
-        /**
-         * Creates a table.
-         *
-         * @protected
-         * @method _createTable
-         */
-        _createTable: function _createTable() {
-            var editor = this.props.editor.get('nativeEditor');
-            var tableUtils = new CKEDITOR.Table(editor);
-
-            tableUtils.create({
-                attrs: this.props.tableAttributes,
-                cols: this.state.cols,
-                rows: this.state.rows
-            });
-
-            this.props.cancelExclusive();
-
-            editor.fire('actionPerformed', this);
-        },
-
-        /**
-         * Handles a change in input value. Sets the provided value from the user back to the input.
-         *
-         * @protected
-         * @method _handleChange
-         * @param {String} inputName The name of the input which value should be updated.
-         * @param {SyntheticEvent} event The provided event.
-         */
-        _handleChange: function _handleChange(inputName, event) {
-            var state = {};
-            state[inputName] = event.target.value;
-
-            this.setState(state);
-        },
-
-        /**
-         * Monitors key interaction inside the input element to respond to the keys:
-         * - Enter: Creates the table.
-         * - Escape: Discards the changes.
-         *
-         * @protected
-         * @method _handleKeyDown
-         * @param {SyntheticEvent} event The keyboard event.
-         */
-        _handleKeyDown: function _handleKeyDown(event) {
-            if (event.keyCode === KEY_ENTER || event.keyCode === KEY_ESC) {
-                event.preventDefault();
-            }
-
-            if (event.keyCode === KEY_ENTER) {
-                this._createTable();
-            } else if (event.keyCode === KEY_ESC) {
-                this.props.cancelExclusive();
-            }
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var time = Date.now();
-            var rowsId = time + 'rows';
-            var colsId = time + 'cols';
-
-            return React.createElement(
-                'div',
-                { className: 'ae-container-edit-table' },
-                React.createElement(
-                    'label',
-                    { htmlFor: rowsId },
-                    'Rows'
-                ),
-                React.createElement(
-                    'div',
-                    { className: 'ae-container-input small' },
-                    React.createElement('input', { className: 'ae-input', id: rowsId, onChange: this._handleChange.bind(this, 'rows'), min: '1', onKeyDown: this._handleKeyDown, placeholder: 'Rows', ref: 'rows', type: 'number', value: this.state.rows })
-                ),
-                React.createElement(
-                    'label',
-                    { htmlFor: colsId },
-                    'Cols'
-                ),
-                React.createElement(
-                    'div',
-                    { className: 'ae-container-input small' },
-                    React.createElement('input', { className: 'ae-input', id: colsId, onChange: this._handleChange.bind(this, 'cols'), min: '1', onKeyDown: this._handleKeyDown, placeholder: 'Colums', ref: 'cols', type: 'number', value: this.state.cols })
-                ),
-                React.createElement(
-                    'button',
-                    { 'aria-label': 'Confirm', className: 'ae-button', onClick: this._createTable },
-                    React.createElement('span', { className: 'ae-icon-ok' })
-                )
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonTableEdit).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonTableEdit, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             */
+            value: function getDefaultProps() {
+                return {
+                    tableAttributes: {
+                        border: 1,
+                        cellPadding: 0,
+                        cellSpacing: 0,
+                        style: 'width: 100%'
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Invoked once, only on the client (not on the server),
+             * immediately after the initial rendering occurs.
+             *
+             * Focuses on the link input to immediately allow editing.
+             *
+             * @method componentDidMount
+             */
+
+        }, {
+            key: 'componentDidMount',
+            value: function componentDidMount() {
+                ReactDOM.findDOMNode(this.refs.rows).focus();
+            }
+
+            /**
+             * Lifecycle. Invoked once before the component is mounted.
+             *
+             * @method getInitialState
+             */
+
+        }, {
+            key: 'getInitialState',
+            value: function getInitialState() {
+                return {
+                    cols: 3,
+                    rows: 3
+                };
+            }
+
+            /**
+             * Creates a table.
+             *
+             * @protected
+             * @method _createTable
+             */
+
+        }, {
+            key: '_createTable',
+            value: function _createTable() {
+                var editor = this.props.editor.get('nativeEditor');
+                var tableUtils = new CKEDITOR.Table(editor);
+
+                tableUtils.create({
+                    attrs: this.props.tableAttributes,
+                    cols: this.state.cols,
+                    rows: this.state.rows
+                });
+
+                this.props.cancelExclusive();
+
+                editor.fire('actionPerformed', this);
+            }
+
+            /**
+             * Handles a change in input value. Sets the provided value from the user back to the input.
+             *
+             * @protected
+             * @method _handleChange
+             * @param {String} inputName The name of the input which value should be updated.
+             * @param {SyntheticEvent} event The provided event.
+             */
+
+        }, {
+            key: '_handleChange',
+            value: function _handleChange(inputName, event) {
+                var state = {};
+                state[inputName] = event.target.value;
+
+                this.setState(state);
+            }
+
+            /**
+             * Monitors key interaction inside the input element to respond to the keys:
+             * - Enter: Creates the table.
+             * - Escape: Discards the changes.
+             *
+             * @protected
+             * @method _handleKeyDown
+             * @param {SyntheticEvent} event The keyboard event.
+             */
+
+        }, {
+            key: '_handleKeyDown',
+            value: function _handleKeyDown(event) {
+                if (event.keyCode === KEY_ENTER || event.keyCode === KEY_ESC) {
+                    event.preventDefault();
+                }
+
+                if (event.keyCode === KEY_ENTER) {
+                    this._createTable();
+                } else if (event.keyCode === KEY_ESC) {
+                    this.props.cancelExclusive();
+                }
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var time = Date.now();
+                var rowsId = time + 'rows';
+                var colsId = time + 'cols';
+
+                return React.createElement(
+                    'div',
+                    { className: 'ae-container-edit-table' },
+                    React.createElement(
+                        'label',
+                        { htmlFor: rowsId },
+                        'Rows'
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'ae-container-input small' },
+                        React.createElement('input', { className: 'ae-input', id: rowsId, onChange: this._handleChange.bind(this, 'rows'), min: '1', onKeyDown: this._handleKeyDown, placeholder: 'Rows', ref: 'rows', type: 'number', value: this.state.rows })
+                    ),
+                    React.createElement(
+                        'label',
+                        { htmlFor: colsId },
+                        'Cols'
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'ae-container-input small' },
+                        React.createElement('input', { className: 'ae-input', id: colsId, onChange: this._handleChange.bind(this, 'cols'), min: '1', onKeyDown: this._handleKeyDown, placeholder: 'Colums', ref: 'cols', type: 'number', value: this.state.cols })
+                    ),
+                    React.createElement(
+                        'button',
+                        { 'aria-label': 'Confirm', className: 'ae-button', onClick: this._createTable },
+                        React.createElement('span', { className: 'ae-icon-ok' })
+                    )
+                );
+            }
+        }]);
+
+        return ButtonTableEdit;
+    }(React.Component);
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonTableEdit.propTypes = {
+
+        /**
+         * Method to notify the button abandons the exclusive rendering mode.
+         *
+         * @property {Function} cancelExclusive
+         */
+        cancelExclusive: React.PropTypes.func.isRequired,
+
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonTableEdit.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default tableEdit
+         */
+        key: 'tableEdit'
+    };
 
     AlloyEditor.Buttons[ButtonTableEdit.key] = AlloyEditor.ButtonTableEdit = ButtonTableEdit;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -11469,140 +12990,165 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonTableHeading
      */
 
-    var ButtonTableHeading = React.createClass({
-        displayName: 'ButtonTableHeading',
+    var ButtonTableHeading = function (_React$Component) {
+        _inherits(ButtonTableHeading, _React$Component);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * List of the commands the button is able to handle.
-             *
-             * @property {Array} commands
-             */
-            commands: React.PropTypes.arrayOf(React.PropTypes.object),
+        function ButtonTableHeading() {
+            _classCallCheck(this, ButtonTableHeading);
 
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonTableHeading).apply(this, arguments));
+        }
+
+        _createClass(ButtonTableHeading, [{
+            key: 'render',
 
             /**
-             * Indicates whether the styles list is expanded or not.
+             * Lifecycle. Renders the UI of the button.
              *
-             * @property {Boolean} expanded
+             * @method render
+             * @return {Object} The content which should be rendered.
              */
-            expanded: React.PropTypes.bool,
+            value: function render() {
+                var buttonCommandsList;
+                var buttonCommandsListId;
 
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
+                if (this.props.expanded) {
+                    buttonCommandsListId = ButtonTableHeading.key + 'List';
+                    buttonCommandsList = React.createElement(AlloyEditor.ButtonCommandsList, { commands: this._getCommands(), editor: this.props.editor, listId: buttonCommandsListId, onDismiss: this.props.toggleDropdown });
+                }
 
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number,
+                var activeHeading = new CKEDITOR.Table(this.props.editor.get('nativeEditor')).getHeading();
+                var activeHeadingIntro = AlloyEditor.Strings.headers + ':';
+                var activeHeadingLabel = AlloyEditor.Strings['headers' + activeHeading];
 
-            /**
-             * Callback provided by the button host to notify when the styles list has been expanded.
-             *
-             * @property {Function} toggleDropdown
-             */
-            toggleDropdown: React.PropTypes.func
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default tableRow
-             */
-            key: 'tableHeading'
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var buttonCommandsList;
-            var buttonCommandsListId;
-
-            if (this.props.expanded) {
-                buttonCommandsListId = ButtonTableHeading.key + 'List';
-                buttonCommandsList = React.createElement(AlloyEditor.ButtonCommandsList, { commands: this._getCommands(), editor: this.props.editor, listId: buttonCommandsListId, onDismiss: this.props.toggleDropdown });
+                return React.createElement(
+                    'div',
+                    { className: 'ae-container-dropdown-xl ae-has-dropdown' },
+                    React.createElement(
+                        'button',
+                        { 'aria-expanded': this.props.expanded, 'aria-label': '', className: 'ae-toolbar-element', onClick: this.props.toggleDropdown, role: 'combobox', tabIndex: this.props.tabIndex, title: '' },
+                        React.createElement(
+                            'div',
+                            { className: 'ae-container' },
+                            React.createElement(
+                                'span',
+                                { className: 'ae-container-dropdown-selected-item' },
+                                activeHeadingIntro,
+                                ' ',
+                                React.createElement(
+                                    'strong',
+                                    null,
+                                    activeHeadingLabel
+                                )
+                            ),
+                            React.createElement('span', { className: 'ae-icon-arrow' })
+                        )
+                    ),
+                    buttonCommandsList
+                );
             }
 
-            var activeHeading = new CKEDITOR.Table(this.props.editor.get('nativeEditor')).getHeading();
-            var activeHeadingIntro = AlloyEditor.Strings.headers + ':';
-            var activeHeadingLabel = AlloyEditor.Strings['headers' + activeHeading];
+            /**
+             * Returns a list of commands. If a list of commands was passed
+             * as property `commands`, it will take a precedence over the default ones.
+             *
+             * @method _getCommands
+             * @return {Array} The list of available commands.
+             */
 
-            return React.createElement(
-                'div',
-                { className: 'ae-container-dropdown-xl ae-has-dropdown' },
-                React.createElement(
-                    'button',
-                    { 'aria-expanded': this.props.expanded, 'aria-label': '', className: 'ae-toolbar-element', onClick: this.props.toggleDropdown, role: 'combobox', tabIndex: this.props.tabIndex, title: '' },
-                    React.createElement(
-                        'div',
-                        { className: 'ae-container' },
-                        React.createElement(
-                            'span',
-                            { className: 'ae-container-dropdown-selected-item' },
-                            activeHeadingIntro,
-                            ' ',
-                            React.createElement(
-                                'strong',
-                                null,
-                                activeHeadingLabel
-                            )
-                        ),
-                        React.createElement('span', { className: 'ae-icon-arrow' })
-                    )
-                ),
-                buttonCommandsList
-            );
-        },
+        }, {
+            key: '_getCommands',
+            value: function _getCommands() {
+                return this.props.commands || [{
+                    command: 'tableHeadingNone',
+                    label: AlloyEditor.Strings.headersNone
+                }, {
+                    command: 'tableHeadingRow',
+                    label: AlloyEditor.Strings.headersRow
+                }, {
+                    command: 'tableHeadingColumn',
+                    label: AlloyEditor.Strings.headersColumn
+                }, {
+                    command: 'tableHeadingBoth',
+                    label: AlloyEditor.Strings.headersBoth
+                }];
+            }
+        }]);
+
+        return ButtonTableHeading;
+    }(React.Component);
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonTableHeading.propTypes = {
+        /**
+         * List of the commands the button is able to handle.
+         *
+         * @property {Array} commands
+         */
+        commands: React.PropTypes.arrayOf(React.PropTypes.object),
 
         /**
-         * Returns a list of commands. If a list of commands was passed
-         * as property `commands`, it will take a precedence over the default ones.
+         * The editor instance where the component is being used.
          *
-         * @method _getCommands
-         * @return {Array} The list of available commands.
+         * @property {Object} editor
          */
-        _getCommands: function _getCommands() {
-            return this.props.commands || [{
-                command: 'tableHeadingNone',
-                label: AlloyEditor.Strings.headersNone
-            }, {
-                command: 'tableHeadingRow',
-                label: AlloyEditor.Strings.headersRow
-            }, {
-                command: 'tableHeadingColumn',
-                label: AlloyEditor.Strings.headersColumn
-            }, {
-                command: 'tableHeadingBoth',
-                label: AlloyEditor.Strings.headersBoth
-            }];
-        }
-    });
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * Indicates whether the styles list is expanded or not.
+         *
+         * @property {Boolean} expanded
+         */
+        expanded: React.PropTypes.bool,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number,
+
+        /**
+         * Callback provided by the button host to notify when the styles list has been expanded.
+         *
+         * @property {Function} toggleDropdown
+         */
+        toggleDropdown: React.PropTypes.func
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonTableHeading.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default tableRow
+         */
+        key: 'tableHeading'
+    };
 
     AlloyEditor.Buttons[ButtonTableHeading.key] = AlloyEditor.ButtonTableHeading = ButtonTableHeading;
 })();
-'use strict';
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -11613,79 +13159,104 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonTableRemove
      */
 
-    var ButtonTableRemove = React.createClass({
-        displayName: 'ButtonTableRemove',
+    var ButtonTableRemove = function (_React$Component) {
+        _inherits(ButtonTableRemove, _React$Component);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
+        function ButtonTableRemove() {
+            _classCallCheck(this, ButtonTableRemove);
 
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default tableRemove
-             */
-            key: 'tableRemove'
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.deleteTable, className: 'ae-button', 'data-type': 'button-table-remove', onClick: this._removeTable, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.deleteTable },
-                React.createElement('span', { className: 'ae-icon-close' })
-            );
-        },
-
-        /**
-         * Removes the table in the editor element.
-         *
-         * @protected
-         * @method _removeTable
-         */
-        _removeTable: function _removeTable() {
-            var editor = this.props.editor.get('nativeEditor');
-            var tableUtils = new CKEDITOR.Table(editor);
-
-            tableUtils.remove();
-
-            editor.fire('actionPerformed', this);
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonTableRemove).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonTableRemove, [{
+            key: "render",
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+            value: function render() {
+                return React.createElement(
+                    "button",
+                    { "aria-label": AlloyEditor.Strings.deleteTable, className: "ae-button", "data-type": "button-table-remove", onClick: this._removeTable, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.deleteTable },
+                    React.createElement("span", { className: "ae-icon-close" })
+                );
+            }
+
+            /**
+             * Removes the table in the editor element.
+             *
+             * @protected
+             * @method _removeTable
+             */
+
+        }, {
+            key: "_removeTable",
+            value: function _removeTable() {
+                var editor = this.props.editor.get('nativeEditor');
+                var tableUtils = new CKEDITOR.Table(editor);
+
+                tableUtils.remove();
+
+                editor.fire('actionPerformed', this);
+            }
+        }]);
+
+        return ButtonTableRemove;
+    }(React.Component);
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonTableRemove.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonTableRemove.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default tableRemove
+         */
+        key: 'tableRemove'
+    };
 
     AlloyEditor.Buttons[ButtonTableRemove.key] = AlloyEditor.ButtonTableRemove = ButtonTableRemove;
 })();
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -11696,118 +13267,143 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonTableRow
      */
 
-    var ButtonTableRow = React.createClass({
-        displayName: 'ButtonTableRow',
+    var ButtonTableRow = function (_React$Component) {
+        _inherits(ButtonTableRow, _React$Component);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * List of the commands the button is able to handle.
-             *
-             * @property {Array} commands
-             */
-            commands: React.PropTypes.arrayOf(React.PropTypes.object),
+        function ButtonTableRow() {
+            _classCallCheck(this, ButtonTableRow);
 
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonTableRow).apply(this, arguments));
+        }
+
+        _createClass(ButtonTableRow, [{
+            key: 'render',
 
             /**
-             * Indicates whether the styles list is expanded or not.
+             * Lifecycle. Renders the UI of the button.
              *
-             * @property {Boolean} expanded
+             * @method render
+             * @return {Object} The content which should be rendered.
              */
-            expanded: React.PropTypes.bool,
+            value: function render() {
+                var buttonCommandsList;
+                var buttonCommandsListId;
 
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
+                if (this.props.expanded) {
+                    buttonCommandsListId = ButtonTableRow.key + 'List';
+                    buttonCommandsList = React.createElement(AlloyEditor.ButtonCommandsList, { commands: this._getCommands(), editor: this.props.editor, listId: buttonCommandsListId, onDismiss: this.props.toggleDropdown });
+                }
 
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number,
-
-            /**
-             * Callback provided by the button host to notify when the styles list has been expanded.
-             *
-             * @property {Function} toggleDropdown
-             */
-            toggleDropdown: React.PropTypes.func
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default tableRow
-             */
-            key: 'tableRow'
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var buttonCommandsList;
-            var buttonCommandsListId;
-
-            if (this.props.expanded) {
-                buttonCommandsListId = ButtonTableRow.key + 'List';
-                buttonCommandsList = React.createElement(AlloyEditor.ButtonCommandsList, { commands: this._getCommands(), editor: this.props.editor, listId: buttonCommandsListId, onDismiss: this.props.toggleDropdown });
+                return React.createElement(
+                    'div',
+                    { className: 'ae-container ae-has-dropdown' },
+                    React.createElement(
+                        'button',
+                        { 'aria-expanded': this.props.expanded, 'aria-label': AlloyEditor.Strings.row, 'aria-owns': buttonCommandsListId, className: 'ae-button', onClick: this.props.toggleDropdown, role: 'combobox', tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.row },
+                        React.createElement('span', { className: 'ae-icon-row' })
+                    ),
+                    buttonCommandsList
+                );
             }
 
-            return React.createElement(
-                'div',
-                { className: 'ae-container ae-has-dropdown' },
-                React.createElement(
-                    'button',
-                    { 'aria-expanded': this.props.expanded, 'aria-label': AlloyEditor.Strings.row, 'aria-owns': buttonCommandsListId, className: 'ae-button', onClick: this.props.toggleDropdown, role: 'combobox', tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.row },
-                    React.createElement('span', { className: 'ae-icon-row' })
-                ),
-                buttonCommandsList
-            );
-        },
+            /**
+             * Returns a list of commands. If a list of commands was passed
+             * as property `commands`, it will take a precedence over the default ones.
+             *
+             * @method _getCommands
+             * @return {Array} The list of available commands.
+             */
+
+        }, {
+            key: '_getCommands',
+            value: function _getCommands() {
+                return this.props.commands || [{
+                    command: 'rowInsertBefore',
+                    label: AlloyEditor.Strings.rowInsertBefore
+                }, {
+                    command: 'rowInsertAfter',
+                    label: AlloyEditor.Strings.rowInsertAfter
+                }, {
+                    command: 'rowDelete',
+                    label: AlloyEditor.Strings.rowDelete
+                }];
+            }
+        }]);
+
+        return ButtonTableRow;
+    }(React.Component);
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonTableRow.propTypes = {
+        /**
+         * List of the commands the button is able to handle.
+         *
+         * @property {Array} commands
+         */
+        commands: React.PropTypes.arrayOf(React.PropTypes.object),
 
         /**
-         * Returns a list of commands. If a list of commands was passed
-         * as property `commands`, it will take a precedence over the default ones.
+         * The editor instance where the component is being used.
          *
-         * @method _getCommands
-         * @return {Array} The list of available commands.
+         * @property {Object} editor
          */
-        _getCommands: function _getCommands() {
-            return this.props.commands || [{
-                command: 'rowInsertBefore',
-                label: AlloyEditor.Strings.rowInsertBefore
-            }, {
-                command: 'rowInsertAfter',
-                label: AlloyEditor.Strings.rowInsertAfter
-            }, {
-                command: 'rowDelete',
-                label: AlloyEditor.Strings.rowDelete
-            }];
-        }
-    });
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * Indicates whether the styles list is expanded or not.
+         *
+         * @property {Boolean} expanded
+         */
+        expanded: React.PropTypes.bool,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number,
+
+        /**
+         * Callback provided by the button host to notify when the styles list has been expanded.
+         *
+         * @property {Function} toggleDropdown
+         */
+        toggleDropdown: React.PropTypes.func
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonTableRow.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default tableRow
+         */
+        key: 'tableRow'
+    };
 
     AlloyEditor.Buttons[ButtonTableRow.key] = AlloyEditor.ButtonTableRow = ButtonTableRow;
 })();
-'use strict';
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
     'use strict';
@@ -11822,71 +13418,95 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonTable
      */
 
-    var ButtonTable = React.createClass({
-        displayName: 'ButtonTable',
+    var ButtonTable = function (_React$Component) {
+        _inherits(ButtonTable, _React$Component);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
+        function ButtonTable() {
+            _classCallCheck(this, ButtonTable);
 
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonTable).apply(this, arguments));
+        }
+
+        _createClass(ButtonTable, [{
+            key: "render",
 
             /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
+             * Lifecycle. Renders the UI of the button.
              *
-             * @property {Number} tabIndex
+             * @method render
+             * @return {Object} The content which should be rendered.
              */
-            tabIndex: React.PropTypes.number
-        },
+            value: function render() {
+                if (this.props.renderExclusive) {
+                    return React.createElement(AlloyEditor.ButtonTableEdit, this.props);
+                } else {
+                    return React.createElement(
+                        "button",
+                        { "aria-label": AlloyEditor.Strings.table, className: "ae-button", "data-type": "button-table", onClick: this.props.requestExclusive, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.table },
+                        React.createElement("span", { className: "ae-icon-table" })
+                    );
+                }
+            }
+        }]);
 
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default table
-             */
-            key: 'table'
-        },
+        return ButtonTable;
+    }(React.Component);
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonTable.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
 
         /**
-         * Lifecycle. Renders the UI of the button.
+         * The label that should be used for accessibility purposes.
          *
-         * @method render
-         * @return {Object} The content which should be rendered.
+         * @property {String} label
          */
-        render: function render() {
-            if (this.props.renderExclusive) {
-                return React.createElement(AlloyEditor.ButtonTableEdit, this.props);
-            } else {
-                return React.createElement(
-                    'button',
-                    { 'aria-label': AlloyEditor.Strings.table, className: 'ae-button', 'data-type': 'button-table', onClick: this.props.requestExclusive, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.table },
-                    React.createElement('span', { className: 'ae-icon-table' })
-                );
-            }
-        }
-    });
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonTable.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default table
+         */
+        key: 'table'
+    };
 
     AlloyEditor.Buttons[ButtonTable.key] = AlloyEditor.ButtonTable = ButtonTable;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonTwitter class provides functionality for creating a link which
@@ -11897,131 +13517,162 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonTwitter
      */
 
-    var ButtonTwitter = React.createClass({
-        displayName: 'ButtonTwitter',
+    var ButtonTwitter = function (_mix$with) {
+        _inherits(ButtonTwitter, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStateClasses],
+        function ButtonTwitter() {
+            _classCallCheck(this, ButtonTwitter);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default twitter
-             */
-            key: 'twitter'
-        },
-
-        /**
-         * Creates or removes the twitter link on the selection.
-         *
-         * @method handleClick
-         */
-        handleClick: function handleClick() {
-            var editor = this.props.editor.get('nativeEditor');
-
-            var linkUtils = new CKEDITOR.Link(editor);
-
-            if (this.isActive()) {
-                linkUtils.remove(linkUtils.getFromSelection());
-            } else {
-                linkUtils.create(this._getHref(), {
-                    'class': 'ae-twitter-link',
-                    'target': '_blank'
-                });
-            }
-
-            editor.fire('actionPerformed', this);
-        },
-
-        /**
-         * Checks if the current selection is contained within a link that points to twitter.com/intent/tweet.
-         *
-         * @method isActive
-         * @return {Boolean} True if the selection is inside a twitter link, false otherwise.
-         */
-        isActive: function isActive() {
-            var link = new CKEDITOR.Link(this.props.editor.get('nativeEditor')).getFromSelection();
-
-            return link && link.getAttribute('href').indexOf('twitter.com/intent/tweet') !== -1;
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.twitter, className: cssClass, 'data-type': 'button-twitter', onClick: this.handleClick, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.twitter },
-                React.createElement('span', { className: 'ae-icon-twitter' })
-            );
-        },
-
-        /**
-         * Generates the appropriate twitter url based on the selected text and the configuration
-         * options received via props.
-         *
-         * @protected
-         * @method _getHref
-         * @return {String} A valid twitter url with the selected text and given configuration.
-         */
-        _getHref: function _getHref() {
-            var nativeEditor = this.props.editor.get('nativeEditor');
-            var selectedText = nativeEditor.getSelection().getSelectedText();
-            var url = this.props.url;
-            var via = this.props.via;
-            var twitterHref = 'https://twitter.com/intent/tweet?text=' + selectedText;
-
-            if (url) {
-                twitterHref += '&url=' + url;
-            }
-
-            if (via) {
-                twitterHref += '&via=' + via;
-            }
-
-            return twitterHref;
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonTwitter).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonTwitter, [{
+            key: 'handleClick',
+
+            /**
+             * Creates or removes the twitter link on the selection.
+             *
+             * @method handleClick
+             */
+            value: function handleClick() {
+                var editor = this.props.editor.get('nativeEditor');
+
+                var linkUtils = new CKEDITOR.Link(editor);
+
+                if (this.isActive()) {
+                    linkUtils.remove(linkUtils.getFromSelection());
+                } else {
+                    linkUtils.create(this._getHref(), {
+                        'class': 'ae-twitter-link',
+                        'target': '_blank'
+                    });
+                }
+
+                editor.fire('actionPerformed', this);
+            }
+
+            /**
+             * Checks if the current selection is contained within a link that points to twitter.com/intent/tweet.
+             *
+             * @method isActive
+             * @return {Boolean} True if the selection is inside a twitter link, false otherwise.
+             */
+
+        }, {
+            key: 'isActive',
+            value: function isActive() {
+                var link = new CKEDITOR.Link(this.props.editor.get('nativeEditor')).getFromSelection();
+
+                return link && link.getAttribute('href').indexOf('twitter.com/intent/tweet') !== -1;
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.twitter, className: cssClass, 'data-type': 'button-twitter', onClick: this.handleClick, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.twitter },
+                    React.createElement('span', { className: 'ae-icon-twitter' })
+                );
+            }
+
+            /**
+             * Generates the appropriate twitter url based on the selected text and the configuration
+             * options received via props.
+             *
+             * @protected
+             * @method _getHref
+             * @return {String} A valid twitter url with the selected text and given configuration.
+             */
+
+        }, {
+            key: '_getHref',
+            value: function _getHref() {
+                var nativeEditor = this.props.editor.get('nativeEditor');
+                var selectedText = nativeEditor.getSelection().getSelectedText();
+                var url = this.props.url;
+                var via = this.props.via;
+                var twitterHref = 'https://twitter.com/intent/tweet?text=' + selectedText;
+
+                if (url) {
+                    twitterHref += '&url=' + url;
+                }
+
+                if (via) {
+                    twitterHref += '&via=' + via;
+                }
+
+                return twitterHref;
+            }
+        }]);
+
+        return ButtonTwitter;
+    }(mix(React.Component).with(AlloyEditor.ButtonStateClasses));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonTwitter.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonTwitter.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default twitter
+         */
+        key: 'twitter'
+    };
 
     AlloyEditor.Buttons[ButtonTwitter.key] = AlloyEditor.ButtonTwitter = ButtonTwitter;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonUnorderedlist class provides functionality for creating unordered lists in an editor.
@@ -12033,86 +13684,111 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonUnorderedlist
      */
 
-    var ButtonUnorderedlist = React.createClass({
-        displayName: 'ButtonUnorderedlist',
+    var ButtonUnorderedlist = function (_mix$with) {
+        _inherits(ButtonUnorderedlist, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand],
+        function ButtonUnorderedlist() {
+            _classCallCheck(this, ButtonUnorderedlist);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default ul
-             */
-            key: 'ul'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'bulletedlist',
-                style: {
-                    element: 'ul'
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.bulletedlist, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-ul', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.bulletedlist },
-                React.createElement('span', { className: 'ae-icon-bulleted-list' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonUnorderedlist).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonUnorderedlist, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'bulletedlist',
+                    style: {
+                        element: 'ul'
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.bulletedlist, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-ul', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.bulletedlist },
+                    React.createElement('span', { className: 'ae-icon-bulleted-list' })
+                );
+            }
+        }]);
+
+        return ButtonUnorderedlist;
+    }(mix(React.Component).with(AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonUnorderedlist.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonUnorderedlist.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default ul
+         */
+        key: 'ul'
+    };
 
     AlloyEditor.Buttons[ButtonUnorderedlist.key] = AlloyEditor.ButtonUnorderedlist = ButtonUnorderedlist;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ButtonUnderline class provides functionality for underlying a text selection.
@@ -12125,90 +13801,115 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ButtonUnderline
      */
 
-    var ButtonUnderline = React.createClass({
-        displayName: 'ButtonUnderline',
+    var ButtonUnderline = function (_mix$with) {
+        _inherits(ButtonUnderline, _mix$with);
 
-        mixins: [AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonKeystroke],
+        function ButtonUnderline() {
+            _classCallCheck(this, ButtonUnderline);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * The tabIndex of the button in its toolbar current state. A value other than -1
-             * means that the button has focus and is the active element.
-             *
-             * @property {Number} tabIndex
-             */
-            tabIndex: React.PropTypes.number
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default underline
-             */
-            key: 'underline'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                command: 'underline',
-                keystroke: {
-                    fn: 'execCommand',
-                    keys: CKEDITOR.CTRL + 85 /*U*/
-                },
-                style: {
-                    element: 'u'
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Renders the UI of the button.
-         *
-         * @method render
-         * @return {Object} The content which should be rendered.
-         */
-        render: function render() {
-            var cssClass = 'ae-button ' + this.getStateClasses();
-
-            return React.createElement(
-                'button',
-                { 'aria-label': AlloyEditor.Strings.underline, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-underline', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.underline },
-                React.createElement('span', { className: 'ae-icon-underline' })
-            );
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ButtonUnderline).apply(this, arguments));
         }
-    });
+
+        _createClass(ButtonUnderline, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    command: 'underline',
+                    keystroke: {
+                        fn: 'execCommand',
+                        keys: CKEDITOR.CTRL + 85 /*U*/
+                    },
+                    style: {
+                        element: 'u'
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Renders the UI of the button.
+             *
+             * @method render
+             * @return {Object} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                var cssClass = 'ae-button ' + this.getStateClasses();
+
+                return React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.underline, 'aria-pressed': cssClass.indexOf('pressed') !== -1, className: cssClass, 'data-type': 'button-underline', onClick: this.execCommand, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.underline },
+                    React.createElement('span', { className: 'ae-icon-underline' })
+                );
+            }
+        }]);
+
+        return ButtonUnderline;
+    }(mix(React.Component).with(AlloyEditor.ButtonStyle, AlloyEditor.ButtonStateClasses, AlloyEditor.ButtonCommand, AlloyEditor.ButtonKeystroke));
+
+    // Allows validating props being passed to the component.
+
+
+    ButtonUnderline.propTypes = {
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * The tabIndex of the button in its toolbar current state. A value other than -1
+         * means that the button has focus and is the active element.
+         *
+         * @property {Number} tabIndex
+         */
+        tabIndex: React.PropTypes.number
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ButtonUnderline.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default underline
+         */
+        key: 'underline'
+    };
 
     AlloyEditor.Buttons[ButtonUnderline.key] = AlloyEditor.ButtonUnderline = ButtonUnderline;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ToolbarAdd class provides functionality for adding content to the editor.
@@ -12223,247 +13924,287 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ToolbarAdd
      */
 
-    var ToolbarAdd = React.createClass({
-        displayName: 'ToolbarAdd',
+    var ToolbarAdd = function (_mix$with) {
+        _inherits(ToolbarAdd, _mix$with);
 
-        mixins: [AlloyEditor.WidgetDropdown, AlloyEditor.WidgetExclusive, AlloyEditor.WidgetFocusManager, AlloyEditor.ToolbarButtons, AlloyEditor.WidgetPosition, AlloyEditor.WidgetArrowBox],
+        function ToolbarAdd() {
+            _classCallCheck(this, ToolbarAdd);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The toolbar configuration.
-             *
-             * @property {Object} config
-             */
-            config: React.PropTypes.object,
-
-            /**
-             * The editor instance where the component is being used.
-             *
-             * @property {Object} editor
-             */
-            editor: React.PropTypes.object.isRequired,
-
-            /**
-             * The payload from "editorInteraction" event
-             *
-             * @property {Object} editorEvent
-             */
-            editorEvent: React.PropTypes.object,
-
-            /**
-             * The gutter to be applied to the widget when rendered in exclusive mode
-             *
-             * @property {Object} gutterExclusive
-             */
-            gutterExclusive: React.PropTypes.object,
-
-            /**
-             * The label that should be used for accessibility purposes.
-             *
-             * @property {String} label
-             */
-            label: React.PropTypes.string,
-
-            /**
-             * Provides a callback which should be executed when a dismiss key is pressed over a toolbar to return the focus to the editor.
-             *
-             * @property {Function} onDismiss
-             */
-            onDismiss: React.PropTypes.func,
-
-            /**
-             * The data, returned from {{#crossLink "CKEDITOR.plugins.selectionregion/getSelectionData:method"}}{{/crossLink}}
-             *
-             * @property {Object} selectionData
-             */
-            selectionData: React.PropTypes.object
-        },
-
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default add
-             */
-            key: 'add'
-        },
-
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                circular: true,
-                descendants: '.ae-button',
-                gutterExclusive: {
-                    left: 10,
-                    top: 0
-                },
-                keys: {
-                    dismiss: [27],
-                    next: [39, 40],
-                    prev: [37, 38]
-                }
-            };
-        },
-
-        /**
-         * Lifecycle. Invoked once, only on the client (not on the server),
-         * immediately after the initial rendering occurs.
-         *
-         * @method componentDidMount
-         */
-        componentDidMount: function componentDidMount() {
-            this._updatePosition();
-        },
-
-        /**
-         * Lifecycle. Invoked immediately after the component's updates are flushed to the DOM.
-         * This method is not called for the initial render.
-         *
-         * @method componentDidUpdate
-         * @param {Object} prevProps The previous state of the component's properties.
-         * @param {Object} prevState Component's previous state.
-         */
-        componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
-            this._updatePosition();
-
-            // In case of exclusive rendering, focus the first descendant (button)
-            // so the user will be able to start interacting with the buttons immediately.
-            if (this.props.renderExclusive) {
-                this.focus();
-            }
-        },
-
-        /**
-         * Lifecycle. Renders the buttons for adding content or hides the toolbar
-         * if user interacted with a non-editable element.
-         *
-         * @method render
-         * @return {Object|null} The content which should be rendered.
-         */
-        render: function render() {
-            // Some operations such as `requestExclusive` may force editor to blur which will
-            // invalidate the `props.editorEvent` stored value, without causing a `props` change.
-            // For example, if the editor is empty, `ae_placeholder` plugin will remove
-            // the target from the DOM and will prevent `add` toolbar from rendering.
-            //
-            // It should be safe to assume that if you have been able to render the toolbar
-            // and request the exclusive mode, then rendering might be kept until the exclusive mode is left.
-            if (!this.state.itemExclusive && this.props.editorEvent && this.props.editorEvent.data.nativeEvent.target && !this.props.editorEvent.data.nativeEvent.target.isContentEditable) {
-                return null;
-            }
-
-            var buttons = this._getButtons();
-            var className = this._getToolbarClassName();
-
-            return React.createElement(
-                'div',
-                { 'aria-label': AlloyEditor.Strings.add, className: className, 'data-tabindex': this.props.config.tabIndex || 0, onFocus: this.focus, onKeyDown: this.handleKey, role: 'toolbar', tabIndex: '-1' },
-                React.createElement(
-                    'div',
-                    { className: 'ae-container' },
-                    buttons
-                )
-            );
-        },
-
-        /**
-         * Returns a list of buttons that will eventually render to HTML.
-         *
-         * @protected
-         * @method _getButtons
-         * @return {Object} The buttons which have to be rendered.
-         */
-        _getButtons: function _getButtons() {
-            var buttons;
-
-            if (this.props.renderExclusive) {
-                buttons = this.getToolbarButtons(this.props.config.buttons);
-            } else {
-                if (this.props.selectionData && this.props.selectionData.region) {
-                    buttons = React.createElement(
-                        'button',
-                        { 'aria-label': AlloyEditor.Strings.add, className: 'ae-button ae-button-add', onClick: this.props.requestExclusive.bind(this, ToolbarAdd.key), title: AlloyEditor.Strings.add },
-                        React.createElement('span', { className: 'ae-icon-add' })
-                    );
-                }
-            }
-
-            return buttons;
-        },
-
-        /**
-         * Returns the class name of the toolbar in case of both exclusive and normal mode.
-         *
-         * @protected
-         * @method _getToolbarClassName
-         * @return {String} The class name which have to be applied to the DOM element.
-         */
-        _getToolbarClassName: function _getToolbarClassName() {
-            var cssClass = 'ae-toolbar-add';
-
-            if (this.props.renderExclusive) {
-                cssClass = 'ae-toolbar ' + this.getArrowBoxClasses();
-            }
-
-            return cssClass;
-        },
-
-        /**
-         * Calculates and sets the position of the toolbar in exclusive or normal mode.
-         *
-         * @protected
-         * @method _updatePosition
-         */
-        _updatePosition: function _updatePosition() {
-            var region;
-
-            // If component is not mounted, there is nothing to do
-            if (!ReactDOM.findDOMNode(this)) {
-                return;
-            }
-
-            if (this.props.renderExclusive) {
-                this.updatePosition();
-                this.show();
-            } else {
-                if (this.props.selectionData) {
-                    region = this.props.selectionData.region;
-                }
-
-                if (region) {
-                    var domNode = ReactDOM.findDOMNode(this);
-                    var domElement = new CKEDITOR.dom.element(domNode);
-
-                    var startRect = region.startRect || region;
-                    var left = this.props.editor.get('nativeEditor').editable().getClientRect().left;
-
-                    domNode.style.left = left - domNode.offsetWidth - this.props.gutterExclusive.left + 'px';
-                    domNode.style.top = Math.floor(region.top - domNode.offsetHeight / 2 + startRect.height / 2) + 'px';
-                    domNode.style.opacity = 1;
-
-                    domElement.removeClass('ae-arrow-box');
-
-                    this.cancelAnimation();
-                }
-            }
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ToolbarAdd).apply(this, arguments));
         }
-    });
+
+        _createClass(ToolbarAdd, [{
+            key: 'getDefaultProps',
+
+            /**
+             * Lifecycle. Returns the default values of the properties used in the widget.
+             *
+             * @method getDefaultProps
+             * @return {Object} The default properties.
+             */
+            value: function getDefaultProps() {
+                return {
+                    circular: true,
+                    descendants: '.ae-button',
+                    gutterExclusive: {
+                        left: 10,
+                        top: 0
+                    },
+                    keys: {
+                        dismiss: [27],
+                        next: [39, 40],
+                        prev: [37, 38]
+                    }
+                };
+            }
+
+            /**
+             * Lifecycle. Invoked once, only on the client (not on the server),
+             * immediately after the initial rendering occurs.
+             *
+             * @method componentDidMount
+             */
+
+        }, {
+            key: 'componentDidMount',
+            value: function componentDidMount() {
+                this._updatePosition();
+            }
+
+            /**
+             * Lifecycle. Invoked immediately after the component's updates are flushed to the DOM.
+             * This method is not called for the initial render.
+             *
+             * @method componentDidUpdate
+             * @param {Object} prevProps The previous state of the component's properties.
+             * @param {Object} prevState Component's previous state.
+             */
+
+        }, {
+            key: 'componentDidUpdate',
+            value: function componentDidUpdate(prevProps, prevState) {
+                this._updatePosition();
+
+                // In case of exclusive rendering, focus the first descendant (button)
+                // so the user will be able to start interacting with the buttons immediately.
+                if (this.props.renderExclusive) {
+                    this.focus();
+                }
+            }
+
+            /**
+             * Lifecycle. Renders the buttons for adding content or hides the toolbar
+             * if user interacted with a non-editable element.
+             *
+             * @method render
+             * @return {Object|null} The content which should be rendered.
+             */
+
+        }, {
+            key: 'render',
+            value: function render() {
+                // Some operations such as `requestExclusive` may force editor to blur which will
+                // invalidate the `props.editorEvent` stored value, without causing a `props` change.
+                // For example, if the editor is empty, `ae_placeholder` plugin will remove
+                // the target from the DOM and will prevent `add` toolbar from rendering.
+                //
+                // It should be safe to assume that if you have been able to render the toolbar
+                // and request the exclusive mode, then rendering might be kept until the exclusive mode is left.
+                if (!this.state.itemExclusive && this.props.editorEvent && this.props.editorEvent.data.nativeEvent.target && !this.props.editorEvent.data.nativeEvent.target.isContentEditable) {
+                    return null;
+                }
+
+                var buttons = this._getButtons();
+                var className = this._getToolbarClassName();
+
+                return React.createElement(
+                    'div',
+                    { 'aria-label': AlloyEditor.Strings.add, className: className, 'data-tabindex': this.props.config.tabIndex || 0, onFocus: this.focus, onKeyDown: this.handleKey, role: 'toolbar', tabIndex: '-1' },
+                    React.createElement(
+                        'div',
+                        { className: 'ae-container' },
+                        buttons
+                    )
+                );
+            }
+
+            /**
+             * Returns a list of buttons that will eventually render to HTML.
+             *
+             * @protected
+             * @method _getButtons
+             * @return {Object} The buttons which have to be rendered.
+             */
+
+        }, {
+            key: '_getButtons',
+            value: function _getButtons() {
+                var buttons;
+
+                if (this.props.renderExclusive) {
+                    buttons = this.getToolbarButtons(this.props.config.buttons);
+                } else {
+                    if (this.props.selectionData && this.props.selectionData.region) {
+                        buttons = React.createElement(
+                            'button',
+                            { 'aria-label': AlloyEditor.Strings.add, className: 'ae-button ae-button-add', onClick: this.props.requestExclusive.bind(this, ToolbarAdd.key), title: AlloyEditor.Strings.add },
+                            React.createElement('span', { className: 'ae-icon-add' })
+                        );
+                    }
+                }
+
+                return buttons;
+            }
+
+            /**
+             * Returns the class name of the toolbar in case of both exclusive and normal mode.
+             *
+             * @protected
+             * @method _getToolbarClassName
+             * @return {String} The class name which have to be applied to the DOM element.
+             */
+
+        }, {
+            key: '_getToolbarClassName',
+            value: function _getToolbarClassName() {
+                var cssClass = 'ae-toolbar-add';
+
+                if (this.props.renderExclusive) {
+                    cssClass = 'ae-toolbar ' + this.getArrowBoxClasses();
+                }
+
+                return cssClass;
+            }
+
+            /**
+             * Calculates and sets the position of the toolbar in exclusive or normal mode.
+             *
+             * @protected
+             * @method _updatePosition
+             */
+
+        }, {
+            key: '_updatePosition',
+            value: function _updatePosition() {
+                var region;
+
+                // If component is not mounted, there is nothing to do
+                if (!ReactDOM.findDOMNode(this)) {
+                    return;
+                }
+
+                if (this.props.renderExclusive) {
+                    this.updatePosition();
+                    this.show();
+                } else {
+                    if (this.props.selectionData) {
+                        region = this.props.selectionData.region;
+                    }
+
+                    if (region) {
+                        var domNode = ReactDOM.findDOMNode(this);
+                        var domElement = new CKEDITOR.dom.element(domNode);
+
+                        var startRect = region.startRect || region;
+                        var left = this.props.editor.get('nativeEditor').editable().getClientRect().left;
+
+                        domNode.style.left = left - domNode.offsetWidth - this.props.gutterExclusive.left + 'px';
+                        domNode.style.top = Math.floor(region.top - domNode.offsetHeight / 2 + startRect.height / 2) + 'px';
+                        domNode.style.opacity = 1;
+
+                        domElement.removeClass('ae-arrow-box');
+
+                        this.cancelAnimation();
+                    }
+                }
+            }
+        }]);
+
+        return ToolbarAdd;
+    }(mix(React.Component).with(AlloyEditor.WidgetDropdown, AlloyEditor.WidgetExclusive, AlloyEditor.WidgetFocusManager, AlloyEditor.ToolbarButtons, AlloyEditor.WidgetPosition, AlloyEditor.WidgetArrowBox));
+
+    // Allows validating props being passed to the component.
+
+
+    ToolbarAdd.propTypes = {
+        /**
+         * The toolbar configuration.
+         *
+         * @property {Object} config
+         */
+        config: React.PropTypes.object,
+
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The payload from "editorInteraction" event
+         *
+         * @property {Object} editorEvent
+         */
+        editorEvent: React.PropTypes.object,
+
+        /**
+         * The gutter to be applied to the widget when rendered in exclusive mode
+         *
+         * @property {Object} gutterExclusive
+         */
+        gutterExclusive: React.PropTypes.object,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * Provides a callback which should be executed when a dismiss key is pressed over a toolbar to return the focus to the editor.
+         *
+         * @property {Function} onDismiss
+         */
+        onDismiss: React.PropTypes.func,
+
+        /**
+         * The data, returned from {{#crossLink "CKEDITOR.plugins.selectionregion/getSelectionData:method"}}{{/crossLink}}
+         *
+         * @property {Object} selectionData
+         */
+        selectionData: React.PropTypes.object
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ToolbarAdd.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default add
+         */
+        key: 'add'
+    };
 
     AlloyEditor.Toolbars[ToolbarAdd.key] = AlloyEditor.ToolbarAdd = ToolbarAdd;
 })();
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 (function () {
     'use strict';
+
+    var mix = AlloyEditor.OOP.mix;
 
     /**
      * The ToolbarStyles class hosts the buttons for styling a text selection.
@@ -12478,251 +14219,281 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @class ToolbarStyles
      */
 
-    var ToolbarStyles = React.createClass({
-        displayName: 'ToolbarStyles',
+    var ToolbarStyles = function (_mix$with) {
+        _inherits(ToolbarStyles, _mix$with);
 
-        mixins: [AlloyEditor.WidgetDropdown, AlloyEditor.WidgetExclusive, AlloyEditor.WidgetFocusManager, AlloyEditor.ToolbarButtons, AlloyEditor.WidgetPosition, AlloyEditor.WidgetArrowBox],
+        function ToolbarStyles() {
+            _classCallCheck(this, ToolbarStyles);
 
-        // Allows validating props being passed to the component.
-        propTypes: {
-            /**
-             * The toolbar configuration.
-             *
-             * @property {Object} config
-             */
-            config: React.PropTypes.object,
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(ToolbarStyles).apply(this, arguments));
+        }
+
+        _createClass(ToolbarStyles, [{
+            key: 'componentDidMount',
 
             /**
-             * The editor instance where the component is being used.
+             * Lifecycle. Invoked once, only on the client (not on the server),
+             * immediately after the initial rendering occurs.
              *
-             * @property {Object} editor
+             * @method componentDidMount
              */
-            editor: React.PropTypes.object.isRequired,
+            value: function componentDidMount() {
+                this._updatePosition();
+            }
 
             /**
-             * The payload from "editorInteraction" event
+             * Lifecycle. Invoked immediately after the component's updates are flushed to the DOM.
+             * This method is not called for the initial render.
              *
-             * @property {Object} editorEvent
+             * @method componentDidUpdate
+             * @param {Object} prevProps The previous state of the component's properties.
+             * @param {Object} prevState Component's previous state.
              */
-            editorEvent: React.PropTypes.object,
+
+        }, {
+            key: 'componentDidUpdate',
+            value: function componentDidUpdate(prevProps, prevState) {
+                this._updatePosition();
+            }
 
             /**
-             * The label that should be used for accessibility purposes.
+             * Lifecycle. Returns the default values of the properties used in the widget.
              *
-             * @property {String} label
+             * @method getDefaultProps
+             * @return {Object} The default properties.
              */
-            label: React.PropTypes.string,
+
+        }, {
+            key: 'getDefaultProps',
+            value: function getDefaultProps() {
+                return {
+                    circular: true,
+                    descendants: '.ae-button, .ae-toolbar-element',
+                    keys: {
+                        dismiss: [27],
+                        next: [39, 40],
+                        prev: [37, 38]
+                    }
+                };
+            }
 
             /**
-             * Provides a callback which should be executed when a dismiss key is pressed over a toolbar to return the focus to the editor.
+             * Lifecycle. Renders the buttons for adding content or hides the toolbar
+             * if user interacted with a non-editable element.
              *
-             * @property {Function} onDismiss
+             * @method render
+             * @return {Object|null} The content which should be rendered.
              */
-            onDismiss: React.PropTypes.func,
 
-            /**
-             * The data, returned from {{#crossLink "CKEDITOR.plugins.ae_selectionregion/getSelectionData:method"}}{{/crossLink}}
-             *
-             * @property {Object} selectionData
-             */
-            selectionData: React.PropTypes.object
-        },
+        }, {
+            key: 'render',
+            value: function render() {
+                var currentSelection = this._getCurrentSelection();
 
-        // Lifecycle. Provides static properties to the widget.
-        statics: {
-            /**
-             * The name which will be used as an alias of the button in the configuration.
-             *
-             * @static
-             * @property {String} key
-             * @default styles
-             */
-            key: 'styles'
-        },
+                if (currentSelection) {
+                    var getArrowBoxClassesFn = this._getSelectionFunction(currentSelection.getArrowBoxClasses);
+                    var arrowBoxClasses;
 
-        /**
-         * Lifecycle. Invoked once, only on the client (not on the server),
-         * immediately after the initial rendering occurs.
-         *
-         * @method componentDidMount
-         */
-        componentDidMount: function componentDidMount() {
-            this._updatePosition();
-        },
+                    if (getArrowBoxClassesFn) {
+                        arrowBoxClasses = getArrowBoxClassesFn();
+                    } else {
+                        arrowBoxClasses = this.getArrowBoxClasses();
+                    }
 
-        /**
-         * Lifecycle. Invoked immediately after the component's updates are flushed to the DOM.
-         * This method is not called for the initial render.
-         *
-         * @method componentDidUpdate
-         * @param {Object} prevProps The previous state of the component's properties.
-         * @param {Object} prevState Component's previous state.
-         */
-        componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
-            this._updatePosition();
-        },
+                    var cssClasses = 'ae-toolbar-styles ' + arrowBoxClasses;
 
-        /**
-         * Lifecycle. Returns the default values of the properties used in the widget.
-         *
-         * @method getDefaultProps
-         * @return {Object} The default properties.
-         */
-        getDefaultProps: function getDefaultProps() {
-            return {
-                circular: true,
-                descendants: '.ae-button, .ae-toolbar-element',
-                keys: {
-                    dismiss: [27],
-                    next: [39, 40],
-                    prev: [37, 38]
-                }
-            };
-        },
+                    var buttons = this.getToolbarButtons(currentSelection.buttons, {
+                        manualSelection: this.props.editorEvent ? this.props.editorEvent.data.manualSelection : null,
+                        selectionType: currentSelection.name
+                    });
 
-        /**
-         * Lifecycle. Renders the buttons for adding content or hides the toolbar
-         * if user interacted with a non-editable element.
-         *
-         * @method render
-         * @return {Object|null} The content which should be rendered.
-         */
-        render: function render() {
-            var currentSelection = this._getCurrentSelection();
-
-            if (currentSelection) {
-                var getArrowBoxClassesFn = this._getSelectionFunction(currentSelection.getArrowBoxClasses);
-                var arrowBoxClasses;
-
-                if (getArrowBoxClassesFn) {
-                    arrowBoxClasses = getArrowBoxClassesFn();
-                } else {
-                    arrowBoxClasses = this.getArrowBoxClasses();
-                }
-
-                var cssClasses = 'ae-toolbar-styles ' + arrowBoxClasses;
-
-                var buttons = this.getToolbarButtons(currentSelection.buttons, {
-                    manualSelection: this.props.editorEvent ? this.props.editorEvent.data.manualSelection : null,
-                    selectionType: currentSelection.name
-                });
-
-                return React.createElement(
-                    'div',
-                    { 'aria-label': AlloyEditor.Strings.styles, className: cssClasses, 'data-tabindex': this.props.config.tabIndex || 0, onFocus: this.focus, onKeyDown: this.handleKey, role: 'toolbar', tabIndex: '-1' },
-                    React.createElement(
+                    return React.createElement(
                         'div',
-                        { className: 'ae-container' },
-                        buttons
-                    )
-                );
-            }
-
-            return null;
-        },
-
-        /**
-         * Retrieve a function from String. It converts a fully qualified string into the mapped function.
-         *
-         * @method _getSelectionFunction
-         * @protected
-         * @param {Function|String} selectionFn A function, or a fully qualified string pointing to the
-         * desired one (e.g. 'AlloyEditor.SelectionTest.image').
-         * @return {Function} The mapped function.
-         */
-        _getSelectionFunction: function _getSelectionFunction(selectionFn) {
-            var Lang = AlloyEditor.Lang;
-            var selectionFunction;
-
-            if (Lang.isFunction(selectionFn)) {
-                selectionFunction = selectionFn;
-            } else if (Lang.isString(selectionFn)) {
-                var parts = selectionFn.split('.');
-                var currentMember = window;
-                var property = parts.shift();
-
-                while (property && Lang.isObject(currentMember) && Lang.isObject(currentMember[property])) {
-                    currentMember = currentMember[property];
-                    property = parts.shift();
+                        { 'aria-label': AlloyEditor.Strings.styles, className: cssClasses, 'data-tabindex': this.props.config.tabIndex || 0, onFocus: this.focus, onKeyDown: this.handleKey, role: 'toolbar', tabIndex: '-1' },
+                        React.createElement(
+                            'div',
+                            { className: 'ae-container' },
+                            buttons
+                        )
+                    );
                 }
 
-                if (Lang.isFunction(currentMember)) {
-                    selectionFunction = currentMember;
-                }
+                return null;
             }
 
-            return selectionFunction;
-        },
+            /**
+             * Retrieve a function from String. It converts a fully qualified string into the mapped function.
+             *
+             * @method _getSelectionFunction
+             * @protected
+             * @param {Function|String} selectionFn A function, or a fully qualified string pointing to the
+             * desired one (e.g. 'AlloyEditor.SelectionTest.image').
+             * @return {Function} The mapped function.
+             */
 
-        /**
-         * Analyzes the current editor selection and returns the selection configuration that matches.
-         *
-         * @method _getCurrentSelection
-         * @protected
-         * @return {Object} The matched selection configuration.
-         */
-        _getCurrentSelection: function _getCurrentSelection() {
-            var eventPayload = this.props.editorEvent ? this.props.editorEvent.data : null;
-            var selection;
+        }, {
+            key: '_getSelectionFunction',
+            value: function _getSelectionFunction(selectionFn) {
+                var Lang = AlloyEditor.Lang;
+                var selectionFunction;
 
-            if (eventPayload) {
-                this.props.config.selections.some(function (item) {
-                    var testFn = this._getSelectionFunction(item.test);
-                    var result;
+                if (Lang.isFunction(selectionFn)) {
+                    selectionFunction = selectionFn;
+                } else if (Lang.isString(selectionFn)) {
+                    var parts = selectionFn.split('.');
+                    var currentMember = window;
+                    var property = parts.shift();
 
-                    if (testFn) {
-                        result = eventPayload.manualSelection === item.name || testFn({
-                            data: eventPayload,
-                            editor: this.props.editor
+                    while (property && Lang.isObject(currentMember) && Lang.isObject(currentMember[property])) {
+                        currentMember = currentMember[property];
+                        property = parts.shift();
+                    }
+
+                    if (Lang.isFunction(currentMember)) {
+                        selectionFunction = currentMember;
+                    }
+                }
+
+                return selectionFunction;
+            }
+
+            /**
+             * Analyzes the current editor selection and returns the selection configuration that matches.
+             *
+             * @method _getCurrentSelection
+             * @protected
+             * @return {Object} The matched selection configuration.
+             */
+
+        }, {
+            key: '_getCurrentSelection',
+            value: function _getCurrentSelection() {
+                var eventPayload = this.props.editorEvent ? this.props.editorEvent.data : null;
+                var selection;
+
+                if (eventPayload) {
+                    this.props.config.selections.some(function (item) {
+                        var testFn = this._getSelectionFunction(item.test);
+                        var result;
+
+                        if (testFn) {
+                            result = eventPayload.manualSelection === item.name || testFn({
+                                data: eventPayload,
+                                editor: this.props.editor
+                            });
+                        }
+
+                        if (result) {
+                            selection = item;
+                        }
+
+                        return result;
+                    }, this);
+                }
+
+                return selection;
+            }
+
+            /**
+             * Calculates and sets the position of the toolbar.
+             *
+             * @protected
+             * @method _updatePosition
+             */
+
+        }, {
+            key: '_updatePosition',
+            value: function _updatePosition() {
+                // If component is not mounted, there is nothing to do
+                if (!ReactDOM.findDOMNode(this)) {
+                    return;
+                }
+
+                var currentSelection = this._getCurrentSelection();
+                var result;
+
+                // If current selection has a function called `setPosition`, call it
+                // and check the returned value. If false, fallback to the default positioning logic.
+                if (currentSelection) {
+                    var setPositionFn = this._getSelectionFunction(currentSelection.setPosition);
+
+                    if (setPositionFn) {
+                        result = setPositionFn.call(this, {
+                            editor: this.props.editor,
+                            editorEvent: this.props.editorEvent,
+                            selectionData: this.props.selectionData
                         });
                     }
+                }
 
-                    if (result) {
-                        selection = item;
-                    }
-
-                    return result;
-                }, this);
-            }
-
-            return selection;
-        },
-
-        /**
-         * Calculates and sets the position of the toolbar.
-         *
-         * @protected
-         * @method _updatePosition
-         */
-        _updatePosition: function _updatePosition() {
-            // If component is not mounted, there is nothing to do
-            if (!ReactDOM.findDOMNode(this)) {
-                return;
-            }
-
-            var currentSelection = this._getCurrentSelection();
-            var result;
-
-            // If current selection has a function called `setPosition`, call it
-            // and check the returned value. If false, fallback to the default positioning logic.
-            if (currentSelection) {
-                var setPositionFn = this._getSelectionFunction(currentSelection.setPosition);
-
-                if (setPositionFn) {
-                    result = setPositionFn.call(this, {
-                        editor: this.props.editor,
-                        editorEvent: this.props.editorEvent,
-                        selectionData: this.props.selectionData
-                    });
+                if (!result) {
+                    this.updatePosition();
+                    this.show();
                 }
             }
+        }]);
 
-            if (!result) {
-                this.updatePosition();
-                this.show();
-            }
-        }
-    });
+        return ToolbarStyles;
+    }(mix(React.Component).with(AlloyEditor.WidgetDropdown, AlloyEditor.WidgetExclusive, AlloyEditor.WidgetFocusManager, AlloyEditor.ToolbarButtons, AlloyEditor.WidgetPosition, AlloyEditor.WidgetArrowBox));
+
+    // Allows validating props being passed to the component.
+
+
+    ToolbarStyles.propTypes = {
+        /**
+         * The toolbar configuration.
+         *
+         * @property {Object} config
+         */
+        config: React.PropTypes.object,
+
+        /**
+         * The editor instance where the component is being used.
+         *
+         * @property {Object} editor
+         */
+        editor: React.PropTypes.object.isRequired,
+
+        /**
+         * The payload from "editorInteraction" event
+         *
+         * @property {Object} editorEvent
+         */
+        editorEvent: React.PropTypes.object,
+
+        /**
+         * The label that should be used for accessibility purposes.
+         *
+         * @property {String} label
+         */
+        label: React.PropTypes.string,
+
+        /**
+         * Provides a callback which should be executed when a dismiss key is pressed over a toolbar to return the focus to the editor.
+         *
+         * @property {Function} onDismiss
+         */
+        onDismiss: React.PropTypes.func,
+
+        /**
+         * The data, returned from {{#crossLink "CKEDITOR.plugins.ae_selectionregion/getSelectionData:method"}}{{/crossLink}}
+         *
+         * @property {Object} selectionData
+         */
+        selectionData: React.PropTypes.object
+    };
+
+    // Lifecycle. Provides static properties to the widget.
+    ToolbarStyles.statics = {
+        /**
+         * The name which will be used as an alias of the button in the configuration.
+         *
+         * @static
+         * @property {String} key
+         * @default styles
+         */
+        key: 'styles'
+    };
 
     AlloyEditor.Toolbars[ToolbarStyles.key] = AlloyEditor.ToolbarStyles = ToolbarStyles;
 })();
