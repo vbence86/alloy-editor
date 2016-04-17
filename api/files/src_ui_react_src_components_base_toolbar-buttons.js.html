@@ -31,7 +31,7 @@
                 <li class="divider-vertical"></li>
                 <li>
                     <p class="navbar-text">
-                        API Docs for Version: <b>1.0.1</b>
+                        API Docs for Version: <b>1.1.0</b>
                     </p>
                 </li>
             </div>
@@ -63,6 +63,7 @@
                                     <li><a href="../classes/ButtonBold.html">ButtonBold</a></li>
                                     <li><a href="../classes/ButtonCamera.html">ButtonCamera</a></li>
                                     <li><a href="../classes/ButtonCameraImage.html">ButtonCameraImage</a></li>
+                                    <li><a href="../classes/ButtonCfgProps.html">ButtonCfgProps</a></li>
                                     <li><a href="../classes/ButtonCode.html">ButtonCode</a></li>
                                     <li><a href="../classes/ButtonCommand.html">ButtonCommand</a></li>
                                     <li><a href="../classes/ButtonCommandActive.html">ButtonCommandActive</a></li>
@@ -81,6 +82,7 @@
                                     <li><a href="../classes/ButtonItalic.html">ButtonItalic</a></li>
                                     <li><a href="../classes/ButtonKeystroke.html">ButtonKeystroke</a></li>
                                     <li><a href="../classes/ButtonLink.html">ButtonLink</a></li>
+                                    <li><a href="../classes/ButtonLinkAutocompleteList.html">ButtonLinkAutocompleteList</a></li>
                                     <li><a href="../classes/ButtonLinkEdit.html">ButtonLinkEdit</a></li>
                                     <li><a href="../classes/ButtonLinkTargetEdit.html">ButtonLinkTargetEdit</a></li>
                                     <li><a href="../classes/ButtonOrderedList.html">ButtonOrderedList</a></li>
@@ -197,15 +199,19 @@
                                     getToolbarButtons: function(buttons, additionalProps) {
                                         var buttonProps = {};
                             
+                                        var nativeEditor = this.props.editor.get(&#x27;nativeEditor&#x27;);
+                                        var buttonCfg = nativeEditor.config.buttonCfg || {};
+                            
                                         var toolbarButtons = this.filterExclusive(
                                                 buttons.filter(function(button) {
                                                     return button &amp;&amp; (AlloyEditor.Buttons[button] || AlloyEditor.Buttons[button.name]);
                                                 })
                                                 .map(function(button) {
                                                     if (AlloyEditor.Lang.isString(button)) {
+                                                        buttonProps[button]= buttonCfg[button];
                                                         button = AlloyEditor.Buttons[button];
                                                     } else if (AlloyEditor.Lang.isString(button.name)) {
-                                                        buttonProps[AlloyEditor.Buttons[button.name].key] = button.cfg;
+                                                        buttonProps[AlloyEditor.Buttons[button.name].key] = CKEDITOR.tools.merge(buttonCfg[button], button.cfg);
                                                         button = AlloyEditor.Buttons[button.name];
                                                     }
                             
