@@ -240,6 +240,12 @@
                     
                       
                         <li>
+                          <a href="//alloyeditor.com/features/indent-outdent">Indent and outdent block content</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
                           <a href="//alloyeditor.com/features/italic">Italic</a>
                         </li>
                       
@@ -265,6 +271,12 @@
                       
                         <li>
                           <a href="//alloyeditor.com/features/ol">Lists (Numbered)</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="//alloyeditor.com/features/autolist">Lists auto creating</a>
                         </li>
                       
                     
@@ -667,7 +679,8 @@ AlloyEditor.editable(<span class="hljs-string">'contentEditable'</span>);</code>
         var contentEditable = document.getElementById('contentEditable');
 
         var destroyPopover = function() {
-            $('#sampleHint').remove();
+            var hintEl = document.getElementById('sampleHint');
+            hintEl.parentNode.removeChild(hintEl);
             contentEditable.removeEventListener('focus', destroyPopover);
         };
 

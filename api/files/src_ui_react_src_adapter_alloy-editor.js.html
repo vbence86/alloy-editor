@@ -31,7 +31,7 @@
                 <li class="divider-vertical"></li>
                 <li>
                     <p class="navbar-text">
-                        API Docs for Version: <b>1.1.0</b>
+                        API Docs for Version: <b>1.2.0</b>
                     </p>
                 </li>
             </div>
@@ -79,6 +79,7 @@
                                     <li><a href="../classes/ButtonImageAlignCenter.html">ButtonImageAlignCenter</a></li>
                                     <li><a href="../classes/ButtonImageAlignLeft.html">ButtonImageAlignLeft</a></li>
                                     <li><a href="../classes/ButtonImageAlignRight.html">ButtonImageAlignRight</a></li>
+                                    <li><a href="../classes/ButtonIndentBlock.html">ButtonIndentBlock</a></li>
                                     <li><a href="../classes/ButtonItalic.html">ButtonItalic</a></li>
                                     <li><a href="../classes/ButtonKeystroke.html">ButtonKeystroke</a></li>
                                     <li><a href="../classes/ButtonLink.html">ButtonLink</a></li>
@@ -86,6 +87,7 @@
                                     <li><a href="../classes/ButtonLinkEdit.html">ButtonLinkEdit</a></li>
                                     <li><a href="../classes/ButtonLinkTargetEdit.html">ButtonLinkTargetEdit</a></li>
                                     <li><a href="../classes/ButtonOrderedList.html">ButtonOrderedList</a></li>
+                                    <li><a href="../classes/ButtonOutdentBlock.html">ButtonOutdentBlock</a></li>
                                     <li><a href="../classes/ButtonParagraphAlignLeft.html">ButtonParagraphAlignLeft</a></li>
                                     <li><a href="../classes/ButtonParagraphAlignRight.html">ButtonParagraphAlignRight</a></li>
                                     <li><a href="../classes/ButtonParagraphCenter.html">ButtonParagraphCenter</a></li>
@@ -109,6 +111,7 @@
                                     <li><a href="../classes/ButtonTableHeading.html">ButtonTableHeading</a></li>
                                     <li><a href="../classes/ButtonTableRemove.html">ButtonTableRemove</a></li>
                                     <li><a href="../classes/ButtonTableRow.html">ButtonTableRow</a></li>
+                                    <li><a href="../classes/ButtonTargetList.html">ButtonTargetList</a></li>
                                     <li><a href="../classes/ButtonTwitter.html">ButtonTwitter</a></li>
                                     <li><a href="../classes/ButtonUnderline.html">ButtonUnderline</a></li>
                                     <li><a href="../classes/ButtonUnorderedlist.html">ButtonUnorderedlist</a></li>
@@ -267,6 +270,8 @@
                             
                                             nativeEditor.destroy();
                                         }
+                            
+                                        window.removeEventListener(&#x27;resize&#x27;, this._resizeEventListener);
                                     },
                             
                                     /**
@@ -339,15 +344,23 @@
                             
                                             uiNode.appendChild(editorUIElement);
                             
+                                            var eventsDelay = this.get(&#x27;eventsDelay&#x27;);
+                            
                                             this._mainUI = ReactDOM.render(React.createElement(AlloyEditor.UI, {
                                                 editor: this,
-                                                eventsDelay: this.get(&#x27;eventsDelay&#x27;),
+                                                eventsDelay: eventsDelay,
                                                 toolbars: this.get(&#x27;toolbars&#x27;)
                                             }), editorUIElement);
                             
                                             this._editorUIElement = editorUIElement;
                             
                                             this.get(&#x27;nativeEditor&#x27;).fire(&#x27;uiReady&#x27;);
+                            
+                                            this._resizeEventListener = CKEDITOR.tools.debounce(function() {
+                                                this._mainUI.forceUpdate();
+                                            }, eventsDelay, this);
+                            
+                                            window.addEventListener(&#x27;resize&#x27;, this._resizeEventListener);
                                         }
                                     },
                             
@@ -450,7 +463,7 @@
                                          */
                                         extraPlugins: {
                                             validator: AlloyEditor.Lang.isString,
-                                            value: &#x27;ae_uicore,ae_selectionregion,ae_selectionkeystrokes,ae_dragresize,ae_imagealignment,ae_addimages,ae_placeholder,ae_tabletools,ae_tableresize,ae_autolink,ae_embed&#x27;,
+                                            value: &#x27;ae_uicore,ae_selectionregion,ae_selectionkeystrokes,ae_dragresize,ae_imagealignment,ae_addimages,ae_placeholder,ae_tabletools,ae_tableresize,ae_autolink,ae_embed,ae_autolist&#x27;,
                                             writeOnce: true
                                         },
                             
