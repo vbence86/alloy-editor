@@ -1,5 +1,5 @@
 /**
- * AlloyEditor v1.2.0
+ * AlloyEditor v1.2.1
  *
  * Copyright 2014-present, Liferay, Inc.
  * All rights reserved.
@@ -20558,6 +20558,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function () {
     'use strict';
 
+    var REGEX_EMAIL_SCHEME = /^[a-z0-9\u0430-\u044F\._-]+@/i;
     var REGEX_URI_SCHEME = /^(?:[a-z][a-z0-9+\-.]*)\:|^\//i;
 
     /**
@@ -20753,8 +20754,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         },
 
         /**
-         * Checks if the URI has a scheme. If not, the default 'http' scheme with
-         * hierarchical path '//' is added to it.
+         * Checks if the URI has an '@' symbol. If it does and the URI looks like an email
+         * and doesn't have 'mailto:', 'mailto:' is added to the URI.
+         * If it doesn't and the URI doesn't have a scheme, the default 'http' scheme with
+         * hierarchical path '//' is added to the URI.
          *
          * @protected
          * @method _getCompleteURI
@@ -20762,7 +20765,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
          * @return {String} The URI updated with the protocol.
          */
         _getCompleteURI: function _getCompleteURI(URI) {
-            if (!REGEX_URI_SCHEME.test(URI)) {
+            if (REGEX_EMAIL_SCHEME.test(URI)) {
+                URI = 'mailto:' + URI;
+            } else if (!REGEX_URI_SCHEME.test(URI)) {
                 URI = this.appendProtocol ? 'http://' + URI : URI;
             }
 
@@ -21787,9 +21792,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     /**
      * CKEditor plugin which allows Drag&Drop of images directly into the editable area. The image will be encoded
-     * as Data URI. An event `imageAdd` will be fired with the inserted element into the editable area.
+     * as Data URI. An event `beforeImageAdd` will be fired with the list of dropped images. If any of the listeners
+     * returns `false` or cancels the event, the images won't be added to the content. Otherwise,
+     * an event `imageAdd` will be fired with the inserted element into the editable area.
      *
      * @class CKEDITOR.plugins.ae_addimages
+     */
+
+    /**
+     * Fired before adding images to the editor.
+     * @event beforeImageAdd
+     * @param {Array} imageFiles Array of image files
      */
 
     /**
@@ -21797,6 +21810,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      *
      * @event imageAdd
      * @param {CKEDITOR.dom.element} el The created image with src as Data URI
+     * @param {File} file The image file
      */
 
     CKEDITOR.plugins.add('ae_addimages', {
@@ -21839,10 +21853,27 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
          * @param {Object} editor The current editor instance
          */
         _handleFiles: function _handleFiles(files, editor) {
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
+            var file;
+            var i;
+
+            var imageFiles = [];
+
+            for (i = 0; i < files.length; i++) {
+                file = files[i];
 
                 if (file.type.indexOf('image') === 0) {
+                    imageFiles.push(file);
+                }
+            }
+
+            var result = editor.fire('beforeImageAdd', {
+                imageFiles: imageFiles
+            });
+
+            if (!!result) {
+                for (i = 0; i < files.length; i++) {
+                    file = files[i];
+
                     this._processFile(file, editor);
                 }
             }
@@ -22836,6 +22867,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return;
     }
 
+    var REGEX_HTTP = /^https?/;
+
     CKEDITOR.DEFAULT_AE_EMBED_URL_TPL = '//alloy.iframe.ly/api/oembed?url={url}&callback={callback}';
     CKEDITOR.DEFAULT_AE_EMBED_WIDGET_TPL = '<div data-ae-embed-url="{url}"></div>';
 
@@ -22887,7 +22920,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                  * requesting the embed object to the configured oembed service and render it in
                  * the editor
                  *
-                 * @param {event} event The Event
+                 * @method data
+                 * @param {event} event Data change event
                  */
                 data: function data(event) {
                     var widget = this;
@@ -22911,6 +22945,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 /**
                  * Function used to upcast an element to ae_embed widgets.
                  *
+                 * @method upcast
                  * @param {CKEDITOR.htmlParser.element} element The element to be checked
                  * @param {Object} data The object that will be passed to the widget
                  */
@@ -22918,17 +22953,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     var embedWidgetUpcastFn = editor.config.embedWidgetUpcastFn || defaultEmbedWidgetUpcastFn;
 
                     return embedWidgetUpcastFn(element, data);
-                },
-
-                /**
-                 * Changes the widget's select state.
-                 *
-                 * @param {Boolean} selected Whether to select or deselect the widget
-                 */
-                setSelected: function setSelected(selected) {
-                    if (selected) {
-                        editor.getSelection().selectElement(this.element);
-                    }
                 }
             });
 
@@ -22937,7 +22961,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 editor.on('paste', function (event) {
                     var link = event.data.dataValue;
 
-                    if (/^https?/.test(link)) {
+                    if (REGEX_HTTP.test(link)) {
                         event.stop();
 
                         editor.execCommand('embedUrl', {
@@ -22945,6 +22969,33 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         });
                     }
                 });
+            });
+
+            // Add a listener to handle selection change events an properly detect editor
+            // interactions on the widgets without messing with widget native selection
+            editor.on('selectionChange', function (event) {
+                var selection = editor.getSelection();
+
+                if (selection) {
+                    var element = selection.getSelectedElement();
+
+                    if (element) {
+                        var widgetElement = element.findOne('[data-widget="ae_embed"]');
+
+                        if (widgetElement) {
+                            var region = element.getClientRect();
+                            region.direction = CKEDITOR.SELECTION_BOTTOM_TO_TOP;
+
+                            editor.fire('editorInteraction', {
+                                nativeEvent: {},
+                                selectionData: {
+                                    element: widgetElement,
+                                    region: region
+                                }
+                            });
+                        }
+                    }
+                }
             });
 
             // Add a filter to skip filtering widget elements
@@ -23166,9 +23217,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     /**
      * CKEditor plugin which allows pasting images directly into the editable area. The image will be encoded
-     * as Data URI. An event `imageAdd` will be fired with the inserted element into the editable area.
+     * as Data URI. An event `beforeImageAdd` will be fired with the list of pasted images. If any of the listeners
+     * returns `false` or cancels the event, the images won't be added to the content. Otherwise,
+     * an event `imageAdd` will be fired with the inserted element into the editable area.
      *
      * @class CKEDITOR.plugins.ae_pasteimages
+     */
+
+    /**
+     * Fired before adding images to the editor.
+     * @event beforeImageAdd
+     * @param {Array} imageFiles Array of image files
      */
 
     /**
@@ -23176,6 +23235,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      *
      * @event imageAdd
      * @param {CKEDITOR.dom.element} el The created image with src as Data URI
+     * @param {File} file The image file
      */
 
     CKEDITOR.plugins.add('ae_pasteimages', {
@@ -23217,16 +23277,22 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     var imageFile = pastedData.getAsFile();
 
                     reader.onload = function (event) {
-                        var el = CKEDITOR.dom.element.createFromHtml('<img src="' + event.target.result + '">');
+                        var result = editor.fire('beforeImageAdd', {
+                            imageFiles: imageFile
+                        });
 
-                        editor.insertElement(el);
+                        if (!!result) {
+                            var el = CKEDITOR.dom.element.createFromHtml('<img src="' + event.target.result + '">');
 
-                        var imageData = {
-                            el: el,
-                            file: imageFile
-                        };
+                            editor.insertElement(el);
 
-                        editor.fire('imageAdd', imageData);
+                            var imageData = {
+                                el: el,
+                                file: imageFile
+                            };
+
+                            editor.fire('imageAdd', imageData);
+                        }
                     }.bind(this);
 
                     reader.readAsDataURL(imageFile);
@@ -24570,6 +24636,8 @@ CKEDITOR.tools.buildTableMap = function (table) {
         toFeature: noop
     };
 
+    var BUTTON_DEFS = {};
+
     /**
      * Generates a ButtonBridge React class for a given button definition if it has not been
      * already created based on the button name and definition.
@@ -24580,12 +24648,14 @@ CKEDITOR.tools.buildTableMap = function (table) {
      * @param {Object} buttonDefinition The button's definition
      * @return {Object} The generated or already existing React Button Class
      */
-    function generateButtonBridge(buttonName, buttonDefinition) {
+
+    function generateButtonBridge(buttonName, buttonDefinition, editor) {
         var ButtonBridge = AlloyEditor.Buttons[buttonName];
 
-        if (!ButtonBridge) {
-            var buttonDisplayName = buttonDefinition.name || buttonDefinition.command || buttonName;
+        BUTTON_DEFS[editor.name] = BUTTON_DEFS[editor.name] || {};
+        BUTTON_DEFS[editor.name][buttonName] = BUTTON_DEFS[editor.name][buttonName] || buttonDefinition;
 
+        if (!ButtonBridge) {
             ButtonBridge = React.createClass(CKEDITOR.tools.merge(UNSUPPORTED_BUTTON_API, {
                 displayName: buttonName,
 
@@ -24599,8 +24669,16 @@ CKEDITOR.tools.buildTableMap = function (table) {
                 },
 
                 render: function render() {
+                    var editor = this.props.editor.get('nativeEditor');
+
                     var buttonClassName = 'ae-button ae-button-bridge';
+
+                    var buttonDisplayName = BUTTON_DEFS[editor.name][buttonName].name || BUTTON_DEFS[editor.name][buttonName].command || buttonName;
+
+                    var buttonLabel = BUTTON_DEFS[editor.name][buttonName].label;
+
                     var buttonType = 'button-' + buttonDisplayName;
+
                     var iconClassName = 'ae-icon-' + buttonDisplayName;
 
                     var iconStyle = {};
@@ -24617,7 +24695,7 @@ CKEDITOR.tools.buildTableMap = function (table) {
 
                     return React.createElement(
                         'button',
-                        { 'aria-label': buttonDefinition.label, className: buttonClassName, 'data-type': buttonType, onClick: this._handleClick, tabIndex: this.props.tabIndex, title: buttonDefinition.label },
+                        { 'aria-label': buttonLabel, className: buttonClassName, 'data-type': buttonType, onClick: this._handleClick, tabIndex: this.props.tabIndex, title: buttonLabel },
                         React.createElement('span', { className: iconClassName, style: iconStyle })
                     );
                 },
@@ -24625,10 +24703,14 @@ CKEDITOR.tools.buildTableMap = function (table) {
                 _handleClick: function _handleClick(event) {
                     var editor = this.props.editor.get('nativeEditor');
 
-                    if (buttonDefinition.onClick) {
-                        buttonDefinition.onClick.call(this);
+                    var buttonCommand = BUTTON_DEFS[editor.name][buttonName].command;
+
+                    var buttonOnClick = BUTTON_DEFS[editor.name][buttonName].onClick;
+
+                    if (buttonOnClick) {
+                        buttonOnClick.call(this);
                     } else {
-                        editor.execCommand(buttonDefinition.command);
+                        editor.execCommand(buttonCommand);
                     }
 
                     editor.fire('actionPerformed', this);
@@ -24705,6 +24787,8 @@ CKEDITOR.tools.buildTableMap = function (table) {
         createPanel: noop
     };
 
+    var PANEL_MENU_DEFS = {};
+
     /**
      * Generates a PanelMenuButtonBridge React class for a given panelmenubutton definition if it has not been
      * already created based on the panelmenubutton name and definition.
@@ -24715,12 +24799,13 @@ CKEDITOR.tools.buildTableMap = function (table) {
      * @param {Object} panelMenuButtonDefinition The panel button definition
      * @return {Object} The generated or already existing React PanelMenuButton Class
      */
-    var generatePanelMenuButtonBridge = function generatePanelMenuButtonBridge(panelMenuButtonName, panelMenuButtonDefinition) {
+    var generatePanelMenuButtonBridge = function generatePanelMenuButtonBridge(panelMenuButtonName, panelMenuButtonDefinition, editor) {
         var PanelMenuButtonBridge = AlloyEditor.Buttons[panelMenuButtonName];
 
-        if (!PanelMenuButtonBridge) {
-            var panelMenuButtonDisplayName = panelMenuButtonDefinition.name || panelMenuButtonDefinition.command || buttonName;
+        PANEL_MENU_DEFS[editor.name] = PANEL_MENU_DEFS[editor.name] || {};
+        PANEL_MENU_DEFS[editor.name][panelMenuButtonName] = PANEL_MENU_DEFS[editor.name][panelMenuButtonName] || panelMenuButtonDefinition;
 
+        if (!PanelMenuButtonBridge) {
             PanelMenuButtonBridge = React.createClass(CKEDITOR.tools.merge(UNSUPPORTED_PANEL_MENU_BUTTON_API, {
                 displayName: panelMenuButtonName,
 
@@ -24733,7 +24818,12 @@ CKEDITOR.tools.buildTableMap = function (table) {
                 },
 
                 render: function render() {
+                    var editor = this.props.editor.get('nativeEditor');
+
+                    var panelMenuButtonDisplayName = PANEL_MENU_DEFS[editor.name][panelMenuButtonName].name || PANEL_MENU_DEFS[editor.name][panelMenuButtonName].command || panelMenuButtonName;
+
                     var buttonClassName = 'ae-button ae-button-bridge';
+
                     var iconClassName = 'ae-icon-' + panelMenuButtonDisplayName;
 
                     var iconStyle = {};
@@ -24759,7 +24849,7 @@ CKEDITOR.tools.buildTableMap = function (table) {
                         { className: 'ae-container ae-has-dropdown' },
                         React.createElement(
                             'button',
-                            { 'aria-expanded': this.props.expanded, 'aria-label': panelMenuButtonDefinition.label, className: buttonClassName, onClick: this.props.toggleDropdown, role: 'combobox', tabIndex: this.props.tabIndex, title: panelMenuButtonDefinition.label },
+                            { 'aria-expanded': this.props.expanded, 'aria-label': PANEL_MENU_DEFS[editor.name][panelMenuButtonName].label, className: buttonClassName, onClick: this.props.toggleDropdown, role: 'combobox', tabIndex: this.props.tabIndex, title: PANEL_MENU_DEFS[editor.name][panelMenuButtonName].label },
                             React.createElement('span', { className: iconClassName, style: iconStyle })
                         ),
                         panel
@@ -24767,6 +24857,10 @@ CKEDITOR.tools.buildTableMap = function (table) {
                 },
 
                 _getPanel: function _getPanel() {
+                    var editor = this.props.editor.get('nativeEditor');
+
+                    var panelMenuButtonOnBlock = PANEL_MENU_DEFS[editor.name][panelMenuButtonName].onBlock;
+
                     var panel = {
                         hide: this.props.toggleDropdown,
                         show: this.props.toggleDropdown
@@ -24780,8 +24874,8 @@ CKEDITOR.tools.buildTableMap = function (table) {
                     };
 
                     /* istanbul ignore else */
-                    if (panelMenuButtonDefinition.onBlock) {
-                        panelMenuButtonDefinition.onBlock.call(this, panel, block);
+                    if (panelMenuButtonOnBlock) {
+                        panelMenuButtonOnBlock.call(this, panel, block);
                     }
 
                     // TODO
@@ -24879,6 +24973,8 @@ CKEDITOR.tools.buildTableMap = function (table) {
         unmarkAll: noop
     };
 
+    var RICH_COMBO_DEFS = {};
+
     /**
      * Generates a RichComboBridge React class for a given richcombo definition if it has not been
      * already created based on the richcombo name and definition.
@@ -24889,14 +24985,14 @@ CKEDITOR.tools.buildTableMap = function (table) {
      * @param {Object} richComboDefinition The rich combo definition
      * @return {Object} The generated or already existing React RichCombo Class
      */
-    var generateRichComboBridge = function generateRichComboBridge(richComboName, richComboDefinition) {
+    var generateRichComboBridge = function generateRichComboBridge(richComboName, richComboDefinition, editor) {
         var RichComboBridge = AlloyEditor.Buttons[richComboName];
 
-        if (!RichComboBridge) {
-            var richComboState = {
-                value: undefined
-            };
+        RICH_COMBO_DEFS[editor.name] = RICH_COMBO_DEFS[editor.name] || {};
+        RICH_COMBO_DEFS[editor.name][richComboName] = RICH_COMBO_DEFS[editor.name][richComboName] || richComboDefinition;
+        RICH_COMBO_DEFS[editor.name][richComboName].currentValue = undefined;
 
+        if (!RichComboBridge) {
             RichComboBridge = React.createClass(CKEDITOR.tools.merge(UNSUPPORTED_RICHCOMBO_API, {
                 displayName: richComboName,
 
@@ -24917,16 +25013,20 @@ CKEDITOR.tools.buildTableMap = function (table) {
                 },
 
                 componentWillMount: function componentWillMount() {
+                    var editor = this.props.editor.get('nativeEditor');
+
+                    var editorCombo = RICH_COMBO_DEFS[editor.name][richComboName];
+
                     this._items = [];
 
                     this.setValue = this._setValue;
 
-                    if (richComboDefinition.init) {
-                        richComboDefinition.init.call(this);
+                    if (editorCombo.init) {
+                        editorCombo.init.call(this);
                     }
 
-                    if (richComboDefinition.onRender) {
-                        richComboDefinition.onRender.call(this);
+                    if (editorCombo.onRender) {
+                        editorCombo.onRender.call(this);
                     }
                 },
 
@@ -24938,7 +25038,7 @@ CKEDITOR.tools.buildTableMap = function (table) {
 
                 getInitialState: function getInitialState() {
                     return {
-                        value: richComboState.value
+                        value: RICH_COMBO_DEFS[editor.name][richComboName].currentValue
                     };
                 },
 
@@ -24947,7 +25047,9 @@ CKEDITOR.tools.buildTableMap = function (table) {
                 },
 
                 render: function render() {
-                    var richComboLabel = this.state.value || richComboDefinition.label;
+                    var editor = this.props.editor.get('nativeEditor');
+
+                    var richComboLabel = RICH_COMBO_DEFS[editor.name][richComboName].currentValue || richComboDefinition.label;
 
                     var itemsList;
 
@@ -24977,7 +25079,9 @@ CKEDITOR.tools.buildTableMap = function (table) {
                 },
 
                 _cacheValue: function _cacheValue(value) {
-                    richComboState.value = value;
+                    var editor = this.props.editor.get('nativeEditor');
+
+                    RICH_COMBO_DEFS[editor.name][richComboName].currentValue = value;
                 },
 
                 _getItems: function _getItems() {
@@ -25005,8 +25109,14 @@ CKEDITOR.tools.buildTableMap = function (table) {
                 _onClick: function _onClick(event) {
                     var editor = this.props.editor.get('nativeEditor');
 
-                    if (richComboDefinition.onClick) {
-                        richComboDefinition.onClick.call(this, event.currentTarget.getAttribute('data-value'));
+                    var editorCombo = RICH_COMBO_DEFS[editor.name][richComboName];
+
+                    if (editorCombo.onClick) {
+                        var newValue = event.currentTarget.getAttribute('data-value');
+
+                        editorCombo.onClick.call(this, newValue);
+
+                        RICH_COMBO_DEFS[editor.name][richComboName].currentValue = newValue;
 
                         editor.fire('actionPerformed', this);
                     }
@@ -25104,7 +25214,7 @@ CKEDITOR.tools.buildTableMap = function (table) {
                 var typeHandler = this._.handlers[type];
 
                 if (typeHandler && typeHandler.add) {
-                    typeHandler.add(name, definition);
+                    typeHandler.add(name, definition, editor);
                 }
             };
         }
@@ -25665,24 +25775,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     var embedSelectionTest = function embedSelectionTest(payload) {
-        var editor = payload.editor.get('nativeEditor');
-        var embedElement;
+        var selectionData = payload.data.selectionData;
 
-        var selection = editor.getSelection();
-
-        if (selection) {
-            var range = selection.getRanges()[0];
-
-            if (range) {
-                range.shrink(CKEDITOR.SHRINK_TEXT);
-
-                embedElement = editor.elementPath(range.getCommonAncestor()).contains(function (element) {
-                    return element.getAttribute('data-widget') === 'ae_embed' || element.getAttribute('data-cke-widget-wrapper') && element.find('[data-widget="ae_embed"]');
-                }, 1);
-            }
-        }
-
-        return !!embedElement;
+        return !!(selectionData.element && selectionData.element.getAttribute('data-widget') === 'ae_embed');
     };
 
     var linkSelectionTest = function linkSelectionTest(payload) {
@@ -25734,7 +25829,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var Selections = [{
         name: 'embed',
-        buttons: ['embedEdit'],
+        buttons: ['embedRemove', 'embedEdit'],
         test: AlloyEditor.SelectionTest.embed
     }, {
         name: 'link',
@@ -25852,8 +25947,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                 nativeEditor.destroy();
             }
-
-            window.removeEventListener('resize', this._resizeEventListener);
         },
 
         /**
@@ -25926,23 +26019,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                 uiNode.appendChild(editorUIElement);
 
-                var eventsDelay = this.get('eventsDelay');
-
                 this._mainUI = ReactDOM.render(React.createElement(AlloyEditor.UI, {
                     editor: this,
-                    eventsDelay: eventsDelay,
+                    eventsDelay: this.get('eventsDelay'),
                     toolbars: this.get('toolbars')
                 }), editorUIElement);
 
                 this._editorUIElement = editorUIElement;
 
                 this.get('nativeEditor').fire('uiReady');
-
-                this._resizeEventListener = CKEDITOR.tools.debounce(function () {
-                    this._mainUI.forceUpdate();
-                }, eventsDelay, this);
-
-                window.addEventListener('resize', this._resizeEventListener);
             }
         },
 
@@ -28383,24 +28468,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var selection = editor.getSelection();
 
             if (selection) {
-                var range = selection.getRanges()[0];
+                var selectedElement = selection.getSelectedElement();
 
-                if (range) {
-                    range.shrink(CKEDITOR.SHRINK_TEXT);
-
-                    embed = editor.elementPath(range.getCommonAncestor()).contains(function (element) {
-                        return element.getAttribute('data-widget') === 'ae_embed' || element.getAttribute('data-cke-widget-wrapper') && element.find('[data-widget="ae_embed"]');
-                    }, 1);
-
-                    if (embed && embed.getAttribute('data-widget') !== 'ae_embed') {
-                        embed = embed.find('[data-widget="ae_embed"]').getItem(0);
-                    }
+                if (selectedElement) {
+                    embed = selectedElement.findOne('[data-widget="ae_embed"]');
                 }
             }
 
             var href = embed ? embed.getAttribute('data-ae-embed-url') : '';
 
             return {
+                element: embed,
                 initialLink: {
                     href: href
                 },
@@ -28422,6 +28500,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             return React.createElement(
                 'div',
                 { className: 'ae-container-edit-link' },
+                React.createElement(
+                    'button',
+                    { 'aria-label': AlloyEditor.Strings.deleteEmbed, className: 'ae-button', 'data-type': 'button-embed-remove', disabled: !this.state.element, onClick: this._removeEmbed, tabIndex: this.props.tabIndex, title: AlloyEditor.Strings.deleteEmbed },
+                    React.createElement('span', { className: 'ae-icon-bin' })
+                ),
                 React.createElement(
                     'div',
                     { className: 'ae-container-input xxl' },
@@ -28530,6 +28613,24 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var validState = this.state.linkHref && this.state.linkHref !== this.state.initialLink.href;
 
             return validState;
+        },
+
+        /**
+         * Removes the embed in the editor element.
+         *
+         * @protected
+         * @method _removeEmbed
+         */
+        _removeEmbed: function _removeEmbed() {
+            var editor = this.props.editor.get('nativeEditor');
+
+            var embedWrapper = this.state.element.getAscendant(function (element) {
+                return element.hasClass('cke_widget_wrapper');
+            });
+
+            embedWrapper.remove();
+
+            editor.fire('actionPerformed', this);
         }
     });
 

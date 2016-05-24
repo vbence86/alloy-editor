@@ -1,0 +1,29 @@
+---
+category: Updates
+index: false
+
+major: false
+version: 1.2.1
+
+features:
+-
+	icon: bugs
+	title: Improve embedding media
+	description: Embedding media has been improved and now it allows removal of the widgets using the keyboard. In addition, a new button has been added, which allows trashing embedded content.
+	url: https://github.com/liferay/alloy-editor/issues/517
+-
+	icon: ckeditor
+	title: CKEditor was updated to v4.5.9
+	description: CKEditor was updated to v4.5.9 and a bug, which was preventing the usage of CKEditor buttons in multiple AlloyEditor instances was fixed.
+	url: https://github.com/liferay/alloy-editor/issues/515
+-
+	icon: buttons
+	title: Convert mail link
+	description: The button for adding link has been improved and now it recognizes mail links. Entering `me@example.com` will be converted to  `mailto:me@example.com`. Thanks to <a href="https://github.com/mattleff">Matthew Leffler</a> for his awesome contribution!
+	url: https://github.com/liferay/alloy-editor/issues/522
+-
+	icon: api
+	title: Adding images fires `beforeImageAdd` event
+	description: On adding images via paste or Drag&amp;Drop, before to append the image to the content, a `beforeImageAdd` event will be fired. The developer may subscribe to it and cancel it, this will prevent adding the image to the content.
+	url: https://github.com/liferay/alloy-editor/issues/518
+---
