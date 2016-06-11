@@ -2,11 +2,11 @@
 <html>
   <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
 
-    <title>Guides - Create entirely new UI | Alloy Editor</title>
+    <title>Guides - Create Toolbars | Alloy Editor</title>
 
     <meta charset="utf-8">
     <meta name="author" content="Iliyan Peychev">
-    <meta name="description" content="You don't like React? You prefer jQuery? Or you are JavaScript ninja and prefer writing vanilla JS? Welcome on board. You'll see how straightforward it is to create a whole new UI for AlloyEditor.">
+    <meta name="description" content="Adding a new toolbar is also as straightforward as adding a button.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Facebook Tags -->
@@ -14,8 +14,8 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="//alloyeditor.com">
     <meta property="og:image" content="//alloyeditor.com/website/img/facebook-share.jpg">
-    <meta property="og:title" content="Guides - Create entirely new UI | Alloy Editor">
-    <meta property="og:description" content="You don't like React? You prefer jQuery? Or you are JavaScript ninja and prefer writing vanilla JS? Welcome on board. You'll see how straightforward it is to create a whole new UI for AlloyEditor.">
+    <meta property="og:title" content="Guides - Create Toolbars | Alloy Editor">
+    <meta property="og:description" content="Adding a new toolbar is also as straightforward as adding a button.">
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="//alloyeditor.com/website/img/favicon.ico">
@@ -67,6 +67,8 @@
                   <ul class="nav navbar-nav visible-xs-block">
                     
                       
+                    
+                      
                         <li>
                           <a href="//alloyeditor.com/guides">Getting Started</a>
                         </li>
@@ -103,54 +105,40 @@
                       
                     
                       
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
                         <li>
                           <a href="//alloyeditor.com/guides/skins">Skins</a>
                         </li>
                       
                     
                       
-                        <li>
-                          <a href="//alloyeditor.com/guides/create_buttons">Create Buttons</a>
-                        </li>
+                    
                       
                     
                       
-                        <li>
-                          <a href="//alloyeditor.com/guides/create_skin">Create Skins</a>
-                        </li>
+                    
                       
                     
                       
-                        <li>
-                          <a href="//alloyeditor.com/guides/create_toolbars">Create Toolbars</a>
-                        </li>
+                    
+                      
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
                       
                     
                       
@@ -160,15 +148,19 @@
                       
                     
                       
-                        <li class="active">
-                          <a href="//alloyeditor.com/guides/create_ui">Create entirely new UI</a>
+                    
+                      
+                        <li>
+                          <a href="//alloyeditor.com/guides/how_to_build_it">Build it</a>
                         </li>
                       
                     
                       
                         <li>
-                          <a href="//alloyeditor.com/guides/how_to_build_it">How to build it?</a>
+                          <a href="//alloyeditor.com/guides/create">Create</a>
                         </li>
+                      
+                    
                       
                     
                   </ul>
@@ -402,33 +394,132 @@
       <div id="content">
         <div class="container">
   <div class="col-sm-8 col-sm-offset-1">
-    <h2 class="guide-header">Create entirely new UI</h2>
+    <h2 class="guide-header">Create Toolbars</h2>
 
     
-      <p class="guide-description">You don't like React? You prefer jQuery? Or you are JavaScript ninja and prefer writing vanilla JS? Welcome on board. You'll see how straightforward it is to create a whole new UI for AlloyEditor.</p>
+      <p class="guide-description">Adding a new toolbar is also as straightforward as adding a button.</p>
     
 
     <section class="guide-content">
-      <h4 class="guide-step">1 - Get ready to build AlloyEditor</h4>
+      <h4 class="guide-step">Creating a Toolbar</h4>
 
-<p>Follow the instructions in our <a href="guids/how_to_build_it">How to build it</a> Guide to know how to change and build AlloyEditor.
+<p>If you use the default React based UI, you just need to create a standard class. For your convenience, there are many mixins which you can use to ease the development of a toolbar like:
+    <ul>
+        <li>WidgetExclusive</li>
+        <li>WidgetFocusManager</li>
+        <li>ToolbarButtons</li>
+        <li>WidgetPosition</li>
+        <li>WidgetArrowBox</li>
+    </ul>
+</p>
 
-<h4 class="guide-step">2 - Create UI folder</h4>
+<span class="code-header">Example of the barebones for a Toolbar to control document version changes:</span>
+<pre class="highlight"><code class="hljs javascript"><span class="hljs-comment">// Use the built-in version of React if your site does not use React</span>
+<span class="hljs-keyword">var</span> React = AlloyEditor.React;
 
-<p>Create a new directory under <code>src/ui</code> with the name of your UI <small>(e.g jquery)</small></p>
+<span class="hljs-keyword">var</span> ToolbarVersions = React.createClass({
+    mixins: [AlloyEditor.WidgetDropdown, AlloyEditor.WidgetExclusive, AlloyEditor.WidgetFocusManager, AlloyEditor.ToolbarButtons, AlloyEditor.WidgetPosition, AlloyEditor.WidgetArrowBox],
 
-<h4 class="guide-step">3 - Create Build</h4>
+    statics: {
+        key: <span class="hljs-string">'versions'</span>
+    },
 
-<p>Create a subfolder, called <code>gulp-tasks</code> and a <code>build.js</code> file with your custom build steps. You can check out the [Gulp Project](http://gulpjs.com/) or some of the existing tasks for extra insight into the build system.
+    componentDidMount: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">this</span>._updatePosition();
+    },
 
-<h4 class="guide-step">4 - Build your UI</h4>
+    componentDidUpdate: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(prevProps, prevState)</span> </span>{
+        <span class="hljs-keyword">this</span>._updatePosition();
+    },
 
-<span class="code-header">In order to build AlloyEditor using your brand new UI (jquery), run</span>
-<pre class="highlight"><code class="hljs bash">gulp --ui jquery</code></pre>
+    getDefaultProps: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> {
+            circular: <span class="hljs-literal">true</span>,
+            descendants: <span class="hljs-string">'.ae-button, .ae-toolbar-element'</span>,
+            keys: {
+                next: [<span class="hljs-number">38</span>, <span class="hljs-number">39</span>],
+                prev: [<span class="hljs-number">37</span>, <span class="hljs-number">40</span>]
+            }
+        };
+    },
 
-<p>That is everything. How will you structure the directories, which modules will you use, will you load Buttons and Toolbars on demand, what gulp tasks will you add - these questions are entirely up to you. The good news is that you won't start from scratch entirely. You still will be able to use the core of AlloyEditor, as well as the API from CKEditor.</p>
+    <span class="hljs-comment">/**
+     * Returns the class name of the toolbar in case of both exclusive and normal mode.
+     */</span>
+    _getToolbarClassName: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">var</span> cssClass = <span class="hljs-string">'ae-toolbar-versions'</span>;
 
-<p class="guide-note">Once you are ready with the UI, please send us a pull request and we will merge it!</p>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.props.renderExclusive) {
+            cssClass = <span class="hljs-string">'ae-toolbar '</span> + <span class="hljs-keyword">this</span>.getArrowBoxClasses();
+        }
+
+        <span class="hljs-keyword">return</span> cssClass;
+    },
+
+    <span class="hljs-comment">/**
+     * Calculates and sets the position of the toolbar in exclusive or normal mode.
+     */</span>
+    _updatePosition: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">var</span> region;
+
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.props.selectionData) {
+            region = <span class="hljs-keyword">this</span>.props.selectionData.region;
+        }
+
+        <span class="hljs-keyword">if</span> (region) {
+            <span class="hljs-keyword">var</span> domNode = React.findDOMNode(<span class="hljs-keyword">this</span>);
+            <span class="hljs-keyword">var</span> domElement = <span class="hljs-keyword">new</span> CKEDITOR.dom.element(domNode);
+
+            <span class="hljs-keyword">var</span> startRect = region.startRect || region;
+            <span class="hljs-keyword">var</span> right = <span class="hljs-keyword">this</span>.props.editor.get(<span class="hljs-string">'nativeEditor'</span>).editable().getClientRect().right;
+
+            domNode.style.right = right + domNode.offsetWidth + <span class="hljs-keyword">this</span>.props.gutterExclusive.left + <span class="hljs-string">'px'</span>;
+            domNode.style.top = region.top - domNode.offsetHeight/<span class="hljs-number">2</span> + startRect.height/<span class="hljs-number">2</span> + <span class="hljs-string">'px'</span>;
+            domNode.style.opacity = <span class="hljs-number">1</span>;
+
+            domElement.removeClass(<span class="hljs-string">'ae-arrow-box'</span>);
+
+            <span class="hljs-keyword">this</span>.cancelAnimation();
+        }
+    },
+
+    <span class="hljs-comment">/**
+     * Lifecycle. Renders the buttons for managing version changes.
+     */</span>
+    render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">var</span> buttons = <span class="hljs-keyword">this</span>.getToolbarButtons(<span class="hljs-keyword">this</span>.props.config.buttons);
+        <span class="hljs-keyword">var</span> className = <span class="hljs-keyword">this</span>._getToolbarClassName();
+
+        <span class="hljs-keyword">return</span> (
+            <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">{className}</span> <span class="hljs-attribute">data-tabindex</span>=<span class="hljs-value">{this.props.config.tabIndex</span> || <span class="hljs-attribute">0</span>} <span class="hljs-attribute">onFocus</span>=<span class="hljs-value">{this.focus}</span> <span class="hljs-attribute">onKeyDown</span>=<span class="hljs-value">{this.handleKey}</span> <span class="hljs-attribute">tabIndex</span>=<span class="hljs-value">"-1"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"ae-container"</span>&gt;</span>
+                    {buttons}
+                <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+        );
+    }
+});
+
+AlloyEditor.Toolbars[ToolbarVersions.key] = AlloyEditor.ToolbarVersions = ToolbarVersions;</span></code></pre>
+
+<h4 class="guide-step">Using a Toolbar</h4>
+
+<p>After creating your toolbar, you have to add it to the configuration of the editor where you want to use it.</p>
+
+<pre class="highlight"><code class="hljs javascript"><span class="hljs-keyword">var</span> toolbars = {
+    add: {
+        buttons: [<span class="hljs-string">'image'</span>, <span class="hljs-string">'camera'</span>, <span class="hljs-string">'hline'</span>, <span class="hljs-string">'table'</span>],
+        tabIndex: <span class="hljs-number">2</span>
+    },
+    versions: {
+        buttons: [<span class="hljs-string">'annotate'</span>, <span class="hljs-string">'comment'</span>, <span class="hljs-string">'acceptChanges'</span>, <span class="hljs-string">'rejectChanges'</span>],
+        tabIndex: <span class="hljs-number">1</span>
+    }
+}</code></pre>
+
+<p>In this example, <em>annotate</em>, <em>comment</em>, <em>acceptChanges</em> and <em>rejectChanges</em> will be the buttons that will be loaded on the toolbar, and that will help us handle document version changes. Read our <a href="/guides/create_buttons">Create Buttons</a> Guide to know how to do this!</p>
+
+<p class="guide-note"></p>
     </section>
 
     <div id="disqus_thread"></div>
@@ -451,6 +542,8 @@
     <p class="guide-target-header">Use</p>
     <nav class="ae-docs-sidebar">
       <ul class="nav ae-docs-sidenav">
+        
+          
         
           
             <li>
@@ -489,6 +582,10 @@
           
         
           
+            <li>
+              <a href="//alloyeditor.com/guides/skins">Skins</a>
+            </li>
+          
         
           
         
@@ -522,45 +619,54 @@
           
         
           
-            <li>
-              <a href="//alloyeditor.com/guides/skins">Skins</a>
-            </li>
-          
         
           
-            <li>
-              <a href="//alloyeditor.com/guides/create_buttons">Create Buttons</a>
-            </li>
-          
         
-          
-            <li>
-              <a href="//alloyeditor.com/guides/create_skin">Create Skins</a>
-            </li>
-          
-        
-          
-            <li>
-              <a href="//alloyeditor.com/guides/create_toolbars">Create Toolbars</a>
-            </li>
           
         
           
             <li>
               <a href="//alloyeditor.com/guides/architecture">Architecture</a>
+                
+            </li>
+          
+        
+          
+        
+          
+            <li>
+              <a href="//alloyeditor.com/guides/how_to_build_it">Build it</a>
+                
             </li>
           
         
           
             <li class="active">
-              <a href="//alloyeditor.com/guides/create_ui">Create entirely new UI</a>
+              <a href="//alloyeditor.com/guides/create">Create</a>
+                
+                  <ul class="nav ae-docs-sub-sidenav">
+                    
+                        <li>
+                          <a href="//alloyeditor.com/guides/create/create_buttons">Create Buttons</a>
+                        </li>
+                    
+                        <li>
+                          <a href="//alloyeditor.com/guides/create/create_skin">Create Skins</a>
+                        </li>
+                    
+                        <li class="active">
+                          <a href="//alloyeditor.com/guides/create/create_toolbars">Create Toolbars</a>
+                        </li>
+                    
+                        <li>
+                          <a href="//alloyeditor.com/guides/create/create_ui">Create entirely new UI</a>
+                        </li>
+                    
+                  </ul>
+                
             </li>
           
         
-          
-            <li>
-              <a href="//alloyeditor.com/guides/how_to_build_it">How to build it?</a>
-            </li>
           
         
       </ul>

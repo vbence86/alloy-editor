@@ -712,6 +712,11 @@ footer .copyright {
   margin-top: 20px;
 }
 
+.ae-docs-sub-sidenav {
+  margin-bottom: 0px;
+  padding-left: 20px;
+}
+
 .ae-docs-sidebar .nav > li {
   line-height: 1.2em;
 }
@@ -739,6 +744,8 @@ footer .copyright {
   margin-top: 4px;
   padding: 0 10px 0 8px;
 }
+
+
 
 /* Editor Demo */
 
@@ -860,6 +867,23 @@ footer .copyright {
 }
 
 /* Features */
+
+.ae-features-sidebar {
+  margin-top: 100px;
+  padding-left: 40px;
+}
+
+.ae-features-sidebar .ae-docs-sidebar, .ae-features-sidebar .ae-docs-sidenav {
+  margin-top: 0;
+  padding-left: 0;
+}
+
+.ae-features-sidebar .feature-target-header {
+  font-weight: 400;
+  margin-bottom: 2px;
+  padding-left: 10px;
+  text-transform: uppercase;
+}
 
 .feature-header {
   border-bottom: 1px solid #eee;
