@@ -2,11 +2,11 @@
 <html>
   <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
 
-    <title>Guides - Architecture | Alloy Editor</title>
+    <title>Guides - Read only mode | Alloy Editor</title>
 
     <meta charset="utf-8">
     <meta name="author" content="Iliyan Peychev">
-    <meta name="description" content="The main idea behind the editor is to fully separate the core from the UI. And not only to separate it, but to give opportunity to people to add very easy new Buttons and Toolbars or to create completely new UI, based on different Framework or vanilla JavaScript.">
+    <meta name="description" content="AlloyEditor might be set to work in &quot;read only&quot; mode. In read only mode, changing the content will be not possible and clicking on a link will navigate to its URL instead to open a dialog for editing it.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Facebook Tags -->
@@ -14,8 +14,8 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="//alloyeditor.com">
     <meta property="og:image" content="//alloyeditor.com/website/img/facebook-share.jpg">
-    <meta property="og:title" content="Guides - Architecture | Alloy Editor">
-    <meta property="og:description" content="The main idea behind the editor is to fully separate the core from the UI. And not only to separate it, but to give opportunity to people to add very easy new Buttons and Toolbars or to create completely new UI, based on different Framework or vanilla JavaScript.">
+    <meta property="og:title" content="Guides - Read only mode | Alloy Editor">
+    <meta property="og:description" content="AlloyEditor might be set to work in &quot;read only&quot; mode. In read only mode, changing the content will be not possible and clicking on a link will navigate to its URL instead to open a dialog for editing it.">
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="//alloyeditor.com/website/img/favicon.ico">
@@ -111,7 +111,7 @@
                       
                     
                       
-                        <li>
+                        <li class="active">
                           <a href="//alloyeditor.com/guides/editor_configuration/readonly_configuration">Read only mode</a>
                         </li>
                       
@@ -158,7 +158,7 @@
                       
                     
                       
-                        <li class="active">
+                        <li>
                           <a href="//alloyeditor.com/guides/architecture">Architecture</a>
                         </li>
                       
@@ -410,40 +410,28 @@
       <div id="content">
         <div class="container">
   <div class="col-sm-8 col-sm-offset-1">
-    <h2 class="guide-header">Architecture</h2>
+    <h2 class="guide-header">Read only mode</h2>
 
     
-      <p class="guide-description">The main idea behind the editor is to fully separate the core from the UI. And not only to separate it, but to give opportunity to people to add very easy new Buttons and Toolbars or to create completely new UI, based on different Framework or vanilla JavaScript.</p>
+      <p class="guide-description">AlloyEditor might be set to work in &quot;read only&quot; mode. In read only mode, changing the content will be not possible and clicking on a link will navigate to its URL instead to open a dialog for editing it.</p>
     
 
     <section class="guide-content">
-      <h4 class="guide-step">Core</h4>
+      <h4 class="guide-step">Passing "readOnly" configuration property to the editor</h4>
 
-<section class="guide-nested">
-	<h4 class="guide-step">Built on top of CKEditor</h4>
+<span class="code-header">The read only mode can be set by passing the <strong>readOnly</strong> property to the editor with value `true`:</span>
+<pre class="highlight"><code class="hljs javascript"><span class="hljs-keyword">var</span> editor = AlloyEditor.editable(<span class="hljs-string">'editable'</span>, {
+    readOnly: <span class="hljs-literal">true</span>
+});
+</code></pre>
 
-	<p>AlloyEditor uses CKEditor under the hood to deal with the HTML. Browsers still generate very inconsistent HTML, not to mention how buggy they are. In fact, to create an editor, which is able to handle all browsers, let's say IE9+, Chrome, Firefox and Safari, is very challenging. Fortunately, CKEditor does it well, so it was the natural choice not only because of that, but because it is mature, well documented and configurable.</p>
+<p>The value of the <code>readOnly</code> property might be `true` or `false`. If set to <code>true</code> this means changes to the content won't be possible and clicking on a link will navigate to its URL instead to open a dialog for changing it.
 
-	<p>Not everything from CKEditor is being used. In fact, AlloyEditor uses only the core from it. The whole UI has been discarded and the version of CKEditor which comes in AlloyEditor is twice smaller than the version OOTB.</p>
-
-	<h4 class="guide-step">Plugins and UI Core</h4>
-
-	<p>On top of what CKEditor provides, new plugins and modules were created, which form the core of AlloyEditor.
-Among these plugins is a plugin, which adds new functions which provide information about the selection - its regions, direction and so on. This is the key part and that is what allows the Toolbars to display themselves just above or below the selection. Other plugins are related to Drag&Drop of images directly in the editor, or they provide common API for creating, editing and removing links and so on.</p>
-
-	<p>There is no much dependency of CKEditor in AlloyEditor. If there is better base, or if we reach the point when creation of new core would be easier but we still will be able to support the majority of the browsers, nothing prevents us of replacing CKEditor core with our own.</p>
-</section>
-
-<h4 class="guide-step">UI</h4>
-
-The UI has been thought in the way that it should provide the following functionality:
-<ul>
-	<li>Toolbars should allow adding, removing and reordering Buttons.</li>
-	<li>The developer should be able to add new Toolbars to the editor.</li>
-	<li>It should be easy to create a new UI. The default one uses React. However, if a developer wants to use another Framework or to create UI using vanilla JavaScript and CSS - that should be possible.</li>
-</ul>
-
-<p class="guide-note">Currently AlloyEditor supports only one UI - it uses React. Please feel free to contact us if you want to contribute another UI.</p>
+<p>This behavior might be changed any time using the following code: </p>
+<pre class="highlight"><code class="hljs javascript"><span class="hljs-keyword">var</span> nativeEditor = editor.get(<span class="hljs-string">'nativeEditor'</span>);
+nativeEditor.setReadOnly(<span class="hljs-literal">false</span>);
+</code></pre>
+This will make the content editable again.
     </section>
 
     <div id="disqus_thread"></div>
@@ -488,7 +476,7 @@ The UI has been thought in the way that it should provide the following function
           
         
           
-            <li>
+            <li class="active">
               <a href="//alloyeditor.com/guides/editor_configuration">Editor Configuration</a>
                 
                   <ul class="nav ae-docs-sub-sidenav">
@@ -497,7 +485,7 @@ The UI has been thought in the way that it should provide the following function
                           <a href="//alloyeditor.com/guides/editor_configuration/button_configuration">Button configuration</a>
                         </li>
                     
-                        <li>
+                        <li class="active">
                           <a href="//alloyeditor.com/guides/editor_configuration/readonly_configuration">Read only mode</a>
                         </li>
                     
@@ -575,7 +563,7 @@ The UI has been thought in the way that it should provide the following function
           
         
           
-            <li class="active">
+            <li>
               <a href="//alloyeditor.com/guides/architecture">Architecture</a>
                 
             </li>

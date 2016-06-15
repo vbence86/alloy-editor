@@ -2,11 +2,11 @@
 <html>
   <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
 
-    <title>Guides - Architecture | Alloy Editor</title>
+    <title>Guides - Button configuration | Alloy Editor</title>
 
     <meta charset="utf-8">
     <meta name="author" content="Iliyan Peychev">
-    <meta name="description" content="The main idea behind the editor is to fully separate the core from the UI. And not only to separate it, but to give opportunity to people to add very easy new Buttons and Toolbars or to create completely new UI, based on different Framework or vanilla JavaScript.">
+    <meta name="description" content="Changing the default configuration of the buttons is possible by passing configuration attributes to them and it will affect only the button behavior, without affecting their position in the Toolbars. Both configuring the Toolbars and the buttons can be used giving maximum flexibility.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Facebook Tags -->
@@ -14,8 +14,8 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="//alloyeditor.com">
     <meta property="og:image" content="//alloyeditor.com/website/img/facebook-share.jpg">
-    <meta property="og:title" content="Guides - Architecture | Alloy Editor">
-    <meta property="og:description" content="The main idea behind the editor is to fully separate the core from the UI. And not only to separate it, but to give opportunity to people to add very easy new Buttons and Toolbars or to create completely new UI, based on different Framework or vanilla JavaScript.">
+    <meta property="og:title" content="Guides - Button configuration | Alloy Editor">
+    <meta property="og:description" content="Changing the default configuration of the buttons is possible by passing configuration attributes to them and it will affect only the button behavior, without affecting their position in the Toolbars. Both configuring the Toolbars and the buttons can be used giving maximum flexibility.">
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="//alloyeditor.com/website/img/favicon.ico">
@@ -87,7 +87,7 @@
                       
                     
                       
-                        <li>
+                        <li class="active">
                           <a href="//alloyeditor.com/guides/editor_configuration/button_configuration">Button configuration</a>
                         </li>
                       
@@ -158,7 +158,7 @@
                       
                     
                       
-                        <li class="active">
+                        <li>
                           <a href="//alloyeditor.com/guides/architecture">Architecture</a>
                         </li>
                       
@@ -410,40 +410,27 @@
       <div id="content">
         <div class="container">
   <div class="col-sm-8 col-sm-offset-1">
-    <h2 class="guide-header">Architecture</h2>
+    <h2 class="guide-header">Button configuration</h2>
 
     
-      <p class="guide-description">The main idea behind the editor is to fully separate the core from the UI. And not only to separate it, but to give opportunity to people to add very easy new Buttons and Toolbars or to create completely new UI, based on different Framework or vanilla JavaScript.</p>
+      <p class="guide-description">Changing the default configuration of the buttons is possible by passing configuration attributes to them and it will affect only the button behavior, without affecting their position in the Toolbars. Both configuring the Toolbars and the buttons can be used giving maximum flexibility.</p>
     
 
     <section class="guide-content">
-      <h4 class="guide-step">Core</h4>
+      <h4 class="guide-step">Passing configuration options to the buttons</h4>
 
-<section class="guide-nested">
-	<h4 class="guide-step">Built on top of CKEditor</h4>
+<span class="code-header">The buttons are configured via a common <strong>buttonCfg</strong> property, like this:</span>
+<pre class="highlight"><code class="hljs javascript"><span class="hljs-keyword">var</span> editor = AlloyEditor.editable(<span class="hljs-string">'editable'</span>, {
+    buttonCfg: {
+        bold: {
+            tabIndex: <span class="hljs-number">1</span>
+        }
+    }
+});</code></pre>
 
-	<p>AlloyEditor uses CKEditor under the hood to deal with the HTML. Browsers still generate very inconsistent HTML, not to mention how buggy they are. In fact, to create an editor, which is able to handle all browsers, let's say IE9+, Chrome, Firefox and Safari, is very challenging. Fortunately, CKEditor does it well, so it was the natural choice not only because of that, but because it is mature, well documented and configurable.</p>
+<p>The <code>buttonCfg</code> is the property which contains the configurations for the different buttons. In this example, <code>bold</code> is the name of the button, which has to be configured and <code>tabIndex</code> is the property with the new value of 1 (by default 0). Each button has a static property <strong>key</strong> which value is the button name as should be passed to the configuration.</p>
 
-	<p>Not everything from CKEditor is being used. In fact, AlloyEditor uses only the core from it. The whole UI has been discarded and the version of CKEditor which comes in AlloyEditor is twice smaller than the version OOTB.</p>
-
-	<h4 class="guide-step">Plugins and UI Core</h4>
-
-	<p>On top of what CKEditor provides, new plugins and modules were created, which form the core of AlloyEditor.
-Among these plugins is a plugin, which adds new functions which provide information about the selection - its regions, direction and so on. This is the key part and that is what allows the Toolbars to display themselves just above or below the selection. Other plugins are related to Drag&Drop of images directly in the editor, or they provide common API for creating, editing and removing links and so on.</p>
-
-	<p>There is no much dependency of CKEditor in AlloyEditor. If there is better base, or if we reach the point when creation of new core would be easier but we still will be able to support the majority of the browsers, nothing prevents us of replacing CKEditor core with our own.</p>
-</section>
-
-<h4 class="guide-step">UI</h4>
-
-The UI has been thought in the way that it should provide the following functionality:
-<ul>
-	<li>Toolbars should allow adding, removing and reordering Buttons.</li>
-	<li>The developer should be able to add new Toolbars to the editor.</li>
-	<li>It should be easy to create a new UI. The default one uses React. However, if a developer wants to use another Framework or to create UI using vanilla JavaScript and CSS - that should be possible.</li>
-</ul>
-
-<p class="guide-note">Currently AlloyEditor supports only one UI - it uses React. Please feel free to contact us if you want to contribute another UI.</p>
+<p>The list of properties for each button can be retrieved from the <a href="/api/classes/ButtonBold.html">API documentation</a>, including the <strong>key</strong> property, which should be passed as button name in the configuration.</p>
     </section>
 
     <div id="disqus_thread"></div>
@@ -488,12 +475,12 @@ The UI has been thought in the way that it should provide the following function
           
         
           
-            <li>
+            <li class="active">
               <a href="//alloyeditor.com/guides/editor_configuration">Editor Configuration</a>
                 
                   <ul class="nav ae-docs-sub-sidenav">
                     
-                        <li>
+                        <li class="active">
                           <a href="//alloyeditor.com/guides/editor_configuration/button_configuration">Button configuration</a>
                         </li>
                     
@@ -575,7 +562,7 @@ The UI has been thought in the way that it should provide the following function
           
         
           
-            <li class="active">
+            <li>
               <a href="//alloyeditor.com/guides/architecture">Architecture</a>
                 
             </li>
