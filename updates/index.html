@@ -410,11 +410,64 @@
       <div id="content">
         <div class="container">
   <div class="update-header">
-    <h1>What is new in AlloyEditor 1.2.2?</h1>
+    <h1>What is new in AlloyEditor 1.2.3?</h1>
     <p class="feature-lead">AlloyEditor is constantly improving. We take your feedback very seriously to try and make every release better than the last.</p>
   </div>
 
   <div class="col-sm-8 col-sm-offset-2">
+    
+      <section class="update">
+        <div class="row">
+          <div class="update-timeline col-sm-2 minor-update">
+              <div class="update-point">1.2.3</div>
+          </div>
+          <div class="update-features col-sm-10">
+            <div class="row">
+              
+                
+
+                <div class="col-xs-12 col-sm-6 update-feature">
+                  <div class="row">
+                    <img alt="" src="/website/img/updates/bugs.png">
+                    <h1 class="feature-header">Properly release resources</h1>
+                  </div>
+
+                  <div class="row">
+                    <p class="feature-lead">Fixed issue with detaching events registered via CKEditor's API. The issue would cause the following exception on destroying the editor: "Uncaught TypeError: Cannot read property 'getRanges' of null". Fixed an issue that would cause the image resize markers to be still present even when the editor was destroyed.</p>
+                  </div>
+
+                  
+                    <div class="read-more">
+                      <a href="https://github.com/liferay/alloy-editor/issues?q=milestone%3A1.2.3+label%3Abug">Read more&hellip;</a>
+                    </div>
+                  
+                </div>
+              
+                
+
+                <div class="col-xs-12 col-sm-6 update-feature">
+                  <div class="row">
+                    <img alt="" src="/website/img/updates/api.png">
+                    <h1 class="feature-header">Fire `beforeImageAdd` event in buttom-image too</h1>
+                  </div>
+
+                  <div class="row">
+                    <p class="feature-lead">ButtonImage will fire `beforeImageAdd` event too</p>
+                  </div>
+
+                  
+                    <div class="read-more">
+                      <a href="https://github.com/liferay/alloy-editor/issues/534">Read more&hellip;</a>
+                    </div>
+                  
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </section>
     
       <section class="update">
         <div class="row">
