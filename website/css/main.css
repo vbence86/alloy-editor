@@ -772,9 +772,10 @@ footer .copyright {
 
 #contentEditable {
   border: dotted 1px #ccc;
-  border-width: 0 1px;
+  border-bottom-color: #fff;
+  border-top-color: #fff;
   margin-bottom: 50px;
-  margin-top: 30px;
+  margin-top: 70px;
 }
 
 #contentEditable img {
