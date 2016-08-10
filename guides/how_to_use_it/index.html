@@ -417,13 +417,13 @@
     
 
     <section class="guide-content">
-      <h4 class="guide-step">1 - Include AlloyEditor's CSS in the page</h4>
+      <h4 class="guide-step">1. Add AlloyEditor's CSS to the page:</h4>
 
 <pre class="highlight"><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"alloy-editor/assets/alloy-editor-ocean-min.css"</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">link</span>&gt;</span></code></pre>
 
-<h4 class="guide-step">2 - Include AlloyEditor's JS in the page</h4>
+<h4 class="guide-step">2. Add AlloyEditor's JS to the page:</h4>
 
-There are a <strong>few ways</strong> to include the editor on the page:
+There are a <strong>few ways</strong> to add the editor to the page:
 
 <section class="guide-nested">
   <span class="code-header">Add the whole editor with all UI on the page</span>
@@ -439,9 +439,12 @@ There are a <strong>few ways</strong> to include the editor on the page:
   <pre class="highlight"><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"alloy-editor/alloy-editor-core-min.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span></code></pre>
 </section>
 
-<h4 class="guide-step">3 - Invoke the static <code>editable</code> method of AlloyEditor</h4>
+<h4 class="guide-step">3. Invoke the static <code>editable</code> method of AlloyEditor:</h4>
 
 <pre class="highlight"><code class="hljs javascript">AlloyEditor.editable(<span class="hljs-string">'myContentEditable'</span>);</code></pre>
+
+<h4 class="guide-step">4. To retrieve the content from the editor, please do:<pre class="highlight"><code class="hljs javascript"><span class="hljs-keyword">var</span> alloyEditor = AlloyEditor.editable(<span class="hljs-string">'myContentEditable'</span>);
+<span class="hljs-keyword">var</span> content = alloyEditor.get(<span class="hljs-string">'nativeEditor'</span>).getData();</code></pre></h4>
 
 <p class="guide-note">Please, check our <a href="/guides/toolbar_configuration">Toolbar Configuration Guide</a> and the <a href="/features">Features List</a> to know how to customize your editor and get the most out of it!</p>
     </section>
@@ -597,11 +600,11 @@ There are a <strong>few ways</strong> to include the editor on the page:
                   <ul class="nav ae-docs-sub-sidenav">
                     
                         <li>
-                          <a href="//alloyeditor.com/guides/create/create_buttons">Create Buttons</a>
+                          <a href="//alloyeditor.com/guides/create/create_skin">Create Skins</a>
                         </li>
                     
                         <li>
-                          <a href="//alloyeditor.com/guides/create/create_skin">Create Skins</a>
+                          <a href="//alloyeditor.com/guides/create/create_toolbars">Create Toolbars</a>
                         </li>
                     
                         <li>
@@ -609,7 +612,7 @@ There are a <strong>few ways</strong> to include the editor on the page:
                         </li>
                     
                         <li>
-                          <a href="//alloyeditor.com/guides/create/create_toolbars">Create Toolbars</a>
+                          <a href="//alloyeditor.com/guides/create/create_buttons">Create Buttons</a>
                         </li>
                     
                   </ul>

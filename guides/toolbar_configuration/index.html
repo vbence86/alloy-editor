@@ -2,23 +2,25 @@
 <html>
   <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
 
-    <title>Guides - Architecture | Alloy Editor</title>
+    <title>Guides - Toolbar configuration | Alloy Editor</title>
 
     <meta charset="utf-8">
     <meta name="author" content="Iliyan Peychev">
-    <meta name="description" content="The main idea behind the editor is to fully separate the core from the UI. And not only to separate it, but to give opportunity to people to add very easy new Buttons and Toolbars or to create completely new UI, based on different Framework or vanilla JavaScript.">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="AlloyEditor allows you to configure the Toolbars in the way you prefer. You will be able to remove some of the existing Toolbars, to add your own or to reorder the buttons in each Toolbar">
 
     <!-- Facebook Tags -->
     <meta property="fb:app_id" content="176947299114210">
     <meta property="og:type" content="website">
     <meta property="og:url" content="//alloyeditor.com">
     <meta property="og:image" content="//alloyeditor.com/website/img/facebook-share.jpg">
-    <meta property="og:title" content="Guides - Architecture | Alloy Editor">
-    <meta property="og:description" content="The main idea behind the editor is to fully separate the core from the UI. And not only to separate it, but to give opportunity to people to add very easy new Buttons and Toolbars or to create completely new UI, based on different Framework or vanilla JavaScript.">
+    <meta property="og:title" content="Guides - Toolbar configuration | Alloy Editor">
+    <meta property="og:description" content="AlloyEditor allows you to configure the Toolbars in the way you prefer. You will be able to remove some of the existing Toolbars, to add your own or to reorder the buttons in each Toolbar">
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="//alloyeditor.com/website/img/favicon.ico">
+
+    <!-- CSS: Alloy Bootstrap -->
+    <!-- <link href="//alloyeditor.com/website/css/bootstrap.min.css" rel="stylesheet"> -->
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -62,16 +64,23 @@
             <div class="collapse navbar-collapse navbar-right" id="siteSections">
               <ul class="nav navbar-nav">
                 <li><a href="//alloyeditor.com/demo/">Live Demo</a></li>
-                <li><a href="//alloyeditor.com/updates/">What's New</a></li>
                 <li class="active inactive-xs"><a href="//alloyeditor.com/guides/">Guides</a>
                   <ul class="nav navbar-nav visible-xs-block">
-                    
-                      
                     
                       
                         <li>
                           <a href="//alloyeditor.com/guides">Getting Started</a>
                         </li>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
                       
                     
                       
@@ -81,100 +90,44 @@
                       
                     
                       
-                        <li>
-                          <a href="//alloyeditor.com/guides/editor_configuration/toolbar_configuration">Toolbar configuration</a>
-                        </li>
-                      
-                    
-                      
-                        <li>
-                          <a href="//alloyeditor.com/guides/editor_configuration/button_configuration">Button configuration</a>
-                        </li>
-                      
-                    
-                      
-                        <li>
-                          <a href="//alloyeditor.com/guides/editor_configuration">Editor Configuration</a>
-                        </li>
-                      
-                    
-                      
-                        <li>
-                          <a href="//alloyeditor.com/guides/react_component">Creating a React component</a>
-                        </li>
-                      
-                    
-                      
-                        <li>
-                          <a href="//alloyeditor.com/guides/how_to_use_ckeditor_plugins">How to use CKEditor Plugins?</a>
-                        </li>
-                      
-                    
-                      
-                        <li>
-                          <a href="//alloyeditor.com/guides/editor_configuration/readonly_configuration">Read only mode</a>
-                        </li>
-                      
-                    
-                      
-                        <li>
-                          <a href="//alloyeditor.com/guides/skins">Skins</a>
-                        </li>
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
                         <li class="active">
+                          <a href="//alloyeditor.com/guides/toolbar_configuration">Toolbar configuration</a>
+                        </li>
+                      
+                    
+                    
+                      
+                    
+                      
+                        <li>
+                          <a href="//alloyeditor.com/guides/how_to_build_it">How to build it?</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
                           <a href="//alloyeditor.com/guides/architecture">Architecture</a>
                         </li>
                       
                     
                       
-                    
-                      
                         <li>
-                          <a href="//alloyeditor.com/guides/how_to_build_it">Build it</a>
+                          <a href="//alloyeditor.com/guides/create_buttons">Create Buttons</a>
                         </li>
                       
                     
                       
                         <li>
-                          <a href="//alloyeditor.com/guides/create">Create</a>
+                          <a href="//alloyeditor.com/guides/create_toolbars">Create Toolbars</a>
                         </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="//alloyeditor.com/guides/create_ui">Create entirely new UI</a>
+                        </li>
+                      
+                    
                       
                     
                       
@@ -230,12 +183,6 @@
                     
                       
                         <li>
-                          <a href="//alloyeditor.com/features/imagealigncenter">Image Alignment - Center</a>
-                        </li>
-                      
-                    
-                      
-                        <li>
                           <a href="//alloyeditor.com/features/imagealignleft">Image Alignment - Left</a>
                         </li>
                       
@@ -243,12 +190,6 @@
                       
                         <li>
                           <a href="//alloyeditor.com/features/imagealignright">Image Alignment - Right</a>
-                        </li>
-                      
-                    
-                      
-                        <li>
-                          <a href="//alloyeditor.com/features/indent-outdent">Indent and outdent block content</a>
                         </li>
                       
                     
@@ -266,12 +207,6 @@
                     
                       
                         <li>
-                          <a href="//alloyeditor.com/features/linkautocomplete">Link AutoComplete</a>
-                        </li>
-                      
-                    
-                      
-                        <li>
                           <a href="//alloyeditor.com/features/ul">Lists (Bulleted)</a>
                         </li>
                       
@@ -279,12 +214,6 @@
                       
                         <li>
                           <a href="//alloyeditor.com/features/ol">Lists (Numbered)</a>
-                        </li>
-                      
-                    
-                      
-                        <li>
-                          <a href="//alloyeditor.com/features/autolist">Lists auto creating</a>
                         </li>
                       
                     
@@ -339,12 +268,6 @@
                       
                         <li>
                           <a href="//alloyeditor.com/features/tablecolumn">Table - Columns</a>
-                        </li>
-                      
-                    
-                      
-                        <li>
-                          <a href="//alloyeditor.com/features/tableheading">Table - Heading</a>
                         </li>
                       
                     
@@ -410,40 +333,93 @@
       <div id="content">
         <div class="container">
   <div class="col-sm-8 col-sm-offset-1">
-    <h2 class="guide-header">Architecture</h2>
+    <h2 class="guide-header">Toolbar configuration</h2>
 
     
-      <p class="guide-description">The main idea behind the editor is to fully separate the core from the UI. And not only to separate it, but to give opportunity to people to add very easy new Buttons and Toolbars or to create completely new UI, based on different Framework or vanilla JavaScript.</p>
+      <p class="guide-description">AlloyEditor allows you to configure the Toolbars in the way you prefer. You will be able to remove some of the existing Toolbars, to add your own or to reorder the buttons in each Toolbar</p>
     
 
     <section class="guide-content">
-      <h4 class="guide-step">Core</h4>
+      <h4 class="guide-step">Default configuration</h4>
 
-<section class="guide-nested">
-	<h4 class="guide-step">Built on top of CKEditor</h4>
+<span class="code-header">This is the default editor toolbars configuration</span>
+<pre class="highlight"><code class="hljs javascript"><span class="hljs-keyword">var</span> toolbars = {
+    add: {
+        buttons: [<span class="hljs-string">'image'</span>, <span class="hljs-string">'camera'</span>, <span class="hljs-string">'hline'</span>, <span class="hljs-string">'table'</span>],
+        tabIndex: <span class="hljs-number">2</span>
+    },
+    styles: {
+        selections: AlloyEditor.Selections,
+        tabIndex: <span class="hljs-number">1</span>
+    }
+};</code></pre>
 
-	<p>AlloyEditor uses CKEditor under the hood to deal with the HTML. Browsers still generate very inconsistent HTML, not to mention how buggy they are. In fact, to create an editor, which is able to handle all browsers, let's say IE9+, Chrome, Firefox and Safari, is very challenging. Fortunately, CKEditor does it well, so it was the natural choice not only because of that, but because it is mature, well documented and configurable.</p>
+<span class="code-header">where <code>AlloyEditor.Selections</code> is</span>
+<pre class="highlight"><code class="hljs javascript"><span class="hljs-keyword">var</span> Selections = [{
+        name: <span class="hljs-string">'link'</span>,
+        buttons: [<span class="hljs-string">'linkEdit'</span>],
+        test: AlloyEditor.SelectionTest.link
+    }, {
+        name: <span class="hljs-string">'image'</span>,
+        buttons: [<span class="hljs-string">'imageLeft'</span>, <span class="hljs-string">'imageRight'</span>],
+        test: AlloyEditor.SelectionTest.image
+    }, {
+        name: <span class="hljs-string">'text'</span>,
+        buttons: [<span class="hljs-string">'styles'</span>, <span class="hljs-string">'bold'</span>, <span class="hljs-string">'italic'</span>, <span class="hljs-string">'underline'</span>, <span class="hljs-string">'link'</span>, <span class="hljs-string">'twitter'</span>],
+        test: AlloyEditor.SelectionTest.text
+    }, {
+        name: <span class="hljs-string">'table'</span>,
+        buttons: [<span class="hljs-string">'tableRow'</span>, <span class="hljs-string">'tableColumn'</span>, <span class="hljs-string">'tableCell'</span>, <span class="hljs-string">'tableRemove'</span>],
+        getArrowBoxClasses: AlloyEditor.SelectionGetArrowBoxClasses.table,
+        setPosition: AlloyEditor.SelectionSetPosition.table,
+        test: AlloyEditor.SelectionTest.table
+}];</code></pre>
 
-	<p>Not everything from CKEditor is being used. In fact, AlloyEditor uses only the core from it. The whole UI has been discarded and the version of CKEditor which comes in AlloyEditor is twice smaller than the version OOTB.</p>
+<p>The configuration above represents two toolbars - for adding content (images, code, etc.) and modify content based on the current selection type. You may remove any of those and the toolbar won't be shown when user makes the corresponding selection.</p>
 
-	<h4 class="guide-step">Plugins and UI Core</h4>
+<span class="code-header">To remove the toolbar for adding content, just <strong>remove</strong> the property <em>add</em></span>
+<pre class="highlight"><code class="hljs javascript"><span class="hljs-keyword">var</span> toolbars = {
+    styles: {
+        selections: AlloyEditor.Selections,
+        tabIndex: <span class="hljs-number">1</span>
+    }
+};</code></pre>
 
-	<p>On top of what CKEditor provides, new plugins and modules were created, which form the core of AlloyEditor.
-Among these plugins is a plugin, which adds new functions which provide information about the selection - its regions, direction and so on. This is the key part and that is what allows the Toolbars to display themselves just above or below the selection. Other plugins are related to Drag&Drop of images directly in the editor, or they provide common API for creating, editing and removing links and so on.</p>
+<h4 class="guide-step">Configuring Buttons</h4>
 
-	<p>There is no much dependency of CKEditor in AlloyEditor. If there is better base, or if we reach the point when creation of new core would be easier but we still will be able to support the majority of the browsers, nothing prevents us of replacing CKEditor core with our own.</p>
-</section>
+<p>In the default UI, which uses React, some of the buttons accept configuration parameters so you can tailor them to suit your needs.</p>
 
-<h4 class="guide-step">UI</h4>
+<span class="code-header">Here is an example of a custom configuration for the <em>Styles</em> button inside a text selection</span>
+<pre class="highlight"><code class="hljs javascript"><span class="hljs-keyword">var</span> Selections = [{
+    name: <span class="hljs-string">'text'</span>,
+    buttons: [
+        {
+            name: <span class="hljs-string">'styles'</span>,
+            cfg: {
+                styles: [...]
+            }
+        },
+        <span class="hljs-string">'bold'</span>, <span class="hljs-string">'italic'</span>, <span class="hljs-string">'underline'</span>, <span class="hljs-string">'link'</span>, <span class="hljs-string">'twitter'</span>
+    ],
+    test: AlloyEditor.SelectionTest.text
+}];</code></pre>
 
-The UI has been thought in the way that it should provide the following functionality:
-<ul>
-	<li>Toolbars should allow adding, removing and reordering Buttons.</li>
-	<li>The developer should be able to add new Toolbars to the editor.</li>
-	<li>It should be easy to create a new UI. The default one uses React. However, if a developer wants to use another Framework or to create UI using vanilla JavaScript and CSS - that should be possible.</li>
-</ul>
+In this case a different array of styles is passed to the Styles button, so they will be shown when user selects a text instead of the default ones.
 
-<p class="guide-note">Currently AlloyEditor supports only one UI - it uses React. Please feel free to contact us if you want to contribute another UI.</p>
+<h4 class="guide-step">Reordering Buttons</h4>
+
+If you are not happy with the order of the buttons, you can just reorder them in the toolbar configuration. They will follow the order in which you specify them. For example, if you want the <em>table</em> button to appear before the <em>hline</em> button in the <em>Add</em> toolbar, you just need to do the following:
+
+<pre class="highlight"><code class="hljs undefined">var toolbars = {
+    add: {
+        buttons: ['table', 'hline', image', 'camera'],
+        tabIndex: 2
+    }
+};</code></pre>
+
+<h4 class="guide-step">Removing Buttons</h4>
+
+If you remove a button from the buttons property of a toolbar, or from the selections in Styles toolbar, then this button won't be available when the toolbar gets visible.
     </section>
 
     <div id="disqus_thread"></div>
@@ -468,81 +444,31 @@ The UI has been thought in the way that it should provide the following function
       <ul class="nav ae-docs-sidenav">
         
           
-        
-          
             <li>
               <a href="//alloyeditor.com/guides">Getting Started</a>
-                
             </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
           
         
           
             <li>
               <a href="//alloyeditor.com/guides/how_to_use_it">How to use it?</a>
-                
             </li>
           
         
           
-        
-          
-        
-          
-            <li>
-              <a href="//alloyeditor.com/guides/editor_configuration">Editor Configuration</a>
-                
-                  <ul class="nav ae-docs-sub-sidenav">
-                    
-                        <li>
-                          <a href="//alloyeditor.com/guides/editor_configuration/button_configuration">Button configuration</a>
-                        </li>
-                    
-                        <li>
-                          <a href="//alloyeditor.com/guides/editor_configuration/readonly_configuration">Read only mode</a>
-                        </li>
-                    
-                        <li>
-                          <a href="//alloyeditor.com/guides/editor_configuration/toolbar_configuration">Toolbar configuration</a>
-                        </li>
-                    
-                  </ul>
-                
+            <li class="active">
+              <a href="//alloyeditor.com/guides/toolbar_configuration">Toolbar configuration</a>
             </li>
-          
-        
-          
-            <li>
-              <a href="//alloyeditor.com/guides/react_component">Creating a React component</a>
-                
-            </li>
-          
-        
-          
-            <li>
-              <a href="//alloyeditor.com/guides/how_to_use_ckeditor_plugins">How to use CKEditor Plugins?</a>
-                
-            </li>
-          
-        
-          
-        
-          
-            <li>
-              <a href="//alloyeditor.com/guides/skins">Skins</a>
-                
-            </li>
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
           
         
       </ul>
@@ -555,66 +481,35 @@ The UI has been thought in the way that it should provide the following function
           
         
           
-        
+            <li>
+              <a href="//alloyeditor.com/guides/how_to_build_it">How to build it?</a>
+            </li>
           
         
           
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-            <li class="active">
+            <li>
               <a href="//alloyeditor.com/guides/architecture">Architecture</a>
-                
-            </li>
-          
-        
-          
-        
-          
-            <li>
-              <a href="//alloyeditor.com/guides/how_to_build_it">Build it</a>
-                
             </li>
           
         
           
             <li>
-              <a href="//alloyeditor.com/guides/create">Create</a>
-                
-                  <ul class="nav ae-docs-sub-sidenav">
-                    
-                        <li>
-                          <a href="//alloyeditor.com/guides/create/create_skin">Create Skins</a>
-                        </li>
-                    
-                        <li>
-                          <a href="//alloyeditor.com/guides/create/create_toolbars">Create Toolbars</a>
-                        </li>
-                    
-                        <li>
-                          <a href="//alloyeditor.com/guides/create/create_ui">Create entirely new UI</a>
-                        </li>
-                    
-                        <li>
-                          <a href="//alloyeditor.com/guides/create/create_buttons">Create Buttons</a>
-                        </li>
-                    
-                  </ul>
-                
+              <a href="//alloyeditor.com/guides/create_buttons">Create Buttons</a>
             </li>
+          
+        
+          
+            <li>
+              <a href="//alloyeditor.com/guides/create_toolbars">Create Toolbars</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="//alloyeditor.com/guides/create_ui">Create entirely new UI</a>
+            </li>
+          
+        
           
         
           
@@ -629,7 +524,7 @@ The UI has been thought in the way that it should provide the following function
         <div class="col-md-10 col-md-offset-1">
           <span class="fork"><a href="https://github.com/liferay/alloy-editor/blob/master/LICENSE.md">LGPL License</a></span>
           <span class="fork pull-right"><a href="https://github.com/liferay/alloy-editor/">Fork me on Github</a></span>
-          <p class="copyright">@ 2015-2016 Liferay, Inc. All Rights Reserved</p>
+          <p class="copyright">@ 2015 Liferay, Inc. All Rights Reserved</p>
         </div>
       </footer>
     </div>
