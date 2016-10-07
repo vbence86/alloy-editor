@@ -1,5 +1,5 @@
 /**
- * AlloyEditor v1.2.4
+ * AlloyEditor v1.2.3
  *
  * Copyright 2014-present, Liferay, Inc.
  * All rights reserved.
@@ -827,7 +827,7 @@ e={};if(!a)return null;if(a.styleableElements){b=this.getClassesArray();if(!b)re
 
     'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 (function () {
     'use strict';
@@ -21361,7 +21361,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })();
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 (function () {
     'use strict';
@@ -23286,17 +23286,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var IMAGE_SNAP_TO_SIZE = 7;
 
-    var isFirefox = 'MozAppearance' in document.documentElement.style;
-    var isWebKit = 'WebkitAppearance' in document.documentElement.style;
+    var isWebkit = 'WebkitAppearance' in document.documentElement.style;
 
-    var enablePlugin = isWebKit || isFirefox;
-
-    if (isFirefox) {
-        // Disable the native image resizing
-        document.execCommand('enableObjectResizing', false, false);
-    }
-
-    if (enablePlugin) {
+    if (isWebkit) {
         // CSS is added in a compressed form
         CKEDITOR.addCss('img::selection{color:rgba(0,0,0,0)}img.ckimgrsz{outline:1px dashed #000}#ckimgrsz{position:absolute;width:0;height:0;cursor:default;z-index:10001}#ckimgrsz span{display:none;position:absolute;top:0;left:0;width:0;height:0;background-size:100% 100%;opacity:.65;outline:1px dashed #000}#ckimgrsz i{position:absolute;display:block;width:5px;height:5px;background:#fff;border:1px solid #000}#ckimgrsz i.active,#ckimgrsz i:hover{background:#000}#ckimgrsz i.br,#ckimgrsz i.tl{cursor:nwse-resize}#ckimgrsz i.bm,#ckimgrsz i.tm{cursor:ns-resize}#ckimgrsz i.bl,#ckimgrsz i.tr{cursor:nesw-resize}#ckimgrsz i.lm,#ckimgrsz i.rm{cursor:ew-resize}body.dragging-br,body.dragging-br *,body.dragging-tl,body.dragging-tl *{cursor:nwse-resize!important}body.dragging-bm,body.dragging-bm *,body.dragging-tm,body.dragging-tm *{cursor:ns-resize!important}body.dragging-bl,body.dragging-bl *,body.dragging-tr,body.dragging-tr *{cursor:nesw-resize!important}body.dragging-lm,body.dragging-lm *,body.dragging-rm,body.dragging-rm *{cursor:ew-resize!important}');
     }
@@ -23306,12 +23298,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      */
     CKEDITOR.plugins.add('ae_dragresize', {
         onLoad: function onLoad() {
-            if (!enablePlugin) {
+            if (!isWebkit) {
                 return;
             }
         },
         init: function init(editor) {
-            if (!enablePlugin) {
+            if (!isWebkit) {
                 return;
             }
 
@@ -23385,10 +23377,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             if (resizeElement) {
                 resizeElement.remove();
-            }
-
-            if (isFirefox) {
-                document.execCommand('enableObjectResizing', false, true);
             }
         });
 
@@ -24210,13 +24198,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         _checkEmptyData: function _checkEmptyData(event) {
             var editor = event.editor;
 
-            var editorNode = new CKEDITOR.dom.element(editor.element.$);
-
             if (editor.getData() === '') {
+                var editorNode = new CKEDITOR.dom.element(editor.element.$);
+
+                // Despite getData() returns empty string, the content still may have
+                // data - an empty paragraph. This breaks the :empty selector in
+                // placeholder's CSS and placeholder does not appear.
+                // For that reason, we will intentionally remove any content from editorNode.
+                editorNode.setHtml('');
 
                 editorNode.addClass(editor.config.placeholderClass);
-            } else {
-                editorNode.removeClass(editor.config.placeholderClass);
             }
         }
     });
@@ -25980,8 +25971,6 @@ CKEDITOR.tools.buildTableMap = function (table) {
                 },
 
                 _setValue: function _setValue(value) {
-                    this._cacheValue(value);
-
                     this.setState({
                         value: value
                     });
@@ -26081,7 +26070,7 @@ CKEDITOR.tools.buildTableMap = function (table) {
 })();
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 (function () {
     'use strict';
@@ -28228,8 +28217,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             var selectionData = eventPayload.selectionData;
 
-            var nativeEvent = eventPayload.nativeEvent;
-
             var pos = {
                 x: eventPayload.nativeEvent.pageX,
                 y: selectionData.region.top
@@ -28238,7 +28225,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var direction = selectionData.region.direction;
 
             var endRect = selectionData.region.endRect;
-
             var startRect = selectionData.region.startRect;
 
             if (endRect && startRect && startRect.top === endRect.top) {
@@ -28250,21 +28236,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             // If we have the point where user released the mouse, show Toolbar at this point
             // otherwise show it on the middle of the selection.
-
             if (pos.x && pos.y) {
                 x = this._getXPoint(selectionData, pos.x);
 
                 if (direction === CKEDITOR.SELECTION_BOTTOM_TO_TOP) {
                     y = Math.min(pos.y, selectionData.region.top);
                 } else {
-                    y = Math.max(pos.y, this._getYPoint(selectionData, nativeEvent));
+                    y = Math.max(pos.y, selectionData.region.bottom);
                 }
             } else {
                 x = selectionData.region.left + selectionData.region.width / 2;
 
                 if (direction === CKEDITOR.SELECTION_TOP_TO_BOTTOM) {
-
-                    y = this._getYPoint(selectionData, nativeEvent);
+                    y = selectionData.region.bottom;
                 } else {
                     y = selectionData.region.top;
                 }
@@ -28310,32 +28294,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
 
             return x;
-        },
-
-        /**
-         * Returns the position of the Widget.
-         *
-         * @method _getYPoint
-         * @protected
-         * @param {Object} selectionData The data about the selection in the editor as
-         * returned from {{#crossLink "CKEDITOR.plugins.ae_selectionregion/getSelectionData:method"}}{{/crossLink}}
-         * @param {Object} nativeEvent The data about event is fired
-         * @return {Number} The calculated Y point in page coordinates.
-         */
-        _getYPoint: function _getYPoint(selectionData, nativeEvent) {
-            var y = 0;
-
-            if (selectionData && nativeEvent) {
-                var elementTarget = new CKEDITOR.dom.element(nativeEvent.target);
-
-                if (elementTarget.$ && elementTarget.getStyle('overflow') === 'auto') {
-                    y = nativeEvent.target.offsetTop + nativeEvent.target.offsetHeight;
-                } else {
-                    y = selectionData.region.bottom;
-                }
-            }
-
-            return y;
         }
     };
 
@@ -30900,11 +30858,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
          */
         getDefaultProps: function getDefaultProps() {
             return {
+                defaultLinkTarget: '',
+                showTargetSelector: true,
                 appendProtocol: true,
                 autocompleteUrl: '',
                 circular: true,
-                customIndexStart: true,
-                defaultLinkTarget: '',
                 descendants: '.ae-toolbar-element',
                 keys: {
                     dismiss: [27],
@@ -30913,7 +30871,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     next: [40],
                     prev: [38]
                 },
-                showTargetSelector: true
+                customIndexStart: true
             };
         },
 
@@ -30952,7 +30910,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             };
 
             var targetSelector = {
-                allowedTargets: this.props.allowedTargets,
                 editor: this.props.editor,
                 handleLinkTargetChange: this._handleLinkTargetChange,
                 selectedTarget: this.state.linkTarget || AlloyEditor.Strings.linkTargetDefault
@@ -30974,13 +30931,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 }
 
                 var autocompleteDropdownProps = {
-                    autocompleteSelected: this.state.autocompleteSelected,
                     data: dataFn,
                     editor: this.props.editor,
                     handleLinkAutocompleteClick: this._handleLinkAutocompleteClick,
                     onDismiss: this.props.toggleDropdown,
-                    setAutocompleteState: this._setAutocompleteState,
-                    term: this.state.linkHref
+                    term: this.state.linkHref,
+                    autocompleteSelected: this.state.autocompleteSelected,
+                    setAutocompleteState: this._setAutocompleteState
                 };
 
                 autocompleteDropdownProps = this.mergeDropdownProps(autocompleteDropdownProps, AlloyEditor.ButtonLinkAutocompleteList.key);
@@ -31002,7 +30959,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     React.createElement(AlloyEditor.ButtonLinkTargetEdit, targetSelector),
                     React.createElement(
                         'div',
-                        { className: 'ae-container-input flexible' },
+                        { className: 'ae-container-input xxl' },
                         React.createElement('input', { className: 'ae-input', onChange: this._handleLinkHrefChange, onKeyDown: this._handleKeyDown, placeholder: AlloyEditor.Strings.editLink, ref: 'linkInput', type: 'text', value: this.state.linkHref }),
                         autocompleteDropdown
                     ),
@@ -31273,10 +31230,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var buttonTargetsList;
 
             var handleLinkTargetChange = this.props.handleLinkTargetChange;
-            var allowedLinkTargets = this.props.allowedTargets;
 
             if (this.props.expanded) {
-                buttonTargetsList = React.createElement(AlloyEditor.ButtonTargetList, { editor: this.props.editor, onDismiss: this.props.toggleDropdown, allowedLinkTargets: allowedLinkTargets, handleLinkTargetChange: handleLinkTargetChange });
+                buttonTargetsList = React.createElement(AlloyEditor.ButtonTargetList, { editor: this.props.editor, onDismiss: this.props.toggleDropdown, handleLinkTargetChange: handleLinkTargetChange });
             }
 
             return React.createElement(
@@ -32566,15 +32522,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
 
             return React.createElement(
-                AlloyEditor.ButtonDropdown,
-                this.props,
-                removeStylesItem,
-                React.createElement(AlloyEditor.ButtonsStylesListHeader, { name: AlloyEditor.Strings.blockStyles, styles: this._blockStyles }),
-                this._renderStylesItems(this._blockStyles),
-                React.createElement(AlloyEditor.ButtonsStylesListHeader, { name: AlloyEditor.Strings.inlineStyles, styles: this._inlineStyles }),
-                this._renderStylesItems(this._inlineStyles),
-                React.createElement(AlloyEditor.ButtonsStylesListHeader, { name: AlloyEditor.Strings.objectStyles, styles: this._objectStyles }),
-                this._renderStylesItems(this._objectStyles)
+                'div',
+                { className: 'ae-dropdown ae-arrow-box ae-arrow-box-top-left', onFocus: this.focus, onKeyDown: this.handleKey, tabIndex: '0' },
+                React.createElement(
+                    'ul',
+                    { className: 'ae-listbox', role: 'listbox' },
+                    removeStylesItem,
+                    React.createElement(AlloyEditor.ButtonsStylesListHeader, { name: AlloyEditor.Strings.blockStyles, styles: this._blockStyles }),
+                    this._renderStylesItems(this._blockStyles),
+                    React.createElement(AlloyEditor.ButtonsStylesListHeader, { name: AlloyEditor.Strings.inlineStyles, styles: this._inlineStyles }),
+                    this._renderStylesItems(this._inlineStyles),
+                    React.createElement(AlloyEditor.ButtonsStylesListHeader, { name: AlloyEditor.Strings.objectStyles, styles: this._objectStyles }),
+                    this._renderStylesItems(this._objectStyles)
+                )
             );
         },
 
@@ -32648,7 +32608,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             /**
              * Indicates whether the remove styles item should appear in the styles list.
              *
-             * @property {Boolean} showRemoveStylesItem
+             * @property {Boolean} expanded
              */
             showRemoveStylesItem: React.PropTypes.bool,
 
@@ -34570,14 +34530,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                 if (region) {
                     var domNode = ReactDOM.findDOMNode(this);
-
                     var domElement = new CKEDITOR.dom.element(domNode);
 
                     var startRect = region.startRect || region;
-
-                    var nativeEditor = this.props.editor.get('nativeEditor');
-
-                    var clientRect = nativeEditor.editable().getClientRect();
+                    var clientRect = this.props.editor.get('nativeEditor').editable().getClientRect();
 
                     var offsetLeft;
 
@@ -34590,15 +34546,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     }
 
                     domNode.style.left = offsetLeft;
-
-                    domNode.style.top = Math.floor((region.bottom + region.top) / 2) + 'px';
-
-                    if (nativeEditor.element.getStyle('overflow') !== 'auto') {
-                        domNode.style.top = Math.floor(region.top - domNode.offsetHeight / 2 + startRect.height / 2) + 'px';
-                    } else {
-                        domNode.style.top = Math.floor(nativeEditor.element.$.offsetTop + startRect.height / 2 - domNode.offsetHeight / 2) + 'px';
-                    }
-
+                    domNode.style.top = Math.floor(region.top - domNode.offsetHeight / 2 + startRect.height / 2) + 'px';
                     domNode.style.opacity = 1;
 
                     domElement.removeClass('ae-arrow-box');
