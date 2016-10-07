@@ -198,7 +198,7 @@
  * the CSS of nested components or components which
  * stay on the same level in the hierarchy.
  */
-.ae-placeholder:empty:not(:focus):before {
+.ae-placeholder:not(:focus):before {
   content: attr(data-placeholder); }
 
 .ae-twitter-link {
@@ -398,6 +398,9 @@
     width: 120px; }
   .ae-ui .ae-container-input.small {
     width: 60px; }
+  .ae-ui .ae-container-input.flexible {
+    width: auto;
+    flex-grow: 1; }
   .ae-ui .ae-container-input input, .ae-ui .ae-container-input .ae-input {
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
