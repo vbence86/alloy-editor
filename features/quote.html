@@ -1,11 +1,957 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-	<head>
-		<title>Quote</title>
-		<meta http-equiv="REFRESH" content="0;url=/features/quote">
-		<link rel="canonical" href="/features/quote" />
-	</head>
-	<body>
-		This page has moved. You will be automatically redirected to its new location. If you aren't forwarded to the new page, <a href="/features/quote">click here</a>.
-	</body>
+  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
+
+    <title>Features - Quote | Alloy Editor</title>
+
+    <meta charset="utf-8">
+    <meta name="author" content="Iliyan Peychev">
+    <meta name="description" content="Alloy Editor is a modern WYSIWYG editor built on top of CKEditor, designed to create modern and gorgeous web content.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Facebook Tags -->
+    <meta property="fb:app_id" content="176947299114210">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:9778">
+    <meta property="og:image" content="http://localhost:9778/website/img/facebook-share.jpg">
+    <meta property="og:title" content="Features - Quote | Alloy Editor">
+    <meta property="og:description" content="Alloy Editor is a modern WYSIWYG editor built on top of CKEditor, designed to create modern and gorgeous web content.">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="http://localhost:9778/website/img/favicon.ico">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <!-- CSS: Website style -->
+    <link href="http://localhost:9778/website/css/main.css" rel="stylesheet">
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic' rel='stylesheet' type='text/css'>
+  </head>
+
+  <body>
+    <div id="mobileNavbarShadow"></div>
+
+    <div id="wrap">
+      <nav class="navbar-fixed-top navbar-main collapsed" role="navigation">
+        <div class="container">
+          <div class="col-md-11">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#siteSections">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+
+              <a class="navbar-brand" href="http://localhost:9778">
+                <img alt="AlloyEditor Logo" class="hidden-sm" height="40" src="http://localhost:9778/website/img/logo.png">
+                <img alt="AlloyEditor Logo" class="visible-sm-block" height="40" src="http://localhost:9778/website/img/logo_small.png">
+              </a>
+            </div>
+
+            <div class="collapse navbar-collapse navbar-right" id="siteSections">
+              <ul class="nav navbar-nav">
+                <li><a href="http://localhost:9778/demo/">Live Demo</a></li>
+                <li><a href="http://localhost:9778/updates/">What's New</a></li>
+                <li><a href="http://localhost:9778/guides/">Guides</a>
+                  <ul class="nav navbar-nav visible-xs-block">
+                    
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/guides">Getting Started</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/guides/how_to_use_it">How to use it?</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/guides/editor_configuration/toolbar_configuration">Toolbar configuration</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/guides/editor_configuration/button_configuration">Button configuration</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/guides/editor_configuration">Editor Configuration</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/guides/react_component">Creating a React component</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/guides/how_to_use_ckeditor_plugins">How to use CKEditor Plugins?</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/guides/editor_configuration/readonly_configuration">Read only mode</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/guides/skins">Skins</a>
+                        </li>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/guides/architecture">Architecture</a>
+                        </li>
+                      
+                    
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/guides/how_to_build_it">Build it</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/guides/create">Create</a>
+                        </li>
+                      
+                    
+                      
+                    
+                  </ul>
+                </li>
+                <li class="active inactive-xs"><a href="http://localhost:9778/features/">Features</a>
+                  <ul class="nav navbar-nav visible-xs-block">
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/bold">Bold</a>
+                        </li>
+                      
+                    
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/camera">Camera</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/code">Code</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/h1">Heading 1</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/h2">Heading 2</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/hline">Horizontal Line</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/image">Image</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/imagealigncenter">Image Alignment - Center</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/imagealignleft">Image Alignment - Left</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/imagealignright">Image Alignment - Right</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/indent-outdent">Indent and outdent block content</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/italic">Italic</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/link">Link</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/linkautocomplete">Link AutoComplete</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/ul">Lists (Bulleted)</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/ol">Lists (Numbered)</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/autolist">Lists auto creating</a>
+                        </li>
+                      
+                    
+                      
+                        <li class="active">
+                          <a href="http://localhost:9778/features/quote">Quote</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/removeformat">Remove Format</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/strike">Strike</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/styles">Styles</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/subscript">Subscript</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/superscript">Superscript</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/table">Table</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/tablecell">Table - Cells</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/tablecolumn">Table - Columns</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/tableheading">Table - Heading</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/tableremove">Table - Remove</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/tablerow">Table - Rows</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/paragraphaligncenter">Text Alignment - Centered</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/paragraphalignjustify">Text Alignment - Justified</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/paragraphalignleft">Text Alignment - Left</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/paragraphalignright">Text Alignment - Right</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/twitter">Twitter</a>
+                        </li>
+                      
+                    
+                      
+                        <li>
+                          <a href="http://localhost:9778/features/underline">Underline</a>
+                        </li>
+                      
+                    
+                  </ul>
+                </li>
+                <li><a href="http://localhost:9778/api/" target="_blank">API Docs</a></li>
+                <li><a href="http://localhost:9778/contributing/">Contributing</a></li>
+                <li><a href="http://localhost:9778/about/">About</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div id="content">
+        <div class="container">
+  <div class="col-sm-8 col-sm-offset-1">
+    <h1 class="feature-header">Quote</h1>
+
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          
+            <p class="feature-lead">Give credit to other authors by properly quoting their words with this button.</p>
+
+            <div class="feature-example">
+              <img class="center-block feature-demo" src="http://localhost:9778/website/img/features/button-quote.gif"></img>
+            </div>
+            <div class="zero-clipboard">
+              <span class="btn-clipboard" id="copyToClipboardButton">Copy</span>
+            </div>
+            <div id="featureExample">
+              
+                <pre class="highlight"><code class="hljs javascript"><span class="hljs-keyword">var</span> editor = AlloyEditor.editable(<span class="hljs-string">'myContentEditable'</span>, {
+    toolbars: {
+        styles: {
+            selections: [
+                {
+                    name: <span class="hljs-string">'text'</span>,
+                    buttons: [<span class="hljs-string">'quote'</span>],
+                    test: AlloyEditor.SelectionTest.text
+                }
+            ]
+        }
+    }
+});</code></pre>
+              
+            </div>
+          
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'alloyeditor';
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <div class="ae-features-sidebar col-sm-2 hidden-xs">
+    <p class="feature-target-header">Buttons</p>
+    <nav class="ae-docs-sidebar">
+      <ul class="nav ae-docs-sidenav">
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/bold">Bold</a>
+            </li>
+          
+        
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/camera">Camera</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/code">Code</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/h1">Heading 1</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/h2">Heading 2</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/hline">Horizontal Line</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/image">Image</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/imagealigncenter">Image Alignment - Center</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/imagealignleft">Image Alignment - Left</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/imagealignright">Image Alignment - Right</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/indent-outdent">Indent and outdent block content</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/italic">Italic</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/link">Link</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/linkautocomplete">Link AutoComplete</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/ul">Lists (Bulleted)</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/ol">Lists (Numbered)</a>
+            </li>
+          
+        
+          
+        
+          
+            <li class="active">
+              <a href="http://localhost:9778/features/quote">Quote</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/removeformat">Remove Format</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/strike">Strike</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/styles">Styles</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/subscript">Subscript</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/superscript">Superscript</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/table">Table</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/tablecell">Table - Cells</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/tablecolumn">Table - Columns</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/tableheading">Table - Heading</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/tableremove">Table - Remove</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/tablerow">Table - Rows</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/paragraphaligncenter">Text Alignment - Centered</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/paragraphalignjustify">Text Alignment - Justified</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/paragraphalignleft">Text Alignment - Left</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/paragraphalignright">Text Alignment - Right</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/twitter">Twitter</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/underline">Underline</a>
+            </li>
+          
+        
+      </ul>
+    </nav>
+
+    <p class="feature-target-header">Plugins</p>
+    <nav class="ae-docs-sidebar">
+      <ul class="nav ae-docs-sidenav">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li>
+              <a href="http://localhost:9778/features/autolist">Lists auto creating</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<script src="http://localhost:9778/website/js/ZeroClipboard.min.js"></script>
+<script>
+  var zeroClipboard = new ZeroClipboard(document.getElementById('copyToClipboardButton'));
+
+  zeroClipboard.setText(document.getElementById('featureExample').innerText);
+</script>
+      </div>
+
+      <footer class="container" id="siteFooter">
+        <div class="col-md-10 col-md-offset-1">
+          <span class="fork"><a href="https://github.com/liferay/alloy-editor/blob/master/LICENSE.md">LGPL License</a></span>
+          <span class="fork pull-right"><a href="https://github.com/liferay/alloy-editor/">Fork me on Github</a></span>
+          <p class="copyright">@ 2015-2016 Liferay, Inc. All Rights Reserved</p>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      var mainNavbar = $('.navbar-main');
+      var navbarShadow = $('#mobileNavbarShadow');
+      var siteContent = $('#content');
+      var siteFooter = $('#siteFooter');
+      var siteSections = $('#siteSections');
+
+      siteSections.on('show.bs.collapse', function() {
+        mainNavbar.removeClass('collapsed');
+        navbarShadow.addClass('visible');
+      });
+
+      siteSections.on('shown.bs.collapse', function() {
+        siteContent.addClass('hide');
+        siteFooter.addClass('hide');
+      });
+
+      siteSections.on('hide.bs.collapse', function() {
+        mainNavbar.addClass('collapsed');
+        navbarShadow.removeClass('visible');
+        siteContent.removeClass('hide');
+        siteFooter.removeClass('hide');
+      });
+    </script>
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-53538246-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+  </body>
 </html>
