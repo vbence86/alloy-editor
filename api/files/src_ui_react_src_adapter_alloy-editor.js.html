@@ -31,7 +31,7 @@
                 <li class="divider-vertical"></li>
                 <li>
                     <p class="navbar-text">
-                        API Docs for Version: <b>1.2.5</b>
+                        API Docs for Version: <b>1.3.0</b>
                     </p>
                 </li>
             </div>
@@ -118,6 +118,8 @@
                                     <li><a href="../classes/CKEDITOR.Link.html">CKEDITOR.Link</a></li>
                                     <li><a href="../classes/CKEDITOR.plugins.ae_autolink.html">CKEDITOR.plugins.ae_autolink</a></li>
                                     <li><a href="../classes/CKEDITOR.plugins.ae_buttonbridge.html">CKEDITOR.plugins.ae_buttonbridge</a></li>
+                                    <li><a href="../classes/CKEDITOR.plugins.ae_menubridge.html">CKEDITOR.plugins.ae_menubridge</a></li>
+                                    <li><a href="../classes/CKEDITOR.plugins.ae_menubuttonbridge.html">CKEDITOR.plugins.ae_menubuttonbridge</a></li>
                                     <li><a href="../classes/CKEDITOR.plugins.ae_panelmenubuttonbridge.html">CKEDITOR.plugins.ae_panelmenubuttonbridge</a></li>
                                     <li><a href="../classes/CKEDITOR.plugins.ae_placeholder.html">CKEDITOR.plugins.ae_placeholder</a></li>
                                     <li><a href="../classes/CKEDITOR.plugins.ae_richcombobridge.html">CKEDITOR.plugins.ae_richcombobridge</a></li>
@@ -204,7 +206,6 @@
                                      * @param config {Object} Configuration object literal for the editor.
                                      */
                                     initializer: function(config) {
-                            
                                         var node = this.get(&#x27;srcNode&#x27;);
                             
                                         if (this.get(&#x27;enableContentEditable&#x27;)) {
@@ -226,18 +227,21 @@
                             
                                         editor.config.selectionKeystrokes = this.get(&#x27;selectionKeystrokes&#x27;);
                             
+                                        if (CKEDITOR.env.ie) {
+                                            editor.config.extraPlugins = editor.config.extraPlugins.replace(&#x27;ae_dragresize&#x27;, &#x27;ae_dragresize_ie&#x27;);
+                                            editor.config.removePlugins = editor.config.removePlugins.replace(&#x27;ae_dragresize&#x27;, &#x27;ae_dragresize_ie&#x27;);
+                                        }
+                            
                                         AlloyEditor.Lang.mix(editor.config, config);
                             
                                         editor.once(&#x27;contentDom&#x27;, function() {
-                                            if (editor.config.readOnly) {
-                                                this._addReadOnlyLinkClickListener(editor);
-                                            }
+                            
+                                            this._addReadOnlyLinkClickListener(editor);
                             
                                             var editable = editor.editable();
                             
                                             editable.addClass(&#x27;ae-editable&#x27;);
                             
-                                            editable.editor.on(&#x27;readOnly&#x27;, this._onReadOnlyChangeFn.bind(this));
                                         }.bind(this));
                             
                                         AlloyEditor.loadLanguageResources(this._renderUI.bind(this));
@@ -293,7 +297,7 @@
                                         if (isMSSelection) {
                                             nativeEditor.document.$.selection.empty();
                                         } else {
-                                           nativeEditor.document.getWindow().$.getSelection().removeAllRanges();
+                                            nativeEditor.document.getWindow().$.getSelection().removeAllRanges();
                                         }
                                     },
                             
@@ -320,15 +324,23 @@
                                      * @param {Object} event The fired &#x60;click&#x60; event payload
                                      */
                                     _defaultReadOnlyClickFn: function(event) {
+                                        var mouseEvent = event.data.$;
+                                        var hasCtrlKey = mouseEvent.ctrlKey || mouseEvent.metaKey;
+                                        var shouldOpen = this._editor.config.readOnly || hasCtrlKey;
+                            
+                                        mouseEvent.preventDefault();
+                            
+                                        if (!shouldOpen) {
+                                            return;
+                                        }
+                            
                                         if (event.listenerData.editor.editable().editor.fire(&#x27;readOnlyClick&#x27;, event.data) !== false) {
                                             var ckElement = new CKEDITOR.dom.elementPath(event.data.getTarget(), this);
                                             var link = ckElement.lastElement;
                             
                                             if (link) {
                                                 var href = link.$.attributes.href ? link.$.attributes.href.value : null;
-                            
-                                                var target = link.$.attributes.target ? link.$.attributes.target.value : null;
-                            
+                                                var target = hasCtrlKey ? &#x27;_blank&#x27; : link.$.attributes.target ? link.$.attributes.target.value : null;
                                                 this._redirectLink(href, target);
                                             }
                                         }
@@ -343,22 +355,6 @@
                                      */
                                     _getNativeEditor: function() {
                                         return this._editor;
-                                    },
-                            
-                                    /**
-                                     * Fired when readonly value is changed. Adds click event listener to handle links in readonly mode.
-                                     *
-                                     * @protected
-                                     * @method _onReadOnlyChange
-                                     * @param {Object} event The fired event
-                                     */
-                                    _onReadOnlyChangeFn: function(event) {
-                                        if (event.editor.readOnly) {
-                                            this._addReadOnlyLinkClickListener(event.editor);
-                                        }
-                                        else {
-                                            event.editor.editable().removeListener(&#x27;click&#x27;, this._defaultReadOnlyClickFn);
-                                        }
                                     },
                             
                                     /**
@@ -504,7 +500,7 @@
                                          */
                                         extraPlugins: {
                                             validator: AlloyEditor.Lang.isString,
-                                            value: &#x27;ae_uicore,ae_selectionregion,ae_selectionkeystrokes,ae_dragresize,ae_imagealignment,ae_addimages,ae_placeholder,ae_tabletools,ae_tableresize,ae_autolink,ae_embed,ae_autolist&#x27;,
+                                            value: &#x27;ae_uicore,ae_selectionregion,ae_selectionkeystrokes,ae_imagealignment,ae_addimages,ae_placeholder,ae_tabletools,ae_tableresize,ae_autolink,ae_embed,ae_autolist,ae_dragresize&#x27;,
                                             writeOnce: true
                                         },
                             
@@ -627,6 +623,7 @@
                             
                                 AlloyEditor.Core = Core;
                             }());
+                            
                                 </pre>
                             </div>
                         </div>
