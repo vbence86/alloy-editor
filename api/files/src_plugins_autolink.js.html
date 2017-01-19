@@ -31,7 +31,7 @@
                 <li class="divider-vertical"></li>
                 <li>
                     <p class="navbar-text">
-                        API Docs for Version: <b>1.3.0</b>
+                        API Docs for Version: <b>1.3.1</b>
                     </p>
                 </li>
             </div>
@@ -209,7 +209,7 @@
                             
                                 var REGEX_LAST_WORD = /[^\s]+/mg;
                             
-                                var REGEX_URL = /(https?\:\/\/|www\.)(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i;
+                                var REGEX_URL = /(https?\:\/\/|www\.)(-\.)?([^(\s/?\.#-)]+\.?)+(\b\/[^\s]*)?$/i;
                             
                                 /**
                                  * CKEditor plugin which automatically generates links when user types text which looks like URL.
@@ -417,7 +417,7 @@
                                          * @event autolinkAdd
                                          * @param {CKEDITOR.dom.element} el Node of the created link.
                                          */
-                            	  
+                            
                                         /**
                                          * Removes the created link element, and replaces it by its text.
                                          *

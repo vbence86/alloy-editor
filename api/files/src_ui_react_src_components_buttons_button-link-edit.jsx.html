@@ -31,7 +31,7 @@
                 <li class="divider-vertical"></li>
                 <li>
                     <p class="navbar-text">
-                        API Docs for Version: <b>1.3.0</b>
+                        API Docs for Version: <b>1.3.1</b>
                     </p>
                 </li>
             </div>
@@ -343,10 +343,6 @@
                                      * @return {Object} The content which should be rendered.
                                      */
                                     render: function() {
-                                        var clearLinkStyle = {
-                                            opacity: this.state.linkHref ? 1 : 0
-                                        };
-                            
                                         var targetSelector = {
                                             allowedTargets: this.props.allowedTargets,
                                             editor: this.props.editor,
@@ -390,6 +386,18 @@
                                             targetButtonEdit = &lt;AlloyEditor.ButtonLinkTargetEdit {...targetSelector} /&gt;;
                                         }
                             
+                                        var buttonClearLink;
+                            
+                                        if (this.state.linkHref) {
+                                            buttonClearLink = &lt;button aria-label={AlloyEditor.Strings.clearInput} className=&quot;ae-button ae-icon-remove&quot; onClick={this._clearLink} title={AlloyEditor.Strings.clear}&gt;&lt;/button&gt;
+                                        }
+                            
+                                        var placeholderProp = {};
+                            
+                                        if (!CKEDITOR.env.ie &amp;&amp; AlloyEditor.Strings) {
+                                            placeholderProp.placeholder = AlloyEditor.Strings.editLink;
+                                        }
+                            
                                         return (
                                             &lt;div className=&quot;ae-container-edit-link&quot;&gt;
                                                 &lt;button aria-label={AlloyEditor.Strings.removeLink} className=&quot;ae-button&quot; disabled={!this.state.element} onClick={this._removeLink} title={AlloyEditor.Strings.remove}&gt;
@@ -398,10 +406,10 @@
                                                 &lt;div className=&quot;ae-container-input xxl&quot;&gt;
                                                     {targetButtonEdit}
                                                     &lt;div className=&quot;ae-container-input flexible&quot;&gt;
-                                                        &lt;input className=&quot;ae-input&quot; onChange={this._handleLinkHrefChange} onKeyDown={this._handleKeyDown} placeholder={AlloyEditor.Strings.editLink} ref=&quot;linkInput&quot; type=&quot;text&quot; value={this.state.linkHref}&gt;&lt;/input&gt;
+                                                        &lt;input className=&quot;ae-input&quot; onChange={this._handleLinkHrefChange} onKeyDown={this._handleKeyDown} { ...placeholderProp } ref=&quot;linkInput&quot; type=&quot;text&quot; value={this.state.linkHref}&gt;&lt;/input&gt;
                                                         {autocompleteDropdown}
                                                     &lt;/div&gt;
-                                                    &lt;button aria-label={AlloyEditor.Strings.clearInput} className=&quot;ae-button ae-icon-remove&quot; onClick={this._clearLink} style={clearLinkStyle} title={AlloyEditor.Strings.clear}&gt;&lt;/button&gt;
+                                                    {buttonClearLink}
                                                 &lt;/div&gt;
                                                 &lt;button aria-label={AlloyEditor.Strings.confirm} className=&quot;ae-button&quot; disabled={!this._isValidState()} onClick={this._updateLink} title={AlloyEditor.Strings.confirm}&gt;
                                                     &lt;span className=&quot;ae-icon-ok&quot;&gt;&lt;/span&gt;
@@ -422,6 +430,8 @@
                                         this.setState({
                                             linkHref: &#x27;&#x27;
                                         });
+                            
+                                        this._focusLinkInput();
                                     },
                             
                                     /**

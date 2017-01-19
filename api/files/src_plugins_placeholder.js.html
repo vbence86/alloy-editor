@@ -31,7 +31,7 @@
                 <li class="divider-vertical"></li>
                 <li>
                     <p class="navbar-text">
-                        API Docs for Version: <b>1.3.0</b>
+                        API Docs for Version: <b>1.3.1</b>
                     </p>
                 </li>
             </div>
@@ -232,12 +232,12 @@
                                         _checkEmptyData: function(event) {
                                             var editor = event.editor;
                             
-                                            var editorNode = new CKEDITOR.dom.element(editor.element.$);
+                                            var editableNode = editor.editable();
                             
-                                            if (editor.getData() === &#x27;&#x27;) {
-                                                editorNode.addClass(editor.config.placeholderClass);
+                                            if (editableNode.$.innerText.trim() === &#x27;&#x27;) {
+                                                editableNode.addClass(editor.config.placeholderClass);
                                             } else {
-                                                editorNode.removeClass(editor.config.placeholderClass);
+                                                editableNode.removeClass(editor.config.placeholderClass);
                                             }
                                         },
                             

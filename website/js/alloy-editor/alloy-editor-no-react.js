@@ -1,5 +1,5 @@
 /**
- * AlloyEditor v1.3.0
+ * AlloyEditor v1.3.1
  *
  * Copyright 2014-present, Liferay, Inc.
  * All rights reserved.
@@ -2628,7 +2628,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var REGEX_LAST_WORD = /[^\s]+/mg;
 
-    var REGEX_URL = /(https?\:\/\/|www\.)(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i;
+    var REGEX_URL = /(https?\:\/\/|www\.)(-\.)?([^(\s/?\.#-)]+\.?)+(\b\/[^\s]*)?$/i;
 
     /**
      * CKEditor plugin which automatically generates links when user types text which looks like URL.
@@ -4503,9 +4503,13 @@ CKEDITOR.config.image2_captionedClass = 'image';
 
     var REGEX_HTTP = /^https?/;
 
+    var REGEX_DEFAULT_LINK = /<a href=/;
+
+    var PROVIDERS = ['youtube', 'twitter'];
+
     CKEDITOR.DEFAULT_AE_EMBED_URL_TPL = '//alloy.iframe.ly/api/oembed?url={url}&callback={callback}';
     CKEDITOR.DEFAULT_AE_EMBED_WIDGET_TPL = '<div data-ae-embed-url="{url}"></div>';
-
+    CKEDITOR.DEFAULT_AE_EMBED_DEFAULT_LINK_TPL = '<a href="{url}">{url}</a>';
     /**
      * CKEditor plugin which adds the infrastructure to embed urls as media objects using an oembed
      * service. By default, and for demoing purposes only, the oembed service is hosted in iframe.ly
@@ -4523,6 +4527,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
         init: function init(editor) {
             var AE_EMBED_URL_TPL = new CKEDITOR.template(editor.config.embedUrlTemplate || CKEDITOR.DEFAULT_AE_EMBED_URL_TPL);
             var AE_EMBED_WIDGET_TPL = new CKEDITOR.template(editor.config.embedWidgetTpl || CKEDITOR.DEFAULT_AE_EMBED_WIDGET_TPL);
+            var AE_EMBED_DEFAULT_LINK_TPL = new CKEDITOR.template(editor.config.embedLinkDefaultTpl || CKEDITOR.DEFAULT_AE_EMBED_DEFAULT_LINK_TPL);
 
             // Default function to upcast DOM elements to embed widgets.
             // It matches CKEDITOR.DEFAULT_AE_EMBED_WIDGET_TPL
@@ -4545,7 +4550,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
 
             // Create a widget to properly handle embed operations
             editor.widgets.add('ae_embed', {
-                allowedContent: 'div[!data-ae-embed-url]',
+
                 mask: true,
                 requiredContent: 'div[data-ae-embed-url]',
 
@@ -4559,6 +4564,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
                  */
                 data: function data(event) {
                     var widget = this;
+
                     var url = event.data.url;
 
                     if (url) {
@@ -4566,14 +4572,31 @@ CKEDITOR.config.image2_captionedClass = 'image';
                             url: encodeURIComponent(url)
                         }, function (response) {
                             if (response.html) {
-                                widget.element.setHtml(response.html);
+                                if (REGEX_DEFAULT_LINK.test(response.html)) {
+                                    widget.createATag(url);
+                                } else {
+                                    widget.element.setHtml(response.html);
+                                }
                             } else {
-                                widget.element.setHtml(url);
+                                widget.createATag(url, currentSelection);
                             }
                         }, function (msg) {
-                            widget.element.setHtml(url);
+                            widget.createATag(url, currentSelection);
                         });
                     }
+                },
+
+                createATag: function createATag(url) {
+                    this.editor.execCommand('undo');
+
+                    var currentSelection = this.editor.getSelection().getSelectedElement();
+
+                    var aTagHtml = AE_EMBED_DEFAULT_LINK_TPL.output({
+                        url: url
+                    });
+
+                    this.editor.insertHtml(aTagHtml);
+                    this.editor.fire('actionPerformed', this);
                 },
 
                 /**
@@ -4993,12 +5016,12 @@ CKEDITOR.config.image2_captionedClass = 'image';
         _checkEmptyData: function _checkEmptyData(event) {
             var editor = event.editor;
 
-            var editorNode = new CKEDITOR.dom.element(editor.element.$);
+            var editableNode = editor.editable();
 
-            if (editor.getData() === '') {
-                editorNode.addClass(editor.config.placeholderClass);
+            if (editableNode.$.innerText.trim() === '') {
+                editableNode.addClass(editor.config.placeholderClass);
             } else {
-                editorNode.removeClass(editor.config.placeholderClass);
+                editableNode.removeClass(editor.config.placeholderClass);
             }
         },
 
@@ -11884,6 +11907,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })();
 'use strict';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 (function () {
     'use strict';
 
@@ -12045,10 +12070,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
          * @return {Object} The content which should be rendered.
          */
         render: function render() {
-            var clearLinkStyle = {
-                opacity: this.state.linkHref ? 1 : 0
-            };
-
             var targetSelector = {
                 allowedTargets: this.props.allowedTargets,
                 editor: this.props.editor,
@@ -12092,6 +12113,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 targetButtonEdit = React.createElement(AlloyEditor.ButtonLinkTargetEdit, targetSelector);
             }
 
+            var buttonClearLink;
+
+            if (this.state.linkHref) {
+                buttonClearLink = React.createElement('button', { 'aria-label': AlloyEditor.Strings.clearInput, className: 'ae-button ae-icon-remove', onClick: this._clearLink, title: AlloyEditor.Strings.clear });
+            }
+
+            var placeholderProp = {};
+
+            if (!CKEDITOR.env.ie && AlloyEditor.Strings) {
+                placeholderProp.placeholder = AlloyEditor.Strings.editLink;
+            }
+
             return React.createElement(
                 'div',
                 { className: 'ae-container-edit-link' },
@@ -12107,10 +12140,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     React.createElement(
                         'div',
                         { className: 'ae-container-input flexible' },
-                        React.createElement('input', { className: 'ae-input', onChange: this._handleLinkHrefChange, onKeyDown: this._handleKeyDown, placeholder: AlloyEditor.Strings.editLink, ref: 'linkInput', type: 'text', value: this.state.linkHref }),
+                        React.createElement('input', _extends({ className: 'ae-input', onChange: this._handleLinkHrefChange, onKeyDown: this._handleKeyDown }, placeholderProp, { ref: 'linkInput', type: 'text', value: this.state.linkHref })),
                         autocompleteDropdown
                     ),
-                    React.createElement('button', { 'aria-label': AlloyEditor.Strings.clearInput, className: 'ae-button ae-icon-remove', onClick: this._clearLink, style: clearLinkStyle, title: AlloyEditor.Strings.clear })
+                    buttonClearLink
                 ),
                 React.createElement(
                     'button',
@@ -12132,6 +12165,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             this.setState({
                 linkHref: ''
             });
+
+            this._focusLinkInput();
         },
 
         /**
