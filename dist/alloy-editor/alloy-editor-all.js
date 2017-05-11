@@ -23562,7 +23562,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 document.execCommand('enableObjectResizing', false, true);
             }
 
-            document.removeEventListener('mosuedown', mouseDownListener);
+            document.removeEventListener('mousedown', mouseDownListener);
         });
 
         // Update the selection when the browser window is resized
