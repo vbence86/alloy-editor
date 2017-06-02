@@ -310,14 +310,16 @@
              * make AlloyEditor to work properly.
              *
              * @property extraPlugins
-             * @default 'uicore,selectionregion,dragresize,addimages,placeholder,tabletools,tableresize,autolink'
+             * @default ae_uicore,ae_selectionregion,ae_selectionkeystrokes,ae_imagealignment,ae_addimages,
+             * ae_placeholder,ae_tabletools,ae_tableresize,ae_autolink,ae_embed,ae_autolist,ae_dragresize,ae_uibridge,
+             * ae_richcombobridge,ae_panelmenubuttonbridge,ae_menubridge,ae_menubuttonbridge,ae_buttonbridge
              * @writeOnce
              * @type {String}
              */
             extraPlugins: {
                 validator: AlloyEditor.Lang.isString,
                 value: 'ae_uicore,ae_selectionregion,ae_selectionkeystrokes,ae_imagealignment,ae_addimages,ae_placeholder,' +
-                    'ae_tabletools,ae_tableresize,ae_autolink,ae_embed,ae_autolist,ae_dragresize,' +
+                    'ae_tabletools,ae_tableresize,ae_autolink,ae_embed,ae_autolist,ae_dragresize,simplebox,' +
                     'ae_uibridge,ae_richcombobridge,ae_panelmenubuttonbridge,ae_menubridge,ae_menubuttonbridge,ae_buttonbridge',
                 writeOnce: true
             },

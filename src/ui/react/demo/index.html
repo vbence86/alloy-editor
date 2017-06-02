@@ -85,6 +85,10 @@
             var editor1 = AlloyEditor.editable('description');
             var editor2 = AlloyEditor.editable('editable');
             var editor3 = AlloyEditor.editable('headline');
+
+            editor2.get('nativeEditor').on('instanceReady', function(event) {
+                editor2.get('nativeEditor').execCommand('addSimpleBox');
+            });
         </script>
 
         <div id="footer">
