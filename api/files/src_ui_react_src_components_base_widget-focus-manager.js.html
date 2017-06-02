@@ -31,7 +31,7 @@
                 <li class="divider-vertical"></li>
                 <li>
                     <p class="navbar-text">
-                        API Docs for Version: <b>1.3.1</b>
+                        API Docs for Version: <b>1.4.1</b>
                     </p>
                 </li>
             </div>
@@ -274,7 +274,7 @@
                                      */
                                     focus: function(event) {
                                         if (!event || this._isValidTarget(event.target)) {
-                                            if (this._descendants) {
+                                            if (this._descendants &amp;&amp; this._descendants.length) {
                                                 var activeDescendantEl = this._descendants[this._activeDescendant];
                                                 // When user clicks with the mouse, the activeElement is already set and there
                                                 // is no need to focus it. Focusing of the active descendant (usually some button) is required

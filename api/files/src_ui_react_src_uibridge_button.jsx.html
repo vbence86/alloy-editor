@@ -31,7 +31,7 @@
                 <li class="divider-vertical"></li>
                 <li>
                     <p class="navbar-text">
-                        API Docs for Version: <b>1.3.1</b>
+                        API Docs for Version: <b>1.4.1</b>
                     </p>
                 </li>
             </div>
@@ -321,7 +321,7 @@
                                      * @method init
                                      * @param {Object} editor The CKEditor instance being initialized
                                      */
-                                    init: function(editor) {
+                                    beforeInit: function(editor) {
                                         editor.ui.addButton = function(buttonName, buttonDefinition) {
                                             this.add(buttonName, CKEDITOR.UI_BUTTON, buttonDefinition);
                                         };
