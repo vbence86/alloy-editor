@@ -207,6 +207,18 @@ if (process.env.SAUCE_USERNAME && process.env.SAUCE_ACCESS_KEY) {
             browserName: 'microsoftedge',
             platform: 'Windows 10',
             version: '15'
+        },
+        sl_ios_safari_9: {
+            base: 'SauceLabs',
+            browserName: 'safari',
+            platform: 'OS X 10.11',
+            version: '9.0',
+        },
+        sl_ios_safari_10: {
+            base: 'SauceLabs',
+            browserName: 'safari',
+            platform: 'OS X 10.11',
+            version: '10.0',
         }
     };
 
